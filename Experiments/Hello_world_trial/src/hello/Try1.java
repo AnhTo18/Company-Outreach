@@ -10,12 +10,12 @@ public class Try1 {
 	Scanner sc = new Scanner(System.in);
 	int result =0;
 	int choice =0;
-	start:
+	start: //label to break out of while loop if conditions become satisfied
 		while(true){
 	System.out.println("press 1 for addition, 2 for subtraction, 3 for multiplication, or 4 for division");
     choice = sc.nextInt();
-    if (choice == 1 || choice == 2 || choice == 3 || choice == 4) {
-    	break start;
+    if (choice == 1 || choice == 2 || choice == 3 || choice == 4) { //if correct input
+    	break start; //break out of while label containing while loop
     	}
     System.out.println("not a valid input, please try again");
 	}
@@ -23,7 +23,7 @@ public class Try1 {
 	int a = sc.nextInt();
 	System.out.println("okay pick number 2");
 	int b = sc.nextInt();
-	switch(choice) {
+	switch(choice) {	//switch casing for arithmetic operation chosen
 	case 1: result =a+b;
 		break;
 	case 2: result =a-b;
