@@ -26,4 +26,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    //Check below this comment, to see if the work is right
+    implementation project (':jtds-1.3.1')
+
 }

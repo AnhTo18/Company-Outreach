@@ -9,6 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import net.sourceforge.jtds.jdbc.*;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText Name;
