@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cb6fe0d3-7265-4f84-81fc-031094950176" name="Default Changelist" comment="" />
+    <list default="true" id="cb6fe0d3-7265-4f84-81fc-031094950176" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Experiments/sjhenley/app/src/main/java/com/example/testing/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/sjhenley/app/src/main/java/com/example/testing/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/sjhenley/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/sjhenley/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="testRunner" value="GRADLE" />
+    <option name="delegatedBuild" value="true" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -20,9 +28,21 @@
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/coms309.iml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="31" />
-    <option name="y" value="265" />
+    <option name="x" value="512" />
+    <option name="y" value="380" />
     <option name="width" value="1670" />
     <option name="height" value="870" />
   </component>
@@ -31,9 +51,24 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="coms309" type="b2602c69:ProjectViewProjectNode" />
+              <item name="coms309" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="coms309" type="b2602c69:ProjectViewProjectNode" />
+              <item name="coms309" type="462c0819:PsiDirectoryNode" />
+              <item name="FrontEnd" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="RunDashboard">
@@ -52,13 +87,42 @@
     <configuration />
   </component>
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cb6fe0d3-7265-4f84-81fc-031094950176" name="Default Changelist" comment="" />
+      <created>1568411831813</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1568411831813</updated>
+    </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="31" y="265" width="1670" height="870" extended-state="0" />
-    <editor active="true" />
+    <frame x="512" y="380" width="1670" height="870" extended-state="0" />
     <layout>
+      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.32965687" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Resources Explorer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
       <window_info id="Captures" order="0" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
     </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Experiments/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
