@@ -10,7 +10,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+<<<<<<< Updated upstream
         android:layout_height="match_parent"
+=======
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/txt_result"
+        android:text="..."
+        android:textColor="@android:color/white"
+        android:textSize="24dp"
+>>>>>>> Stashed changes
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -23,5 +32,10 @@
             android:layout_height="100dp"
             android:text="QR Reader" />
     </LinearLayout>
+<<<<<<< Updated upstream
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+</RelativeLayout>
+
+>>>>>>> Stashed changes
