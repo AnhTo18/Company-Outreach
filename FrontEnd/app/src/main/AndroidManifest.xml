@@ -3,6 +3,7 @@
     package="edu.iastate.coms309.project309">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Scanner"></activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".Login"
+            android:label="Sign In">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DevHome"
+            android:label="Developer Menu"></activity>
     </application>
 
 </manifest>
