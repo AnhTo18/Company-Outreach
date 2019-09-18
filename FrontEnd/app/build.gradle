@@ -30,6 +30,9 @@ dependencies {
     //added for zxing-android-embedded
     implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
+
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
 }
 
 //added for zxing-android-embedded
