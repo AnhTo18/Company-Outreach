@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Try1 {
 	public static void main(String[] args) {
-	System.out.println("v3");
+	System.out.println("v1");
 	System.out.println("hello world");
 	System.out.println("how are you today?");
 	System.out.println("\nwelcome to calculator 3000");
