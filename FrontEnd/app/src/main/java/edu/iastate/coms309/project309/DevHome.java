@@ -26,12 +26,8 @@ public class DevHome extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startScanner();
+                startActivity(new Intent(getApplicationContext(),Scanner.class));
             }
         });
-    }
-
-    private void startScanner() {
-        new IntentIntegrator(this).initiateScan();
     }
 }
