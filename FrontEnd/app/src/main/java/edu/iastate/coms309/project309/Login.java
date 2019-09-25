@@ -35,6 +35,8 @@ public class Login extends AppCompatActivity {
     JsonObjectRequest jor;
     EditText username, password;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,5 +79,7 @@ public class Login extends AppCompatActivity {
                 rq.add(jor);
             }
         });
+
+
     }
 }
