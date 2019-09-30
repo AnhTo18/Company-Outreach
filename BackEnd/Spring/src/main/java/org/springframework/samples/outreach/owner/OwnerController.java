@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 import java.security.acl.Owner;
 import java.util.List;
 import java.util.Optional;
@@ -48,12 +46,18 @@ class OwnerController {
     private final Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
     /*to save an users*/
-    @PostMapping( path = "/owners/new")
-    public String saveOwner(Owners owner) {
-        ownersRepository.save(owner);
-        return "New Owner "+ owner.getFirstName() + " Saved";
-    }
-  
+//    @PostMapping( path = "/owners/new")
+//    public String saveOwner(Owners owner) {
+//        ownersRepository.save(owner);
+//        return "New Owner "+ owner.getFirstName() + " Saved";
+//    }
+    @RequestMapping(value= "/owners/add", method= RequestMethod.POST)
+	public String createEmployee(@RequestBody Owners newemp) {
+		System.out.println(this.getClass().getSimpleName() + " - Create new employee method is invoked.");
+		 ownersRepository.save(newemp);
+		 return "New Owner " + newemp.getFirstName() + " Saved";
+	}
+
 
     /*get all users*/
     @RequestMapping(method = RequestMethod.GET, path = "/owners")
