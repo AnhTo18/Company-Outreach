@@ -16,6 +16,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -25,28 +26,47 @@ import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
 
 
-public class Login extends AppCompatActivity {
+public class Register extends AppCompatActivity {
 
     RequestQueue rq;
     JsonObjectRequest jor;
-    EditText username, password;
+    EditText firstname, lastname, address, phone ,username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         String tag_json_obj = "json_obj_req";
 
         rq = Volley.newRequestQueue(this);
 
+        firstname = findViewById(R.id.textInputFirstname);
+        lastname = findViewById(R.id.textInputLastname);
+        address = findViewById(R.id.textInputAddress);
+        phone = findViewById(R.id.textInputPhone);
         username = findViewById(R.id.textInputUsername);
         password = findViewById(R.id.textInputPassword);
 
-        findViewById(R.id.buttonLogin).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jor = new JsonObjectRequest(Request.Method.POST, Const.URL_LOGIN, null, new Response.Listener<JSONObject>() {
+                JSONObject js = new JSONObject();
+                try {
+                    js.put("id", "");
+                    js.put("firstname", firstname.toString());
+                    js.put("lastname", lastname.toString());
+                    js.put("address", address.toString());
+                    js.put("telephone", phone.toString());
+                    js.put("username", username.toString());
+                    js.put("password", password.toString());
+                    js.put("new", "");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                jor = new JsonObjectRequest(Request.Method.POST, Const.URL_LOGIN, js, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {

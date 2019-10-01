@@ -15,8 +15,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".UserHome"></activity>
         <activity
-            android:name=".Login"
-            android:label="Sign In">
+            android:name=".Register"
+            android:label="Register Account">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

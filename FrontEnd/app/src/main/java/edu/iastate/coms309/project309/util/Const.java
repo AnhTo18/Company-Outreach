@@ -1,5 +1,5 @@
 package edu.iastate.coms309.project309.util;
 
 public class Const {
-    public static final String URL_LOGIN = "http://webhook.site/3bc25320-d9a9-4d1b-89cd-6521efcf6986";
+    public static final String URL_LOGIN = "http://coms-309-ss-8.misc.iastate.edu:8080/owners/add";
 }
