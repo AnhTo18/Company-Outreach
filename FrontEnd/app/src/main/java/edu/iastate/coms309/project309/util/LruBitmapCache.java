@@ -1,4 +1,4 @@
-package edu.iastate.coms309.project309;
+package edu.iastate.coms309.project309.util;
 
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 import android.graphics.Bitmap;
