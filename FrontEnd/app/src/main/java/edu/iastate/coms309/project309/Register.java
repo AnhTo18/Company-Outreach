@@ -54,12 +54,12 @@ public class Register extends AppCompatActivity {
                 JSONObject js = new JSONObject();
                 try {
                     js.put("id", "");
-                    js.put("firstname", firstname.toString());
-                    js.put("lastname", lastname.toString());
-                    js.put("address", address.toString());
-                    js.put("telephone", phone.toString());
-                    js.put("username", username.toString());
-                    js.put("password", password.toString());
+                    js.put("firstName", firstname.getText().toString());
+                    js.put("lastName", lastname.getText().toString());
+                    js.put("address", address.getText().toString());
+                    js.put("telephone", phone.getText().toString());
+                    js.put("username", username.getText().toString());
+                    js.put("password", password.getText().toString());
                     js.put("new", "");
 
                 } catch (JSONException e) {
