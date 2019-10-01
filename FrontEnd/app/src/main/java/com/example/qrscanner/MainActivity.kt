@@ -2,6 +2,7 @@ package edmt.dev.androizxing;
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.qrscanner.R
 
 public class
 
