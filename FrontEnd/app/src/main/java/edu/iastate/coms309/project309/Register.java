@@ -66,7 +66,7 @@ public class Register extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                jor = new JsonObjectRequest(Request.Method.POST, Const.URL_LOGIN, js, new Response.Listener<JSONObject>() {
+                jor = new JsonObjectRequest(Request.Method.POST, Const.URL_REGISTER, js, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -91,6 +91,8 @@ public class Register extends AppCompatActivity {
                 };
 
                 rq.add(jor);
+
+                setContentView(R.layout.activity_user_home);
             }
         });
     }
