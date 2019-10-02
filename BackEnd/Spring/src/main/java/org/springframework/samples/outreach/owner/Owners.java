@@ -59,13 +59,13 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String telephone;
 
-	    @Column(name = "user_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String username;
-
-	    @Column(name = "pass_word")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String password;
+//	    @Column(name = "username")
+//	    @NotFound(action = NotFoundAction.IGNORE) 
+//	    String username;
+//
+//	    @Column(name = "password")
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    private String password;
 	    
 	    public Integer getId() {
 	        return id;
@@ -120,25 +120,25 @@ public class Owners {
 	        this.telephone = telephone;
 	        //Setter for Telephone Number
 	    }
-	    public String getUsername() {
-	        return this.username;
-	        //Getter for username
-	    }
-
-	    public void setUsername(String username) {
-	        this.username = telephone;
-	        //Setter for username
-	    }
-	    
-	    public String getpassword() {
-	        return this.password;
-	        //Getter for password
-	    }
-
-	    public void setPassord(String password) {
-	        this.password = password;
-	        //Setter for password
-	    }
+//	    public String getUsername() {
+//	        return this.username;
+//	        //Getter for username
+//	    }
+//
+//	    public void setUsername(String username) {
+//	        this.username = telephone;
+//	        //Setter for username
+//	    }
+//	    
+//	    public String getpassword() {
+//	        return this.password;
+//	        //Getter for password
+//	    }
+//
+//	    public void setPassord(String password) {
+//	        this.password = password;
+//	        //Setter for password
+//	    }
 
 	    @Override
 	    public String toString() {
