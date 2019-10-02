@@ -55,7 +55,11 @@ class OwnerController {
 	public String createEmployee(@RequestBody Owners newemp) {
 		System.out.println(this.getClass().getSimpleName() + " - Create new employee method is invoked.");
 		 ownersRepository.save(newemp);
+<<<<<<< HEAD
 		 return "New Owner " + newemp.getFirstName() + " Saved";
+=======
+		 return "New Owner " + newemp.getFirstName() + "Saved";
+>>>>>>> kschrock
 	}
 
 
