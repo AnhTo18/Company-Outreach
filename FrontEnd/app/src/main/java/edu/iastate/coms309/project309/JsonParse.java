@@ -1,12 +1,11 @@
 package edu.iastate.coms309.project309;
 
-import android.app.DownloadManager;
+
+import  androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,52 +19,58 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JsonParse extends AppCompatActivity {
-   private TextView mTextViewResult;
-   private RequestQueue q;
+    private TextView mTextViewResult;
+    private RequestQueue mQueue;
 
-   @Override
-    protected void onCreate(Bundle savedInstanceState){
-       super.onCreate(savedInstanceState);
-       setContentView(R.layout.test);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.test);
 
-       mTextViewResult=findViewById(R.id.text_view_result);
-       Button buttonParse=findViewById(R.id.button_parse);
+        mTextViewResult = findViewById(R.id.text_view_result);
+        Button buttonParse = findViewById(R.id.button_parse);
 
-       q= Volley.newRequestQueue(this);
-       buttonParse.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View v){
-                jsonParse();
-           }
-       });
-   }
-    private void jsonParse(){
-       String url="https://api.myjson.com/bins/kp9wz";
+        mQueue = Volley.newRequestQueue(this);
 
-        JsonObjectRequest request=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonArray=response.getJSONArray("employess");
-                    for(int i=0; i<jsonArray.length();i++){
-                        JSONObject employee=jsonArray.getJSONObject(i);
-                        String firstName=employee.getString("firstname");
-                        int age = employee.getInt("age");
-                        String mail=employee.getString("mail");
-
-                        mTextViewResult.append(firstName +","+String.valueOf(age)+", "+mail+ "\n\n");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void onClick(View v) {
+                jsonParse();
             }
-        }, new Response.ErrorListener() {
+        });
+    }
+
+    private void jsonParse() {
+
+        String url = "https://api.myjson.com/bins/kp9wz";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("employees");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject employee = jsonArray.getJSONObject(i);
+
+                                String firstName = employee.getString("firstname");
+                                int age = employee.getInt("age");
+                                String mail = employee.getString("mail");
+
+                                mTextViewResult.append(firstName + ", " + String.valueOf(age) + ", " + mail + "\n\n");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
         });
-        q.add(request);
-    }
 
+        mQueue.add(request);
+    }
 }
