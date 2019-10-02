@@ -1,0 +1,138 @@
+/*
+ * Copyright 2002-2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.springframework.samples.outreach.owner;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.springframework.core.style.ToStringCreator;
+
+/**
+ * Simple JavaBean domain object representing an owner.
+ *
+ */
+@Entity
+@Table(name = "owners")
+public class Owners {
+
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    @Column(name = "id")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private Integer id;
+
+	    @Column(name = "first_name")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String firstName;
+
+	    @Column(name = "last_name")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String lastName;
+
+	    @Column(name = "address")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String address;
+
+	    @Column(name = "telephone")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String telephone;
+	    
+	    @Column(name = "username")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String username;
+
+	    @Column(name = "password")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String password;
+
+
+	    public Integer getId() {
+	        return id;
+	    }
+
+	    public void setId(Integer id) {
+	        this.id = id;
+	    }
+
+	    public boolean isNew() {
+	        return this.id == null;
+	    }
+
+	    public String getFirstName() {
+	        return this.firstName;
+	    }
+
+	    public void setFirstName(String firstName) {
+	        this.firstName = firstName;
+	    }
+
+	    public String getLastName() {
+	        return this.lastName;
+	    }
+
+	    public void setLastName(String lastName) {
+	        this.lastName = lastName;
+	    }
+
+	    public String getAddress() {
+	        return this.address;
+	    }
+
+	    public void setAddress(String address) {
+	        this.address = address;
+	    }
+
+	    public String getusername() {
+	        return this.username;
+	    }
+
+	    public void setusername(String username) {
+	        this.username = username;
+	    }
+
+	    
+	    public String getpassword() {
+	        return this.password;
+	    }
+
+	    public void setpassword(String password) {
+	        this.password = password;
+	    }
+	    
+	    @Override
+	    public String toString() {
+	        return new ToStringCreator(this)
+
+	                .append("id", this.getId())
+	                .append("new", this.isNew())
+	                .append("lastName", this.getLastName())
+	                .append("firstName", this.getFirstName())
+	                .append("address", this.getAddress())
+	                .append("telephone", this.telephone)
+	                .append("username", this.getusername())
+	                .append("password", this.getpassword()).toString();
+	    }
+	
+}
