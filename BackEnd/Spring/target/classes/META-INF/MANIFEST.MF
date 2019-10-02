@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Built-By: creimers
-Build-Jdk: 11.0.4
+Built-By: kordellschrock
+Build-Jdk: 11.0.2
 Implementation-Title: petclinic
 Implementation-Version: 2.0.0
 Implementation-Vendor-Id: org.springframework.samples
