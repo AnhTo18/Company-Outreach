@@ -1,4 +1,4 @@
-package edu.iastate.coms309.project309;
+package edu.iastate.coms309.project309.util;
 
 import android.app.Application;
 import android.text.TextUtils;

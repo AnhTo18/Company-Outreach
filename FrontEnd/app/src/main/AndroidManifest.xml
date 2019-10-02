@@ -11,13 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".JsonParse">
+        <activity android:name=".JsonParse"></activity>
+        <activity android:name=".UserHome"></activity>
+        <activity
+            android:name=".Register"
+            android:label="Register Account">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".DevHome"
+            android:label="Developer Menu" /></activity>
     </application>
 
 </manifest>
