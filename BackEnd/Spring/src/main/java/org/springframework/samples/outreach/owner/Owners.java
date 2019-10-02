@@ -122,22 +122,22 @@ public class Owners {
 	    }
 	    public String getUsername() {
 	        return this.username;
-	        //Getter for Telephone Number
+	        //Getter for username
 	    }
 
 	    public void setUsername(String username) {
 	        this.username = telephone;
-	        //Setter for Telephone Number
+	        //Setter for username
 	    }
 	    
-	    public String password() {
+	    public String getpassword() {
 	        return this.password;
-	        //Getter for Telephone Number
+	        //Getter for password
 	    }
 
 	    public void setPassord(String password) {
 	        this.password = password;
-	        //Setter for Telephone Number
+	        //Setter for password
 	    }
 
 	    @Override
