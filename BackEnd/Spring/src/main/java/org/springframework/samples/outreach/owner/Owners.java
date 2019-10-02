@@ -59,6 +59,14 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String telephone;
 
+	    @Column(name = "user_name")
+	    @NotFound(action = NotFoundAction.IGNORE) 
+	    String username;
+
+	    @Column(name = "pass_word")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String password;
+	    
 	    public Integer getId() {
 	        return id;
 	        //Getter for ID of User
@@ -110,6 +118,25 @@ public class Owners {
 
 	    public void setTelephone(String telephone) {
 	        this.telephone = telephone;
+	        //Setter for Telephone Number
+	    }
+	    public String getUsername() {
+	        return this.username;
+	        //Getter for Telephone Number
+	    }
+
+	    public void setUsername(String username) {
+	        this.username = telephone;
+	        //Setter for Telephone Number
+	    }
+	    
+	    public String password() {
+	        return this.password;
+	        //Getter for Telephone Number
+	    }
+
+	    public void setPassord(String password) {
+	        this.password = password;
 	        //Setter for Telephone Number
 	    }
 

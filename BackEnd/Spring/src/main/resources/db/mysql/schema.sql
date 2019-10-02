@@ -20,3 +20,11 @@ CREATE TABLE IF NOT EXISTS testing (
   password VARCHAR(30),
   INDEX(last_name)
 ) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS testing2 (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_name VARCHAR(30),
+  user_pass VARCHAR(30),
+  user_email VARCHAR(255),
+  INDEX(user_email)
+) engine=InnoDB;
