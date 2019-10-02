@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Built-By: clrk0
+Build-Jdk: 13
+Implementation-Title: Springbootcrudoperation Maven Webapp
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.springboot.crud
+Implementation-URL: http://maven.apache.org
+Created-By: Maven Integration for Eclipse
+
