@@ -1,11 +1,11 @@
 package edu.iastate.coms309.project309;
 
-import  androidx.appcompat.app.AppCompatActivity;
-
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Request;
@@ -14,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,49 +24,43 @@ import java.util.Map;
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
 
+public class Login extends AppCompatActivity {
 
-public class Register extends AppCompatActivity {
+    EditText user, pass;
+    Button reg, login;
 
     RequestQueue rq;
     JsonObjectRequest jor;
-    EditText firstname, lastname, address, phone ,username, password;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_login);
 
-        String tag_json_obj = "json_obj_req";
+        user = findViewById(R.id.loginInputUsername);
+        pass = findViewById(R.id.loginInputPassword);
+        reg = findViewById(R.id.buttonMakeAcct);
+        login = findViewById(R.id.buttonLogin);
 
-        rq = Volley.newRequestQueue(this);
-
-        firstname = findViewById(R.id.textInputFirstname);
-        lastname = findViewById(R.id.textInputLastname);
-        address = findViewById(R.id.textInputAddress);
-        phone = findViewById(R.id.textInputPhone);
-        username = findViewById(R.id.textInputUsername);
-        password = findViewById(R.id.textInputPassword);
-
-        findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
+        reg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                setContentView(R.layout.activity_register);
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 JSONObject js = new JSONObject();
                 try {
-                    js.put("id", "");
-                    js.put("firstName", firstname.getText().toString());
-                    js.put("lastName", lastname.getText().toString());
-                    js.put("address", address.getText().toString());
-                    js.put("telephone", phone.getText().toString());
-                    js.put("username", username.getText().toString());
-                    js.put("password", password.getText().toString());
-                    
+                    js.put("username", user.getText().toString());
+                    js.put("password", pass.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                jor = new JsonObjectRequest(Request.Method.POST, Const.URL_REGISTER, js, new Response.Listener<JSONObject>() {
+                jor = new JsonObjectRequest(Request.Method.POST, Const.URL_LOGIN, js, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -84,16 +77,13 @@ public class Register extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
-                        params.put("user", username.toString());
-                        params.put("pass", password.toString());
+
 
                         return params;
                     }
                 };
 
                 rq.add(jor);
-
-                setContentView(R.layout.activity_user_home);
             }
         });
 

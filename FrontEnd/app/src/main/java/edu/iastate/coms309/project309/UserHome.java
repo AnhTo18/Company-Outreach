@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,7 +26,7 @@ import edu.iastate.coms309.project309.util.Const;
 
 public class UserHome extends AppCompatActivity {
 
-    private TextView JSONResult;
+    private TextView result;
     private RequestQueue rq;
 
 
@@ -34,48 +35,17 @@ public class UserHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationView navView = findViewById(R.id.nav_view);
-        NavigationUI.setupWithNavController(navView, navController);
 
-        JSONResult = findViewById(R.id.textJSONResult);
+        result = findViewById(R.id.textJSONResult);
         rq = Volley.newRequestQueue(this);
 
         jsonParse();
 
-        //pretty sure this goes somewhere else
-        /*
-        AppBarConfiguration appBarConfiguration =
-                new AppBarConfiguration.Builder(navController.getGraph())
-                        .setDrawerLayout(drawerLayout)
-                        .build();
-         */
     }
 
     private void jsonParse() {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Const.URL_SHOW_USERS,
-                null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonArray = response.getJSONArray("jsonArray");
 
-                    for (int i = 0 ; i < jsonArray.length() ; i++) {
-                        JSONObject user = jsonArray.getJSONObject(i);
-                        String fname = user.getString("firstName");
-                        String lname = user.getString("lastName");
-                        JSONResult.append(lname + ", " + fname + "\n\n");
-                    }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
     }
+
 }
