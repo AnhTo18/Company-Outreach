@@ -3,6 +3,7 @@ package edu.iastate.coms309.project309;
 
 import  androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,19 +43,21 @@ public class JsonParse extends AppCompatActivity {
 
     private void jsonParse() {
 
-        String url = "https://api.myjson.com/bins/kp9wz";
+        //String url = "https://api.myjson.com/bins/kp9wz";
+        String url = "http://coms-309-ss-8.misc.iastate.edu:8080/owners/";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("employees");
+                            Log.e("test", response.toString());
+                            JSONArray jsonArray = response.getJSONArray("id");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject employee = jsonArray.getJSONObject(i);
 
-                                String firstName = employee.getString("firstname");
+                                String firstName = employee.getString("firstName");
                                 int age = employee.getInt("age");
                                 String mail = employee.getString("mail");
 
