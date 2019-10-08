@@ -15,6 +15,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +33,7 @@ public class Login extends AppCompatActivity {
     Button reg, login;
 
     RequestQueue rq;
-    JsonObjectRequest jor;
+    JsonObjectRequest jor, jor2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +75,34 @@ public class Login extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
                     }
-                }) {
-
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
-
-
-                        return params;
-                    }
-                };
+                });
 
                 rq.add(jor);
+
+                JSONObject js2 = new JSONObject();
+                jor2 = new JsonObjectRequest(Request.Method.GET, Const.URL_VERIFY, js2, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(AppController.TAG, response.toString());
+                        try {
+                            String verify = response.get("verify").toString();  //dont thing toString() should work, should be getAsString() from gson
+                            if(verify.equals("true"))
+                            {
+                                setContentView(R.layout.activity_user_home);
+                            }
+                        } catch(JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+                rq.add(jor2);
+
             }
         });
 

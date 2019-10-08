@@ -77,17 +77,7 @@ public class Register extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
                     }
-                }) {
-
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("user", username.toString());
-                        params.put("pass", password.toString());
-
-                        return params;
-                    }
-                };
+                });
 
                 rq.add(jor);
 
