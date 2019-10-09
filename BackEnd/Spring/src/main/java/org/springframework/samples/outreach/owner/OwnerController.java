@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.acl.Owner;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -77,7 +79,7 @@ class OwnerController {
     }
     
     @RequestMapping(value = "/owners/login/{username}/{password}", method = RequestMethod.POST)
-    public boolean loginOwner( @PathVariable("username") String username, @PathVariable("password") String password) {
+    public Map<String, String> loginOwner( @PathVariable("username") String username, @PathVariable("password") String password) {
     	
      //   logger.info("Entered into Controller Layer");
 //    	String username = "kordell";
@@ -85,6 +87,10 @@ class OwnerController {
     	username = username.toString().trim();
     	password = password.toString().trim();
         List<Owners> results = ownersRepository.findAll();
+        
+        HashMap<String, String> map = new HashMap<>();
+       
+        
         for(Owners current : results) {
         	String currentUsername = current.getUsername().toString().trim();
         	String currentPassword = current.getpassword().toString().trim();
@@ -92,11 +98,14 @@ class OwnerController {
         	{
         		if(password.equals(currentPassword))
         		{
-        			return true;
+        		 map.put("verify", "true");
+        		 return map;
+        			
         		}
         	}
         }
-        return false;
+         map.put("verify", "false");
+         return map;
     }
     //Delete all users
     @RequestMapping( method= RequestMethod.POST, path= "/owners/deleteall")
