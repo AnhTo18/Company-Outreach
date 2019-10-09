@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -77,7 +78,13 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
-                rq.add(jor);
+                try {
+                    rq.add(jor);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast t = Toast.makeText(getApplicationContext(), "Error sending information to server", Toast.LENGTH_SHORT);
+                    t.show();
+                }
 
                 JSONObject js2 = new JSONObject();
                 jor2 = new JsonObjectRequest(Request.Method.GET, Const.URL_VERIFY, js2, new Response.Listener<JSONObject>() {
@@ -101,7 +108,13 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
-                rq.add(jor2);
+                try {
+                    rq.add(jor2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast t = Toast.makeText(getApplicationContext(), "Error receiving information from server", Toast.LENGTH_SHORT);
+                    t.show();
+                }
 
             }
         });
