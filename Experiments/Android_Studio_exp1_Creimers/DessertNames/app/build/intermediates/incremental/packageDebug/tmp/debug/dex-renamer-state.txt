@@ -1,0 +1,4 @@
+#Wed Sep 11 10:06:12 CDT 2019
+base.0=C\:\\Users\\clrk0\\SS_8\\Experiments\\Android_Studio_exp1_Creimers\\DessertNames\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,6 +1,6 @@
 package edu.iastate.coms309.project309;
 
-import androidx.appcompat.app.AppCompatActivity;
+import  androidx.appcompat.app.AppCompatActivity;
 
 
 import android.os.Bundle;
@@ -31,6 +31,8 @@ public class Register extends AppCompatActivity {
     RequestQueue rq;
     JsonObjectRequest jor;
     EditText firstname, lastname, address, phone ,username, password;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,5 +86,7 @@ public class Register extends AppCompatActivity {
                 setContentView(R.layout.activity_user_home);
             }
         });
+
+
     }
 }
