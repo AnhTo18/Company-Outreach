@@ -11,11 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-        <activity android:name=".JsonParse">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-=======
+
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login">
@@ -28,7 +24,7 @@
         <activity
             android:name=".Register"
             android:label="Register Account">
->>>>>>> origin/sjhenley
+
 
         </activity>
     </application>
