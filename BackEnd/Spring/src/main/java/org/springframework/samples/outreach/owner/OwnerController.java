@@ -68,7 +68,7 @@ class OwnerController {
         return results;
     }
     
-    /*get user by empid*/
+    /*get user by user id*/
     @RequestMapping(method = RequestMethod.GET, path = "/owners/{ownerId}")
     public Optional<Owners> findOwnerById(@PathVariable("ownerId") int id) {
         logger.info("Entered into Controller Layer");
@@ -76,6 +76,28 @@ class OwnerController {
         return results;
     }
     
+    @RequestMapping(value = "/owners/login/{username}/{password}", method = RequestMethod.POST)
+    public boolean loginOwner( @PathVariable("username") String username, @PathVariable("password") String password) {
+    	
+     //   logger.info("Entered into Controller Layer");
+//    	String username = "kordell";
+//    	String password = "pass";
+    	username = username.toString().trim();
+    	password = password.toString().trim();
+        List<Owners> results = ownersRepository.findAll();
+        for(Owners current : results) {
+        	String currentUsername = current.getUsername().toString().trim();
+        	String currentPassword = current.getpassword().toString().trim();
+        	if(username.equals(currentUsername))
+        	{
+        		if(password.equals(currentPassword))
+        		{
+        			return true;
+        		}
+        	}
+        }
+        return false;
+    }
     //Delete all users
     @RequestMapping( method= RequestMethod.POST, path= "/owners/deleteall")
 	public void deleteAll() {

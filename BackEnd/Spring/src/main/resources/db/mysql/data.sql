@@ -5,4 +5,4 @@
 
 # INSERT INTO profile VALUES (1003,'Kordell','Schrock', 'Stanford Way','507-993-0709', 10.00, 'username','password');
 
-INSERT INTO `profile` (`id`, `address`, `first_name`, `last_name`, `pass_word`, `points`, `telephone`, `user_name`) VALUES ('1', 'addy', 'Kordell', 'Schrock', 'password', '11', '555', 'my username');
+INSERT INTO `profile` (`id`, `address`, `first_name`, `last_name`, `pass_word`, `points`, `telephone`, `user_name`) VALUES ('2', 'addy', 'Kordell', 'Schrock', 'password', '11', '555', 'my username');
