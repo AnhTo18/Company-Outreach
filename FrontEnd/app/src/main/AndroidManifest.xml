@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,13 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserHome" />
+        <activity android:name=".UserHomeActivity" />
         <activity
-            android:name=".Register"
+            android:name=".RegisterActivity"
             android:label="Register Account">
 		</activity>
 		<activity
-            android:name=".DevHome"
+            android:name=".DevHomeActivity"
             android:label="Developer Home" />
 		</activity>
     </application>

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 
-public class DevHome extends AppCompatActivity {
+public class DevHomeActivity extends AppCompatActivity {
 
     Button b1;
     public static TextView result;

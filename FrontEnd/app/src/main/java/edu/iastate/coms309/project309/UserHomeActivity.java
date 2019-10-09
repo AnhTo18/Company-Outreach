@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 import edu.iastate.coms309.project309.util.Const;
 
-public class UserHome extends AppCompatActivity {
+public class UserHomeActivity extends AppCompatActivity {
 
     private TextView result;
     private RequestQueue rq;

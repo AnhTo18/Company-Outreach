@@ -28,7 +28,7 @@ import java.util.Map;
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText user, pass;
     Button reg, login;

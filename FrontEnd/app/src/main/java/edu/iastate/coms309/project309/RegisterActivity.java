@@ -26,7 +26,7 @@ import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
 
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     RequestQueue rq;
     JsonObjectRequest jor;
