@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 */
 
                 String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
-                String url_test = "https://api.myjson.com/bins/1137oi";
+                //String url_test = "https://api.myjson.com/bins/1137oi";
 
                 jor2 = new JsonObjectRequest(Request.Method.GET, url, null , new Response.Listener<JSONObject>() {
                     String verify = "false";
