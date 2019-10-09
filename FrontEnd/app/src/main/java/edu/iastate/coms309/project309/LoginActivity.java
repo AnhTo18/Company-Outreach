@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonElement;
 
@@ -46,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         reg = findViewById(R.id.buttonMakeAcct);
         login = findViewById(R.id.buttonLogin);
 
+        rq = Volley.newRequestQueue(this);
+
+
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /**
                 JSONObject js = new JSONObject();
                 try {
                     js.put("username", user.getText().toString());
@@ -85,28 +91,43 @@ public class LoginActivity extends AppCompatActivity {
                     Toast t = Toast.makeText(getApplicationContext(), "Error sending information to server", Toast.LENGTH_SHORT);
                     t.show();
                 }
+                */
 
-                JSONObject js2 = new JSONObject();
-                jor2 = new JsonObjectRequest(Request.Method.GET, Const.URL_VERIFY, js2, new Response.Listener<JSONObject>() {
+                String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
+                String url_test = "https://api.myjson.com/bins/1137oi";
+
+                jor2 = new JsonObjectRequest(Request.Method.GET, url, null , new Response.Listener<JSONObject>() {
+                    String verify = "false";
+
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(AppController.TAG, response.toString());
+                        Log.d(AppController.TAG, "Response:" + response.toString());
                         try {
-                            String verify = response.get("verify").toString();  //dont thing toString() should work, should be getAsString() from gson
-                            if(verify.equals("true"))
-                            {
-                                setContentView(R.layout.activity_user_home);
-                            }
-                        } catch(JSONException e) {
+                            verify = response.getString("verify");
+                        } catch (JSONException e) {
+                            Toast t = Toast.makeText(getApplicationContext(), "JSON Exception", Toast.LENGTH_SHORT);
+                            t.show();
                             e.printStackTrace();
+                        }
+
+                        if (verify.equals("true")) {
+                            setContentView(R.layout.activity_dev_home);
+                        } else {
+                            Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
+                            t.show();
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
+                        Log.d(AppController.TAG, "Error: " + error.getMessage());
+                        Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
+                        t.show();
                     }
                 });
+
+
 
                 try {
                     rq.add(jor2);
