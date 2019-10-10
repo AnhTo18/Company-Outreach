@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions{
+        disable 'GoogleAppIndexingWarning'
+    }
 }
 
 dependencies {
@@ -43,6 +46,9 @@ dependencies {
     def nav_version = "2.1.0"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
 
 //zxing-android-embedded
