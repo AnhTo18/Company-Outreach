@@ -78,7 +78,7 @@ class OwnerController {
         return results;
     }
     
-    @RequestMapping(value = "/owners/login/{username}/{password}", method = RequestMethod.POST)
+    @RequestMapping(value = "/owners/login/{username}/{password}", method = RequestMethod.GET)
     public Map<String, String> loginOwner( @PathVariable("username") String username, @PathVariable("password") String password) {
     	
      //   logger.info("Entered into Controller Layer");
