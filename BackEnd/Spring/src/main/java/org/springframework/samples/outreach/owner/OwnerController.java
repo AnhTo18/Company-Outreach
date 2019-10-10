@@ -60,6 +60,45 @@ class OwnerController {
 		 return "New Owner " + newemp.getFirstName() + " Saved";
 	}
 
+    @RequestMapping(value= "/owners/addpoints/{points}/{username}", method= RequestMethod.POST)
+	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("username") String username ) {
+	
+    	username = username.toString().trim();
+    	
+        List<Owners> results = ownersRepository.findAll();
+        
+        HashMap<String, String> map = new HashMap<>();
+       
+        
+        for(Owners current : results) {
+        	String currentUsername = current.getUsername().toString().trim();
+        	
+        	if(username.equals(currentUsername))
+        	{
+        		
+        		 map.put("verify", "Added");
+        		 int temp = 0;
+        		 int currentPoints;
+        		 try {
+        			 currentPoints = Integer.parseInt(current.getPoints());
+        		 }
+        		 catch (NumberFormatException e)
+        		 {
+        			 currentPoints = 0; //not found
+        		 }
+        		 temp = currentPoints + points; //add total points
+        	
+        		 current.setPoints(String.valueOf(temp)); //set current points to current user
+        		 return map;
+        	
+        	}
+        }
+         
+    
+        map.put("verify", "NotFound");
+		 return map;
+	
+	}
 
     /*get all users*/
     @RequestMapping(method = RequestMethod.GET, path = "/owners")
