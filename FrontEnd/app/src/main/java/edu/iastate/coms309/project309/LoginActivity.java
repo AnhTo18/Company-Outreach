@@ -2,6 +2,7 @@ package edu.iastate.coms309.project309;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.activity_register);
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
@@ -111,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         if (verify.equals("true")) {
-                            setContentView(R.layout.activity_dev_home);
+                            startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
                             t.show();
@@ -120,22 +121,14 @@ public class LoginActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
-                        Log.d(AppController.TAG, "Error: " + error.getMessage());
+                        VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
+                        Log.e(AppController.TAG, "Error: " + error.getMessage());
                         Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
                         t.show();
                     }
                 });
 
-
-
-                try {
                     rq.add(jor2);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast t = Toast.makeText(getApplicationContext(), "Error receiving information from server", Toast.LENGTH_SHORT);
-                    t.show();
-                }
 
             }
         });

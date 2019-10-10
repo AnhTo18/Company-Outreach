@@ -3,10 +3,12 @@ package edu.iastate.coms309.project309;
 import  androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,8 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        String tag_json_obj = "json_obj_req";
-
         rq = Volley.newRequestQueue(this);
 
         firstname = findViewById(R.id.textInputFirstname);
@@ -50,7 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
         username = findViewById(R.id.textInputUsername);
         password = findViewById(R.id.textInputPassword);
 
-        findViewById(R.id.buttonRegister).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonCreateAcct).setOnClickListener(new View.OnClickListener() {
+            boolean success = false;
             @Override
             public void onClick(View view) {
                 JSONObject js = new JSONObject();
@@ -72,18 +73,28 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(AppController.TAG, response.toString());
+                        //Insert code to verify request succeeded, for now:
+                        success = true;
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
+                        VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
+                        Log.e(AppController.TAG, "Error: " + error.getMessage());
                     }
                 });
 
                 rq.add(jor);
 
-                setContentView(R.layout.activity_user_home);
+                Toast t;
+                if(success) {
+                    t = Toast.makeText(getApplicationContext(), "Account Created", Toast.LENGTH_SHORT);
+                } else{
+                    t = Toast.makeText(getApplicationContext(), "Error creating account, please try again later",  Toast.LENGTH_SHORT );
+                }
+                t.show();
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
 
