@@ -7,7 +7,7 @@ stages:
   - androidbuild
   - androidtest
 
-# tags: "shell" should match with the tag name provided to runner, for spring runner should execute in shell.
+# tags: "Spring_tag_originalSetup" should match with the tag name provided to runner, for spring runner should execute in shell.
 # Notice that in petclinic project, the spring project is in root of master, if yours is in folder then cd to that folder.
 maven-build:
   stage: mavenbuild
@@ -58,7 +58,7 @@ android-build:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Android_test/gradlew
   tags:
-   - android_tag1
+   - android_tag_originalSetup
   script:
     - cd Android_test
     - ./gradlew assemble
@@ -74,7 +74,7 @@ unitTests:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Android_test/gradlew
   tags:
-   - android_tag1
+   - android_tag_originalSetup
   script:
     - cd Android_test
     - ./gradlew test
