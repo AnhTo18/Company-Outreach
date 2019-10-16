@@ -16,7 +16,7 @@ maven-build:
   script:
     - cd BackEnd
     - cd Spring
-    - pwd
+    - image: maven:latest or image: maven:3-jdk-10 or image: maven:3-jdk-9
     - mvn package -B
 
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
