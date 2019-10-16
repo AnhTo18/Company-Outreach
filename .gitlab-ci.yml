@@ -16,7 +16,6 @@ maven-build:
   script:
     - cd BackEnd
     - cd Spring
-    - pwd
     - mvn package -B
 
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
