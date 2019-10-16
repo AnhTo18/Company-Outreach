@@ -12,7 +12,7 @@ stages:
 maven-build:
   stage: mavenbuild
   tags:
-    - shell
+    - Spring_tag_originalSetup #backend runner tag
   script:
     - cd BackEnd
     - cd Spring
@@ -23,7 +23,7 @@ maven-build:
 maven-test:
   stage: maventest
   tags:
-    - shell
+    - Spring_tag_originalSetup #backend runner tag
   script:
     - cd BackEnd
     - cd Spring
@@ -37,7 +37,7 @@ maven-test:
 autoDeploy:
   stage: autodeploy
   tags:
-   - shell
+   - Spring_tag_originalSetup #backend runner tag
   script:
     - cd BackEnd
     - cd Spring
