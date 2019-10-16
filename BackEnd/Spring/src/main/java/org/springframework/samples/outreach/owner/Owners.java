@@ -34,7 +34,7 @@ import org.springframework.core.style.ToStringCreator;
  *
  */
 @Entity
-@Table(name = "owners")
+@Table(name = "profile")
 public class Owners {
 
 	 @Id
@@ -59,13 +59,17 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String telephone;
 
-//	    @Column(name = "username")
-//	    @NotFound(action = NotFoundAction.IGNORE) 
-//	    String username;
-//
-//	    @Column(name = "password")
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    private String password;
+	    @Column(name = "user_name")
+	    @NotFound(action = NotFoundAction.IGNORE) 
+	    String username;
+
+	    @Column(name = "pass_word")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String password;
+	    
+	    @Column(name = "points")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String points;
 	    
 	    public Integer getId() {
 	        return id;
@@ -120,26 +124,35 @@ public class Owners {
 	        this.telephone = telephone;
 	        //Setter for Telephone Number
 	    }
-//	    public String getUsername() {
-//	        return this.username;
-//	        //Getter for username
-//	    }
-//
-//	    public void setUsername(String username) {
-//	        this.username = telephone;
-//	        //Setter for username
-//	    }
-//	    
-//	    public String getpassword() {
-//	        return this.password;
-//	        //Getter for password
-//	    }
-//
-//	    public void setPassord(String password) {
-//	        this.password = password;
-//	        //Setter for password
-//	    }
+	    public String getUsername() {
+	        return this.username;
+	        //Getter for username
+	    }
 
+	    public void setUsername(String username) {
+	        this.username = username;
+	        //Setter for username
+	    }
+	    
+	    public String getpassword() {
+	        return this.password;
+	        //Getter for password
+	    }
+
+	    public void setPassord(String password) {
+	        this.password = password;
+	        //Setter for password
+	    }
+	    
+	    public String getPoints() {
+	        return this.points;
+	        //Getter for password
+	    }
+
+	    public void setPoints(String points) {
+	        this.points = points;
+	        //Setter for password
+	    }
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
@@ -149,6 +162,7 @@ public class Owners {
 	                .append("lastName", this.getLastName())
 	                .append("firstName", this.getFirstName())
 	                .append("address", this.address)
+	                .append("points" , this.getPoints())
 	                .append("telephone", this.telephone).toString();
 	    }
 	

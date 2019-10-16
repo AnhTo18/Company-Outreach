@@ -1,6 +1,8 @@
 package org.springframework.samples.outreach.owner;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -49,6 +51,9 @@ public class QrCodeController {
 	        Optional<QrCode> results = qrCodeRepository.findById(id);
 	        return results;
 	    }
+	    //sends back points then they send points to user db.
+	    
+	   
 	    
 <<<<<<< HEAD
 =======
@@ -59,5 +64,10 @@ public class QrCodeController {
 			 qrCodeRepository.save(code);
 			 return "New QrCode by " + code.getCompany() + "Saved";
 		}
+<<<<<<< HEAD
+>>>>>>> kschrock
+=======
+	    
+	  
 >>>>>>> kschrock
 }
