@@ -25,11 +25,11 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.test);
 
         mTextViewResult = findViewById(R.id.text_view_result);
-        Button buttonParse = findViewById(R.id.button_parse);
+        Button profile = findViewById(R.id.button_parse);
 
         mQueue = Volley.newRequestQueue(this);
 
-        buttonParse.setOnClickListener(new View.OnClickListener() {
+        profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 jsonParse();
