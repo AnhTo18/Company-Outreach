@@ -16,7 +16,7 @@ maven-build:
   script:
     - cd BackEnd
     - cd Spring
-    - mvn package -B
+    - $MAVEN_HOME/bin/mvn package -B
 
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
 # artifacts are not mandatory, buts it good practice, in case auto deploy fails, you can manually download the jar.
@@ -43,8 +43,8 @@ autoDeploy:
     - cd Spring
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar
-    - sudo systemctl stop systemd-web-demo
-    - sudo systemctl start systemd-web-demo
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo
 
 
 # To build android projects
