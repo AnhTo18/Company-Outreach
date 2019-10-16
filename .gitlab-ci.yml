@@ -13,10 +13,10 @@ maven-build:
   stage: mavenbuild
   tags:
     - Spring_tag_originalSetup #backend runner tag
-  image: maven:latest or image: maven:3-jdk-10 or image: maven:3-jdk-9
   script:
     - cd BackEnd
     - cd Spring
+    -whoami
     - mvn package -B
 
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
