@@ -16,11 +16,7 @@ maven-build:
   script:
     - cd BackEnd
     - cd Spring
-    - whoami
-    - ls /bin
- #   - pushd /bin
-    - /bin/mvn package -B
- #   - popd
+    - mvn package -B
 
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
 # artifacts are not mandatory, buts it good practice, in case auto deploy fails, you can manually download the jar.
