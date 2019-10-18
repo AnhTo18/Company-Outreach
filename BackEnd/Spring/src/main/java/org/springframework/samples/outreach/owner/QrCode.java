@@ -9,10 +9,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-<<<<<<< HEAD
-=======
+
 import org.springframework.core.style.ToStringCreator;
->>>>>>> kschrock
+
 
 @Entity
 @Table(name = "qrcode")
@@ -62,8 +61,7 @@ public class QrCode {
 	        this.company = company;
 	        //Setter for company of code
 	    }
-<<<<<<< HEAD
-=======
+
 	 
 	 @Override
 	    public String toString() {
@@ -74,6 +72,6 @@ public class QrCode {
 	                .append("company", this.getCompany()).toString();
 	                
 	    }
->>>>>>> kschrock
+
 
 }

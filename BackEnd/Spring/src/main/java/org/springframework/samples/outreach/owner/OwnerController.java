@@ -57,15 +57,9 @@ class OwnerController {
 	public String createEmployee(@RequestBody Owners newemp) {
 		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
 		 ownersRepository.save(newemp);
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		 return "New Owner " + newemp.getFirstName() + " Saved";
-=======
-		 return "New Owner " + newemp.getFirstName() + "Saved";
->>>>>>> kschrock
-=======
-		 return "New Owner " + newemp.getFirstName() + " Saved";
->>>>>>> kschrock
+
 	}
 
     @RequestMapping(value= "/owners/addpoints/{points}/{username}", method= RequestMethod.POST)

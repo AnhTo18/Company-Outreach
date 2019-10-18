@@ -9,10 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-<<<<<<< HEAD
-=======
+
 import org.springframework.web.bind.annotation.RequestBody;
->>>>>>> kschrock
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,18 +33,21 @@ public class QrCodeController {
 	        return results;
 	    }
 	    
-<<<<<<< HEAD
-	    /*get qr code by id*/
-	    @RequestMapping(method = RequestMethod.GET, path = "/qrcodes/{ownerId}")
-	    public Optional<QrCode> findQrCodeById(@PathVariable("ownerId") int id) {
-=======
+
+//	    /*get qr code by id*/
+//	    @RequestMapping(method = RequestMethod.GET, path = "/qrcodes/{ownerId}")
+//	    public Optional<QrCode> findQrCodeById(@PathVariable("ownerId") int id) {
+//			return null;
+//	    
+//	    }
+
 	    /*get qr code by id
 	     * This would be used for when they scan the QR code they can look it up for points
 	     * this in the future should return JSON format for points.
 	     * */
 	    @RequestMapping(method = RequestMethod.GET, path = "/qrcodes/{ownerId}")
 	    public Optional<QrCode> findQrCodeById(@PathVariable("qrcodeId") int id) {
->>>>>>> kschrock
+
 	        logger.info("Entered into Controller Layer");
 	        Optional<QrCode> results = qrCodeRepository.findById(id);
 	        return results;
@@ -55,8 +56,7 @@ public class QrCodeController {
 	    
 	   
 	    
-<<<<<<< HEAD
-=======
+
 	    //Admin use for creating QR Codes
 	    @RequestMapping(value= "/qrcodes/create", method= RequestMethod.POST)
 		public String createEmployee(@RequestBody QrCode code) {
@@ -64,10 +64,5 @@ public class QrCodeController {
 			 qrCodeRepository.save(code);
 			 return "New QrCode by " + code.getCompany() + "Saved";
 		}
-<<<<<<< HEAD
->>>>>>> kschrock
-=======
-	    
-	  
->>>>>>> kschrock
+
 }
