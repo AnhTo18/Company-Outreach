@@ -71,7 +71,17 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points;
 	    
-	    public Integer getId() {
+//	    public Owners(int id, String FirstName, String LastName, String Address, int points, String telephone) {
+//			// TODO Auto-generated constructor stub
+//	    	this.id = id;
+//	    	this.firstName = FirstName;
+//	    	this.lastName = LastName;
+//	    	this.address = Address;
+//	    	this.points = points + "";
+//	    	this.telephone = telephone;
+//		}
+
+		public Integer getId() {
 	        return id;
 	        //Getter for ID of User
 	    }
