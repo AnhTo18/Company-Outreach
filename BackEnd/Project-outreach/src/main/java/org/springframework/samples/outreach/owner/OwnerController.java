@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 package org.springframework.samples.outreach.owner;
-
+import org.springframework.samples.outreach.generate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.outreach.generate.QRCodeGenerator;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.zxing.WriterException;
+
+import java.io.IOException;
 import java.security.acl.Owner;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +47,7 @@ class OwnerController {
 
     @Autowired
     OwnerRepository ownersRepository;
+   
     
   
 
@@ -152,7 +158,25 @@ class OwnerController {
 		System.out.println(this.getClass().getSimpleName() + " - Delete all employees is invoked.");
 		ownersRepository.deleteAll();
 	}
-    
+   //test QRgen 
+    @RequestMapping(method = RequestMethod.GET, path="/owners/generate")
+	public void generate(ModelMap modelMap) {
+		//String[] codefill = {"test","one","two","three"};
+    	//String code = "25615465464";
+		//System.out.print(QRCodeGenerator.main(code));
+
+		try {
+			String s = new String (QRCodeGenerator.getQRCodeImage("yo", 200, 200));
+			System.out.print(s);
+		} catch (WriterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
     //Delete User by ID
     @RequestMapping( method= RequestMethod.POST, value= "/owners/delete/{id}")
 	public void deleteEmployeeById(@PathVariable int id) throws Exception {
