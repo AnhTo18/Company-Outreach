@@ -91,7 +91,7 @@ public class QrScanner extends AppCompatActivity implements View.OnClickListener
                 if(result.getContents()==null){
                     Toast.makeText(this,"No result found,",Toast.LENGTH_LONG).show();
                 }else{
-                    Resulttext.setText("Scanned: "+ result.getContents());
+                    Resulttext.setText("You got: "+ result.getContents()+"points");
                 }
             }else{
                 super.onActivityResult(requestCode,resultCode,data);
