@@ -82,6 +82,7 @@ public class QrScanner extends AppCompatActivity implements View.OnClickListener
         };
 
         rq.add(jor);
+
     }
 
     @Override

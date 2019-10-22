@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     Button reg, login;
 
     RequestQueue rq;
-    JsonObjectRequest jor, jor2;
+    JsonObjectRequest jor2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,41 +61,14 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                /**
-                JSONObject js = new JSONObject();
-                try {
-                    js.put("username", user.getText().toString());
-                    js.put("password", pass.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                jor = new JsonObjectRequest(Request.Method.POST, Const.URL_LOGIN, js, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(AppController.TAG, response.toString());
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
-                    }
-                });
-
-                try {
-                    rq.add(jor);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast t = Toast.makeText(getApplicationContext(), "Error sending information to server", Toast.LENGTH_SHORT);
+                if(user.getText().toString().equals("a") && pass.getText().toString().equals("a")) {
+                    //Bypass login for testing
+                    Toast t = Toast.makeText(getApplicationContext(), "Bypassing Login!", Toast.LENGTH_SHORT);
                     t.show();
+                    startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
                 }
-                */
 
                 String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
-                //String url_test = "https://api.myjson.com/bins/1137oi";
 
                 jor2 = new JsonObjectRequest(Request.Method.GET, url, null , new Response.Listener<JSONObject>() {
                     String verify = "false";
@@ -112,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         if (verify.equals("true")) {
-                            startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
+                            startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
                             t.show();
