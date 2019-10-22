@@ -1,4 +1,4 @@
-package com.demo.helpers;
+package org.springframework.samples.outreach.qr;
 
 import java.io.ByteArrayOutputStream;
 import com.google.zxing.BarcodeFormat;

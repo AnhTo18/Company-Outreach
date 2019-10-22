@@ -1,9 +1,10 @@
-package com.demo.services;
+package org.springframework.samples.outreach.qr;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.demo.entities.Product;
-import com.demo.repositories.ProductRepository;
+
+import org.springframework.samples.outreach.qr.Product;
+import org.springframework.samples.outreach.qr.ProductRepository;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
