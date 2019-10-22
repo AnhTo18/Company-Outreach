@@ -33,7 +33,7 @@ public class DevHomeActivity extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DevHomeActivity.this, ProfileActivity.class));
+                startActivity(new Intent(DevHomeActivity.this, UserProfileActivity.class));
             }
         });
     }
