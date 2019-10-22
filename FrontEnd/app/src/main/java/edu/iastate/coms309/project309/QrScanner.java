@@ -30,7 +30,7 @@ import edu.iastate.coms309.project309.util.Const;
 public class QrScanner extends AppCompatActivity implements View.OnClickListener {
     private Button scanQr;
     private TextView Resulttext;
-
+    private String points="";
     private IntentIntegrator qrScan;
     RequestQueue rq;
     JsonObjectRequest jor;
@@ -53,7 +53,7 @@ public class QrScanner extends AppCompatActivity implements View.OnClickListener
 
         JSONObject js = new JSONObject();
         try {
-            js.put("qr", Resulttext.getText().toString());
+            js.put("qr", points);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -87,16 +87,24 @@ public class QrScanner extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         IntentResult result= IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+        points="";
+        for(int i=0;i<result.toString().length();i++){
+            if(result.toString().substring(0,5).equals("309ss8")){
+                points=points+result.toString().substring(6,8);
+            }
+            else{
+
+            }
+        }
             if(result!=null){
                 if(result.getContents()==null){
                     Toast.makeText(this,"No result found,",Toast.LENGTH_LONG).show();
                 }else{
-                    Resulttext.setText("You got: "+ result.getContents()+"points");
+                    Resulttext.setText("You got: "+ points+"points");
                 }
             }else{
                 super.onActivityResult(requestCode,resultCode,data);
             }
-
 
     }
 
