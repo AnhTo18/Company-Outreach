@@ -100,6 +100,7 @@ public class QRController {
         map.put("verify", "false");
         return map;
     }
+	 //consume?
 	 @RequestMapping(value= "{id}/{company}", method= RequestMethod.POST)
 		public HashMap<String, String> findCode(@PathVariable("id") int id, @PathVariable("company") String company ) {
 		//This can be used once the user scans the code and gets the id and company. This will return json data of points to add to user
@@ -152,17 +153,5 @@ public class QRController {
 			 return map;
 		
 		}
-	
-    //Consume a code
-    @RequestMapping( method= RequestMethod.POST, value= "/qrcode/use/{code}/{identifier}")
-    public void consume(@RequestParam("code") int code, @RequestParam("identifier") int identifier) throws Exception{
-    	
-    	String codeToString = Integer.toString(code);
-	    String identifierString = Integer.toString(identifier);
-	     
-	        HashMap<String, String> map = new HashMap<>();
-	        map.put(codeToString, identifierString);   
-	     
-	}
 
 }
