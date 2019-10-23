@@ -69,6 +69,13 @@
   
   
     <!-- Spring and Spring Boot dependencies -->
+    
+      <dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.2</version>
+  </dependency>
+  
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -96,7 +103,6 @@
 <dependency>
   <groupId>org.assertj</groupId>
   <artifactId>assertj-core</artifactId>
-  <version>3.8.0</version>
   <scope>compile</scope>
 </dependency>
 <dependency>
