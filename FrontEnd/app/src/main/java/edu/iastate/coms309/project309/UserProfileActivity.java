@@ -32,7 +32,6 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         mTextViewResult = findViewById(R.id.text_view_result);
-        Button buttonParse = findViewById(R.id.button_parse);
 
         mQueue = Volley.newRequestQueue(this);
 
@@ -41,24 +40,24 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void jsonParse() {
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, Const.URL_SHOW_USERS, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            for (int i = 0 ; i < response.length() ; i++) {
-                                JSONObject user = response.getJSONObject(i);
-                                String id = user.getString("id");
-                                String firstName = user.getString("firstName");
-                                String lastName = user.getString("lastName");
-                                String address = user.getString("address");
-                                String telephone = user.getString("telephone");
-                                String username = user.getString("username");
-                                String password = user.getString("password");
-                                String points = user.getString("points");
+        String url = Const.URL_SHOW_USERS + "/" + Const.username;
 
-                                mTextViewResult.append(username + ": " + points + "\n");
-                            }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String firstName = response.getString("firstName");
+                            String lastName = response.getString("lastName");
+                            String address = response.getString("address");
+                            String telephone = response.getString("telephone");
+                            String username = response.getString("username");
+                            String points = response.getString("points");
+
+                            mTextViewResult.append(username + ": " + points + " points \n" +
+                                                    firstName + " " + lastName + "\n" +
+                                                    address + "\n" +
+                                                    telephone);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
