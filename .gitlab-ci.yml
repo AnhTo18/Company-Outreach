@@ -43,8 +43,6 @@ autoDeploy:
     - cd Spring
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar
-    - mvn package
-    - sudo mv target/*.war /target/web-demo.war
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
 
