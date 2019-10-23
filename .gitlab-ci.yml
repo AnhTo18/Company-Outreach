@@ -15,11 +15,8 @@ maven-build:
     - Spring_tag_originalSetup #backend runner tag
   script:
     - cd BackEnd
-<<<<<<< HEAD
     - cd Spring
-=======
     - cd Project-outreach
->>>>>>> not_creimers
     - mvn package -B
 
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
@@ -30,11 +27,8 @@ maven-test:
     - Spring_tag_originalSetup #backend runner tag
   script:
     - cd BackEnd
-<<<<<<< HEAD
     - cd Spring
-=======
     - cd Project-outreach
->>>>>>> not_creimers
     - mvn test
   artifacts:
     paths:
@@ -48,15 +42,12 @@ autoDeploy:
    - Spring_tag_originalSetup #backend runner tag
   script:
     - cd BackEnd
-<<<<<<< HEAD
     - cd Spring
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar
-=======
     - cd Project-outreach
     - mvn package
     - sudo mv target/*.war /target/web-demo.war
->>>>>>> not_creimers
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
 
