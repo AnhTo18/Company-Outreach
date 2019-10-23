@@ -8,7 +8,11 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+<<<<<<< HEAD
     tools:context=".Login">
+=======
+    tools:context=".LoginActivity">
+>>>>>>> kschrock
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/loginInputUsername"
@@ -20,6 +24,10 @@
         android:id="@+id/loginInputPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
+=======
+        android:inputType="textPassword"
+>>>>>>> kschrock
         android:hint="Password" />
 
     <Button android:id="@+id/buttonLogin"

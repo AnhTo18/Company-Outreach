@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Project309</string>
+<<<<<<< HEAD
     <string name="title_activity_login">Sign in</string>
+=======
+    <string name="title_activity_login">Outreach</string>
+>>>>>>> kschrock
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
