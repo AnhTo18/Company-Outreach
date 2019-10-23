@@ -34,7 +34,7 @@ import org.springframework.core.style.ToStringCreator;
  *
  */
 @Entity
-@Table(name = "owners")
+@Table(name = "profile")
 public class Owners {
 
 	 @Id
@@ -67,7 +67,21 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
 	    
-	    public Integer getId() {
+	    @Column(name = "points")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String points;
+	    
+//	    public Owners(int id, String FirstName, String LastName, String Address, int points, String telephone) {
+//			// TODO Auto-generated constructor stub
+//	    	this.id = id;
+//	    	this.firstName = FirstName;
+//	    	this.lastName = LastName;
+//	    	this.address = Address;
+//	    	this.points = points + "";
+//	    	this.telephone = telephone;
+//		}
+
+		public Integer getId() {
 	        return id;
 	        //Getter for ID of User
 	    }
@@ -126,7 +140,7 @@ public class Owners {
 	    }
 
 	    public void setUsername(String username) {
-	        this.username = telephone;
+	        this.username = username;
 	        //Setter for username
 	    }
 	    
@@ -139,7 +153,16 @@ public class Owners {
 	        this.password = password;
 	        //Setter for password
 	    }
+	    
+	    public String getPoints() {
+	        return this.points;
+	        //Getter for password
+	    }
 
+	    public void setPoints(String points) {
+	        this.points = points;
+	        //Setter for password
+	    }
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
@@ -149,6 +172,7 @@ public class Owners {
 	                .append("lastName", this.getLastName())
 	                .append("firstName", this.getFirstName())
 	                .append("address", this.address)
+	                .append("points" , this.getPoints())
 	                .append("telephone", this.telephone).toString();
 	    }
 	

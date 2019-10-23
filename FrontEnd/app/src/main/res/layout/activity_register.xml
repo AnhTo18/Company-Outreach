@@ -9,7 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context=".Register">
+    tools:context=".RegisterActivity">
 
 
     <com.google.android.material.textfield.TextInputEditText
@@ -46,9 +46,10 @@
         android:id="@+id/textInputPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:hint="Password" />
 
-    <Button android:id="@+id/buttonRegister"
+    <Button android:id="@+id/buttonCreateAcct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
