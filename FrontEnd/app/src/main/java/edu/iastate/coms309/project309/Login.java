@@ -84,8 +84,10 @@ public class Login extends AppCompatActivity {
                 };
 
                 rq.add(jor);
+
             }
         });
+        Const.current_user=user.getText().toString();
 
 
     }

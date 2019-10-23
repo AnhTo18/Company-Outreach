@@ -16,6 +16,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import edu.iastate.coms309.project309.util.Const;
+
 public class Profile extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue mQueue;
@@ -40,7 +43,7 @@ public class Profile extends AppCompatActivity {
     private void jsonParse() {
         String url = "http://coms-309-ss-8.misc.iastate.edu:8080/owners/";
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url+Const.current_user , null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
