@@ -63,66 +63,66 @@ public class QRCodeGenerator {
         return pngData;
     }
     
-    public byte[] qrCodeGenerator(String id) throws IOException, 
-    WriterException, 
-    InvalidKeySpecException, 
-    NoSuchAlgorithmException {
-
-String filePath = "QRCode.png";
-String charset = "UTF-8";
-Map hintMap = new HashMap();
-hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-
-Map<String, String> qrCodeDataMap = Map.of(
-"Name", id,
-"Key", keyProvider.generateVerificationKey(id) 
-// see next section for ´generateVerificationKey´ method
-);
-
-String jsonString = new JSONObject(qrCodeDataMap).toString();
-createQRCode(jsonString, filePath, charset, hintMap, 500, 500);
-
-BufferedImage image = ImageIO.read(new File(filePath));
-ByteArrayOutputStream baos = new ByteArrayOutputStream();
-ImageIO.write(image, "png", baos);
-byte[] imageData = baos.toByteArray();
-
-return imageData;
-}
-
-private void createQRCode(String qrCodeData, 
-String filePath, 
-String charset, 
-Map hintMap, 
-int qrCodeHeight, 
-int qrCodeWidth) throws WriterException, 
-      IOException {
-
-BitMatrix matrix = new MultiFormatWriter().encode(
-new String(qrCodeData.getBytes(charset), charset),
-BarcodeFormat.QR_CODE,
-qrCodeWidth,
-qrCodeHeight,
-hintMap
-);
-
-MatrixToImageWriter.writeToPath(
-matrix,
-filePath.substring(filePath.lastIndexOf('.') + 1),
-FileSystems.getDefault().getPath(filePath)
-);
-}
-
-public String generateVerificationKey(String str) throws NoSuchAlgorithmException,
-InvalidKeySpecException {
-int iterations = 10000;
-int keyLength = 512;
-char[] strChars = str.toCharArray();
-byte[] saltBytes = salt;
-SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-PBEKeySpec spec = new PBEKeySpec(strChars, saltBytes, iterations, keyLength);
-SecretKey key = skf.generateSecret( spec );
-byte[] hashedBytes = key.getEncoded( );
-return Hex.encodeHexString(hashedBytes);
-}
+//    public byte[] qrCodeGenerator(String id) throws IOException, 
+//    WriterException, 
+//    InvalidKeySpecException, 
+//    NoSuchAlgorithmException {
+//
+//String filePath = "QRCode.png";
+//String charset = "UTF-8";
+//Map hintMap = new HashMap();
+//hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+//
+//Map<String, String> qrCodeDataMap = Map.of(
+//"Name", id,
+//"Key", keyProvider.generateVerificationKey(id) 
+//// see next section for ´generateVerificationKey´ method
+//);
+//
+//String jsonString = new JSONObject(qrCodeDataMap).toString();
+//createQRCode(jsonString, filePath, charset, hintMap, 500, 500);
+//
+//BufferedImage image = ImageIO.read(new File(filePath));
+//ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//ImageIO.write(image, "png", baos);
+//byte[] imageData = baos.toByteArray();
+//
+//return imageData;
+//}
+//
+//private void createQRCode(String qrCodeData, 
+//String filePath, 
+//String charset, 
+//Map hintMap, 
+//int qrCodeHeight, 
+//int qrCodeWidth) throws WriterException, 
+//      IOException {
+//
+//BitMatrix matrix = new MultiFormatWriter().encode(
+//new String(qrCodeData.getBytes(charset), charset),
+//BarcodeFormat.QR_CODE,
+//qrCodeWidth,
+//qrCodeHeight,
+//hintMap
+//);
+//
+//MatrixToImageWriter.writeToPath(
+//matrix,
+//filePath.substring(filePath.lastIndexOf('.') + 1),
+//FileSystems.getDefault().getPath(filePath)
+//);
+//}
+//
+//public String generateVerificationKey(String str) throws NoSuchAlgorithmException,
+//InvalidKeySpecException {
+//int iterations = 10000;
+//int keyLength = 512;
+//char[] strChars = str.toCharArray();
+//byte[] saltBytes = salt;
+//SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+//PBEKeySpec spec = new PBEKeySpec(strChars, saltBytes, iterations, keyLength);
+//SecretKey key = skf.generateSecret( spec );
+//byte[] hashedBytes = key.getEncoded( );
+//return Hex.encodeHexString(hashedBytes);
+//}
 }
