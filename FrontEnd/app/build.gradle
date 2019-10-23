@@ -17,16 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions{
-        disable 'GoogleAppIndexingWarning'
-    }
-
-    //Robolectric
-    testOptions {
-        unitTests{
-            includeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
@@ -37,11 +27,8 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     testImplementation 'junit:junit:4.12'
-
-    //Espresso
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test:rules:1.1.0'
 
     //zxing-android-embedded
     implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
@@ -59,9 +46,6 @@ dependencies {
 
     //Gson
     implementation 'com.google.code.gson:gson:2.8.5'
-
-    //Robolectric
-    testImplementation 'org.robolectric:robolectric:4.3'
 }
 
 //zxing-android-embedded

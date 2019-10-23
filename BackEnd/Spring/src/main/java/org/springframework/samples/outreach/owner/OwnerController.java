@@ -27,9 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.acl.Owner;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -55,59 +53,11 @@ class OwnerController {
 //    }
     @RequestMapping(value= "/owners/add", method= RequestMethod.POST)
 	public String createEmployee(@RequestBody Owners newemp) {
-		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
+		System.out.println(this.getClass().getSimpleName() + " - Create new employee method is invoked.");
 		 ownersRepository.save(newemp);
-
 		 return "New Owner " + newemp.getFirstName() + " Saved";
-
 	}
 
-    @RequestMapping(value= "/owners/addpoints/{points}/{username}", method= RequestMethod.POST)
-	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("username") String username ) {
-	
-    	username = username.toString().trim();
-    	
-        List<Owners> results = ownersRepository.findAll();
-        
-        HashMap<String, String> map = new HashMap<>();
-       
-        
-        for(Owners current : results) {
-        	String currentUsername = current.getUsername().toString().trim();
-        	
-        	if(username.toString().trim().equals(currentUsername))
-        	{
-        		
-        		 map.put("verify", "Added");
-        		 int temp = 0;
-        		 int currentPoints;
-        		 try {
-        			 currentPoints = Integer.parseInt(current.getPoints());
-        		 }
-        		 catch (NumberFormatException e)
-        		 {
-        			 currentPoints = 0; //not found
-        		 }
-        		 System.out.println("This is the current points.");
-        		 System.out.println(currentPoints);
-        		 temp = currentPoints + points; //add total points
-        		
-        	
-        		 current.setPoints(String.valueOf(temp)); //set current points to current user
-        		 ownersRepository.flush(); // updates changes
-        		 
-        		 System.out.println("After current points.");
-        		 System.out.println(currentPoints);
-        		 return map;
-        	
-        	}
-        }
-         
-    
-        map.put("verify", "NotFound");
-		 return map;
-	
-	}
 
     /*get all users*/
     @RequestMapping(method = RequestMethod.GET, path = "/owners")
@@ -118,7 +68,7 @@ class OwnerController {
         return results;
     }
     
-    /*get user by user id*/
+    /*get user by empid*/
     @RequestMapping(method = RequestMethod.GET, path = "/owners/{ownerId}")
     public Optional<Owners> findOwnerById(@PathVariable("ownerId") int id) {
         logger.info("Entered into Controller Layer");
@@ -126,35 +76,6 @@ class OwnerController {
         return results;
     }
     
-    @RequestMapping(value = "/owners/login/{username}/{password}", method = RequestMethod.GET)
-    public Map<String, String> loginOwner( @PathVariable("username") String username, @PathVariable("password") String password) {
-    	
-     //   logger.info("Entered into Controller Layer");
-//    	String username = "kordell";
-//    	String password = "pass";
-    	username = username.toString().trim();
-    	password = password.toString().trim();
-        List<Owners> results = ownersRepository.findAll();
-        
-        HashMap<String, String> map = new HashMap<>();
-       
-        
-        for(Owners current : results) {
-        	String currentUsername = current.getUsername().toString().trim();
-        	String currentPassword = current.getpassword().toString().trim();
-        	if(username.equals(currentUsername))
-        	{
-        		if(password.equals(currentPassword))
-        		{
-        		 map.put("verify", "true");
-        		 return map;
-        			
-        		}
-        	}
-        }
-         map.put("verify", "false");
-         return map;
-    }
     //Delete all users
     @RequestMapping( method= RequestMethod.POST, path= "/owners/deleteall")
 	public void deleteAll() {

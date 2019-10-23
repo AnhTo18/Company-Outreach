@@ -1,0 +1,7 @@
+#Sat Sep 16 13:22:57 CDT 2017
+base.0=M\:\\DessertNames\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_65f6d7a11307906d2134bdeaaf58c3b192196b87
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=M\:\\DessertNames\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_425f4f6aa0e52837ebc23a3a49a30ace6ff248f2\\classes.dex
+base.1=M\:\\DessertNames\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_425f4f6aa0e52837ebc23a3a49a30ace6ff248f2
+file.0=M\:\\DessertNames\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_65f6d7a11307906d2134bdeaaf58c3b192196b87\\classes.dex

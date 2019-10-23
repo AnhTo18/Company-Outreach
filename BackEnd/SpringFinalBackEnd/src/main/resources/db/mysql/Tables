@@ -1,0 +1,7 @@
+CREATE TABLE EMPLOYEE(
+  USERNAME varchar(50) NOT NULL,
+  PASSWORD varchar(65) NOT NULL,
+  ROLE varchar(15) NOT NULL);
+
+INSERT INTO EMPLOYEE VALUES ('user','$2a$10$5e3dB36HeRcozRgp8xQfw.tfD3Qsut8xu/NT9g/DSpVKg9Kzuitrq','USER');
+INSERT INTO EMPLOYEE VALUES ('admin','$2a$10$5e3dB36HeRcozRgp8xQfw.tfD3Qsut8xu/NT9g/DSpVKg9Kzuitrq','ADMIN');
