@@ -32,6 +32,8 @@
 		<activity
             android:name=".DevHomeActivity"
             android:label="Developer Home" />
+        <activity android:name=".QrScanner" />
+        <activity android:name=".UserProfileActivity" />
     </application>
 
 </manifest>

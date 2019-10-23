@@ -2,6 +2,7 @@ package edu.iastate.coms309.project309;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 // import android.support.v7.app.AppCompatActivity; cannot resolve symbol "v7"
@@ -13,20 +14,26 @@ import com.google.zxing.integration.android.IntentIntegrator;
 
 public class DevHomeActivity extends AppCompatActivity {
 
-    Button b1;
-    public static TextView result;
+    Button b1, b2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dev_home);
 
-        result = findViewById(R.id.text_result);
-        b1 = findViewById(R.id.qr_button);
+        b1 = findViewById(R.id.buttonGotoQR);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startScanner();
+                startActivity(new Intent(DevHomeActivity.this, QrScanner.class));
+            }
+        });
+
+        b2 = findViewById(R.id.buttonGotoProfile);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DevHomeActivity.this, UserProfileActivity.class));
             }
         });
     }
