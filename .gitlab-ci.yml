@@ -16,7 +16,6 @@ maven-build:
   script:
     - cd BackEnd
     - cd Spring
-    - cd Project-outreach
     - mvn package -B
 
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
@@ -28,7 +27,6 @@ maven-test:
   script:
     - cd BackEnd
     - cd Spring
-    - cd Project-outreach
     - mvn test
   artifacts:
     paths:
@@ -45,7 +43,6 @@ autoDeploy:
     - cd Spring
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar
-    - cd Project-outreach
     - mvn package
     - sudo mv target/*.war /target/web-demo.war
     - sudo systemctl stop system-web-demo
