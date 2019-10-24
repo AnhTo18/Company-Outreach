@@ -32,7 +32,7 @@ import java.util.Map;
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
 
-public class QrScanner extends AppCompatActivity implements View.OnClickListener {
+public class QrScanner extends AppCompatActivity {
     private Button scanQr;
     private TextView Resulttext;
 
@@ -42,99 +42,86 @@ public class QrScanner extends AppCompatActivity implements View.OnClickListener
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
-       setContentView(R.layout.qr_scanenr);
-       scanQr=(Button)findViewById(R.id.buttonQr);
-       Resulttext=(TextView)findViewById(R.id.Resulttext);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.qr_scanner);
 
-       rq = Volley.newRequestQueue(this);
+        rq = Volley.newRequestQueue(this);
 
-       qrScan=new IntentIntegrator(this);
-       scanQr.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v){
-        qrScan.initiateScan();
-
-
-
+        new IntentIntegrator(this).initiateScan();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         IntentResult result= IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
             if(result!=null){
-                Log.d(AppController.TAG, result.getContents());
-            }else{
+                if (result.getContents() == null) {
+
+                } else {
+
+                    Log.e(AppController.TAG, result.getContents());
+                    String url = Const.URL_QR + "/" + result.getContents();
+
+                    jor = new JsonObjectRequest(Request.Method.GET, result.getContents(), null, new Response.Listener<JSONObject>() {  //need qrURL
+                        String company, points;
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d(AppController.TAG, response.toString());
+
+
+                            try {
+                                points = response.getString("points");
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast t = Toast.makeText(getApplicationContext(), "JSON Error", Toast.LENGTH_SHORT);
+                                t.show();
+                            }
+
+                            String url2 = Const.URL_ADD_POINTS + "/" + points.substring(0, points.length() - 2) + "/" + Const.username;
+
+                            jor2 = new JsonObjectRequest(Request.Method.POST, url2, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.e(AppController.TAG, points + "Points added");
+
+                                    Toast t = Toast.makeText(getApplicationContext(), points + "points added!", Toast.LENGTH_SHORT);
+                                    t.show();
+
+                                    startActivity(new Intent(QrScanner.this, DevHomeActivity.class));
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
+                                    t.show();
+                                }
+                            });
+
+                            rq.add(jor2);
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
+                            Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
+                            t.show();
+                        }
+                    });
+
+                    try {
+                        rq.add(jor);
+                    } catch (NullPointerException e) {
+                        Toast t = Toast.makeText(getApplicationContext(), "RQ Error", Toast.LENGTH_SHORT);
+                        t.show();
+                    }
+                }
+            } else{
                 super.onActivityResult(requestCode,resultCode,data);
             }
 
-        String url = Const.URL_QR + "/" + result.getContents();
 
-        jor = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {  //need qrURL
-            String company, points;
-
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d(AppController.TAG, response.toString());
-
-
-                try {
-                    company = response.getString("company");
-                    points = response.getString("points");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast t = Toast.makeText(getApplicationContext(), "JSON Error", Toast.LENGTH_SHORT);
-                    t.show();
-                }
-
-
-                new AlertDialog.Builder(getApplicationContext())
-                        .setTitle("Title")
-                        .setMessage("Add " + points + " points from " + company + "?")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-
-                                String url2 = Const.URL_ADD_POINTS + "/" + points + "/" + Const.username;
-
-                                jor2 = new JsonObjectRequest(Request.Method.POST, url2, null, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
-                                        t.show();
-                                    }
-                                });
-
-                                rq.add(jor2);
-                            }})
-                        .setNegativeButton(android.R.string.no, null).show();
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(AppController.TAG, "Error: " + error.getMessage());
-                Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
-                t.show();
-            }
-        });
-
-        try {
-            rq.add(jor);
-        }catch (NullPointerException e) {
-            Toast t = Toast.makeText(getApplicationContext(), "RQ Error", Toast.LENGTH_SHORT);
-            t.show();
-        }
 
     }
 
