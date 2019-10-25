@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/git,java,macos,maven,gradle,kotlin,windows,eclipse,androidstudio
 # Edit at https://www.gitignore.io/?templates=git,java,macos,maven,gradle,kotlin,windows,eclipse,androidstudio
 
@@ -265,6 +264,9 @@ obj/
 /out/
 
 # User-specific configurations
+# Added by Sakhawat
+.idea/
+# Added by Sakhawat
 .idea/caches/
 .idea/libraries/
 .idea/shelf/
