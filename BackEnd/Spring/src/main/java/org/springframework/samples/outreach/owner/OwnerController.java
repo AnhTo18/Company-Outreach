@@ -55,11 +55,13 @@ class OwnerController {
 //        return "New Owner "+ owner.getFirstName() + " Saved";
 //    }
     @RequestMapping(value= "/owners/add", method= RequestMethod.POST)
-	public String createEmployee(@RequestBody Owners newemp) {
+	public HashMap<String, String>  createEmployee(@RequestBody Owners newemp) {
+    	 HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
 		 ownersRepository.save(newemp);
+		 map.put("verify", "Added");
 
-		 return "New Owner " + newemp.getFirstName() + " Saved";
+		 return map;
 
 	}
 
@@ -89,16 +91,16 @@ class OwnerController {
         		 {
         			 currentPoints = 0; //not found
         		 }
-        		 System.out.println("This is the current points.");
-        		 System.out.println(currentPoints);
+        		// System.out.println("This is the current points.");
+        	//	 System.out.println(currentPoints);
         		 temp = currentPoints + points; //add total points
         		
         	
         		 current.setPoints(String.valueOf(temp)); //set current points to current user
         		 ownersRepository.flush(); // updates changes
         		 
-        		 System.out.println("After current points.");
-        		 System.out.println(currentPoints);
+//        		 System.out.println("After current points.");
+//        		 System.out.println(currentPoints);
         		 return map;
         	
         	}
