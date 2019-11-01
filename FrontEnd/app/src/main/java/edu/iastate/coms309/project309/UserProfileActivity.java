@@ -54,7 +54,7 @@ public class UserProfileActivity extends AppCompatActivity {
                             String username = response.getString("username");
                             String points = response.getString("points");
 
-                            mTextViewResult.append(username + ": " + points + " points \n" +
+                            mTextViewResult.append(username + ": " + (points == null ? 0 : points) + " points \n" +
                                                     firstName + " " + lastName + "\n" +
                                                     address + "\n" +
                                                     telephone);

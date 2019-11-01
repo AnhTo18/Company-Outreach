@@ -73,8 +73,12 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(AppController.TAG, response.toString());
-                        //Insert code to verify request succeeded, for now:
-                        success = true;
+                        try {
+                            if (response.getString("verify").equals("Added"))
+                                success = true;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
 
@@ -87,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 rq.add(jor);
 
+                /**
                 Toast t;
                 if(success) {
                     t = Toast.makeText(getApplicationContext(), "Account Created", Toast.LENGTH_SHORT);
@@ -94,6 +99,8 @@ public class RegisterActivity extends AppCompatActivity {
                     t = Toast.makeText(getApplicationContext(), "Error creating account, please try again later",  Toast.LENGTH_SHORT );
                 }
                 t.show();
+                 */
+
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
