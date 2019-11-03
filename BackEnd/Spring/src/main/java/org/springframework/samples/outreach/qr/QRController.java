@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.samples.outreach.qr.ZXingHelper;
 import org.springframework.samples.outreach.owner.Owners;
 import org.springframework.samples.outreach.qr.ProductService;
-
+/**
+ * 
+ * @author creimers
+ *controller for the qrcodes
+ */
 @Controller
 @RequestMapping("product")
 public class QRController {
