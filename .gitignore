@@ -26,6 +26,17 @@ local.properties
 #class files
 *.class
 
+#.jar
+*.jar
+#other jar extensions
+*.jar.*
+
+#.lst
+*.lst
+
+#META-INF
+*/META-INF/*
+
 # CDT-specific (C/C++ Development Tooling)
 .cproject
 
