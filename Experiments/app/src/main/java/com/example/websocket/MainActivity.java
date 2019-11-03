@@ -59,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
                  * computer, and change the ip address to that of your computer.
                  * If running on the emulator, you can use localhost.
                  */
-                String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
+                //String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
+                String w="";
+                w = "ws://coms-309-ss-8.misc.iastate.edu:8080/chat/"+e1.getText().toString();
 
                 try {
-                    Log.d("Socket:", "Trying socket");
-                    cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
+                   // Log.d("Socket:", "Trying socket");
+                   // cc = new WebSocketClient(new URI(w)) {
+                        cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
                         @Override
                         public void onMessage(String message) {
                             Log.d("", "run() returned: " + message);
