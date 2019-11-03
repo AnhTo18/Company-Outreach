@@ -21,8 +21,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * 
- *
+* runs the program
+* @author creimers
+ *@author kschrock
  */
 
 @SpringBootApplication

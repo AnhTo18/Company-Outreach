@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+/**
+ * controller for the qrcodes, backend version.
+ * @author creimers
+ * @author kschrock
+ */
 @RestController
 public class FrontQRController {
 

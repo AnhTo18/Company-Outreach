@@ -17,9 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 /**
- * 
+ * chat websocket server
  * @author creimers
- *chat websocket
+ *@author kschrock
  */
 @ServerEndpoint("/chat/{username}")
 @Component

@@ -14,9 +14,9 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 /**
- * 
+ * qrcode fields
  * @author creimers
- *qrcode fields
+ *@author kschrock
  */
 @Entity
 @Table(name = "product")

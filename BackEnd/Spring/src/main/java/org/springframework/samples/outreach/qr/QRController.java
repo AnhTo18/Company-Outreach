@@ -22,9 +22,9 @@ import org.springframework.samples.outreach.qr.ZXingHelper;
 import org.springframework.samples.outreach.owner.Owners;
 import org.springframework.samples.outreach.qr.ProductService;
 /**
- * 
+ * controller for the qrcodes. This was added for backend testing
  * @author creimers
- *controller for the qrcodes
+ * @author kschrock
  */
 @Controller
 @RequestMapping("product")

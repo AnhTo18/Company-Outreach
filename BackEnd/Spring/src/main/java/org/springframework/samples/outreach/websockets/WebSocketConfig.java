@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 /**
- * 
+ * chat websocket config
  * @author creimers
- *websocket config
+ *@author kschrock
  */
 @Configuration 
 public class WebSocketConfig {  

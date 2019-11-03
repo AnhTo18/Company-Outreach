@@ -6,6 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.samples.outreach.qr.Product;
 import org.springframework.samples.outreach.qr.ProductRepository;
 
+/**
+ * implements the findall function for productservice
+ * @author creimers
+ *@author kschrock
+ */
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
 
