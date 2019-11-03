@@ -1,1 +1,8 @@
+<<<<<<< HEAD
 org.springframework.samples.outreach.qr
+=======
+org.springframework.samples.outreach
+org.springframework.samples.outreach.owner
+org.springframework.samples.outreach.qr
+org.springframework.samples.outreach.websockets
+>>>>>>> 9102fb45fde26886bbf0e97ee552ac7230aa1fc9
