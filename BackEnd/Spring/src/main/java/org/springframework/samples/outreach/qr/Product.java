@@ -13,7 +13,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-
+/**
+ * 
+ * @author creimers
+ *qrcode fields
+ */
 @Entity
 @Table(name = "product")
 public class Product {

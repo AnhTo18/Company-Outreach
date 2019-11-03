@@ -11,6 +11,11 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 
+/**
+ * 
+ * @author creimers
+ *This method will be used for our notifications websocket
+ */
 public class HelloWorldSocket {
 
 	
