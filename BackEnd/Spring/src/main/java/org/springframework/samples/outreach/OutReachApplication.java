@@ -21,7 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
-* runs the program
+* This is the SpringBootApplication which will run the program.
 * @author creimers
  *@author kschrock
  */
