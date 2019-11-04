@@ -14,9 +14,10 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 /**
- * qrcode fields
+ * Simple JavaBean domain object representing an Product.
+ * This contains the fields to create an QR code.
  * @author creimers
- *@author kschrock
+ * @author kschrock
  */
 @Entity
 @Table(name = "product")

@@ -6,7 +6,7 @@ import org.springframework.samples.outreach.qr.Product;
 /**
  * iterates through products
  * @author creimers
- *@author kschrock
+ * @author kschrock
  */
 public interface ProductService {
 

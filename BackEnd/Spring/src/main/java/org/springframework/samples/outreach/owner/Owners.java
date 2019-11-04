@@ -31,7 +31,9 @@ import org.springframework.core.style.ToStringCreator;
 
 /**
  * Simple JavaBean domain object representing an owner.
- *
+ * This contains the fields to create an owner.
+ * @author creimers
+ * @author kschrock
  */
 @Entity
 @Table(name = "profile")

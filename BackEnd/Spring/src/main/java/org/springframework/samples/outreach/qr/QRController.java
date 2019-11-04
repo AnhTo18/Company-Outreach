@@ -22,7 +22,7 @@ import org.springframework.samples.outreach.qr.ZXingHelper;
 import org.springframework.samples.outreach.owner.Owners;
 import org.springframework.samples.outreach.qr.ProductService;
 /**
- * controller for the qrcodes. This was added for backend testing
+ * This is the QR Contoller that Generates the QR codes with the Correct info Company, Content, Points, Quantity left and ID.
  * @author creimers
  * @author kschrock
  */
@@ -43,7 +43,13 @@ public class QRController {
 		modelMap.put("products", productService.findAll());
 		return "product/index";
 	}
-
+	 /**
+	   * THIS METHOD CREATES THE QR CODES AND WRTIES THEM INTO THE DATABASE. 
+	   * This is only used for generation qr codes from the WorkBench.
+	   * THIS IS A GET METHOD, Path = qrcode/{id}
+	   * @param STRING ID
+	   * @return Void
+	   */
 	@RequestMapping(value = "qrcode/{id}", method = RequestMethod.GET)
 	public void qrcode(@PathVariable("id") String id, HttpServletResponse response) throws Exception {
 		//THIS METHOD CREATES THE QR CODES AND WRTIES THEM INTO THE DATABASE
@@ -79,7 +85,16 @@ public class QRController {
 	}
 
 	
-	 //set quantity
+	/**
+	   * THIS method sets the given quantity to the correct QR code. 
+	   * It does this by going the the Qr Repository and finds the
+	   * correct Qr code from the Parameters it was given. 
+	   * THIS IS A GET METHOD, Path = product/{company}/{ id}/{ quant}
+	   * @param String ID
+	   * @param String Company
+	   * @param String Quantity
+	   * @return Map<String, String>, "verify", "Added" || "verify", "false"
+	   */
 	 @RequestMapping(value = "/{company}/{ id}/{ quant}", method = RequestMethod.GET)
 	    public Map<String, String> setQuantity( @PathVariable("company") String company, @PathVariable(" id") String id, @PathVariable(" quant") String quant) {
 	    //THIS METHOD SETS THE QUANTIY OF THE QR CODE AND UPDATES THE REPOISTORY 
@@ -128,6 +143,16 @@ public class QRController {
         map.put("verify", "false");
         return map;
     }
+	 
+	 /**
+	   * This can be used once the user scans the code and gets the id and company. This 
+	   * will return json data of points to add to user once the user gets back the info
+	   * they can confirm then sends another post to the owner repo to update their points.
+	   * THIS IS A POST METHOD, Path = product/{company}/{id}
+	   * @param String ID
+	   * @param String Company
+	   * @return HashMap<String, String>, "points", "No More Scans Left" || "points", "Not Found" || ex. "points", "123"
+	   */
 	 @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
 		public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
 		//This can be used once the user scans the code and gets the id and company. This will return json data of points to add to user

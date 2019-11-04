@@ -7,7 +7,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 /**
  * chat websocket config
  * @author creimers
- *@author kschrock
+ * @author kschrock
  */
 @Configuration 
 public class WebSocketConfig {  

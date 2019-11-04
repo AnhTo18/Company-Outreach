@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 /**
  * chat websocket server
  * @author creimers
- *@author kschrock
+ * @author kschrock
  */
 @ServerEndpoint("/chat/{username}")
 @Component

@@ -37,7 +37,11 @@ import org.springframework.test.context.jdbc.Sql;
 
 
 
-
+/**
+ * Mockito Test for Owner Controller
+ * @author creimers
+ * @author kschrock
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MockitoControllerTest {
 	
@@ -73,6 +77,10 @@ public class MockitoControllerTest {
  
 	}
 	
+	/**
+	   * This method Tests by deleting a user in the Mock Repo.
+	   * @return void
+	   */
 	@Test
     public void deleteEmployeeTest() {
 		
@@ -121,9 +129,11 @@ public class MockitoControllerTest {
     }
 	
 	
-	
-	//This creates a user and fills in the parameters
-	//Then this checks the creating a user into the DB by returning a string.
+	/**
+	   * This method Tests by creating a user and fills in the parameters in the Mock Repo.
+	   * Then this checks the creating a user into the DB by returning a string.
+	   * @return void
+	   */
 	@Test
 	public void testingUser() {
 		Owners user = new Owners();
@@ -143,8 +153,11 @@ public class MockitoControllerTest {
 		System.out.println("------------------------------------------\n\n\n");
 	}
 	
-	//This Creates 2 null users, with no parameters created.
-	//There should be 2 users total in the DB. 
+	/**
+	   * This method Tests by Creating 2 null users, with no parameters created in the Mock Repo.
+	   * There should be 2 users total in the DB. 
+	   * @return void
+	   */
 	@Test
 	public void getUsers() {
 		Owners user = new Owners();
@@ -160,9 +173,12 @@ public class MockitoControllerTest {
 	}
 	
 	
-	//This Creates a user, with username = Username and password = Password
-	//This shows to logins, first one matches and passes
-	//the second one does not match and fails.
+	/**
+	   * This method Tests by Creating a user, with username = Username and password = Password in the Mock Repo.
+	   * This shows to logins, first one matches and passes
+	   * the second one does not match and fails. 
+	   * @return void
+	   */
 	@Test
 	public void loginTest() {
 		Owners user = new Owners();
@@ -189,7 +205,10 @@ public class MockitoControllerTest {
 		
 	}
 	
-	//THIS TESTS GET ALL FUNCTION
+	/**
+	   * This method Tests getAll function
+	   * @return void
+	   */
 	@Test
 	public void getAllAccountTest() {
 		java.util.List<Owners>list = new ArrayList<Owners>();
@@ -222,7 +241,10 @@ public class MockitoControllerTest {
 ////		assertEquals("jDoe@gmail.com", acct.getEmail());
 //	}
 
-	 
+	/**
+	   * This method Tests deleteAll function
+	   * @return void
+	   */
 	@Test
 	public void deleteAllUsers() {
 		Owners user = new Owners();

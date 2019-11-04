@@ -36,7 +36,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 /**
- * Owner Controller for Consumers and Companies
+ * Owner Controller for Consumers and Companies Logic Actions
  * @author creimers
  * @author kschrock
  */
