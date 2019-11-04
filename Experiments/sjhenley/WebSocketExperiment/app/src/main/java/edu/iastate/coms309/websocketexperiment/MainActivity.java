@@ -13,8 +13,11 @@ import com.android.volley.toolbox.Volley;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,11 +25,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft;
+import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.handshake.ServerHandshake;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+
 public class MainActivity extends AppCompatActivity {
 
     ListView list;
     RequestQueue rq;
     ArrayList<String> events, companies;
+
+    private WebSocketClient wc;
 
 
     @Override
@@ -52,18 +67,18 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray ja = new JSONArray();
                 try {
                     ja = response.getJSONArray("events");
-                } catch ( JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                for (int i = 0 ; i < ja.length() ; i++) {
+                for (int i = 0; i < ja.length(); i++) {
                     try {
 
                         JSONObject j = ja.getJSONObject(i);
 
-                        adapter.add(j.getString("event"),j.getString("company") );
+                        adapter.add(j.getString("event"), j.getString("company"));
 
-                        Log.d("VOLLLLLLLLLLLLLLLLLLLLLLLLLLLEY", j.getString("event")+ "," + j.getString("company"));
+                        Log.d("VOLLEY", j.getString("event") + "," + j.getString("company"));
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -79,6 +94,72 @@ public class MainActivity extends AppCompatActivity {
         rq.add(jar);
 
 
+        String w = "ws://demos.kaazing.com/echo";
+        Draft[] drafts = {new Draft_6455()};
+
+        try {
+            Log.d("Socket", "Trying socket");
+            wc = new WebSocketClient(new URI(w), drafts[0]) {
+                @Override
+                public void onOpen(ServerHandshake serverHandshake) {
+
+                }
+
+                @Override
+                public void onMessage(String s) {
+                    Log.d("", "run() returned: " + s);
+
+                    int n = s.indexOf('$');
+                    if (n < 0) {
+                        Log.e("WebSocket Client", "Bad format from server");
+                    }
+
+                    //adapter.add(s.substring(0, n), s.substring(n + 1));
+                    add(adapter, s.substring(0, n), s.substring(n + 1) );
+
+                }
+
+                @Override
+                public void onClose(int i, String s, boolean b) {
+                    Log.d("CLOSE", "onClose() returned: " + s);
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("Exception:", e.toString());
+                    e.printStackTrace();
+                }
+            };
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        wc.connect();
+
+        findViewById(R.id.buttonAddEvent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    wc.send("Fun and Games$Apple");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
 
     }
+
+    private void add(CustomAdapter a, String e, String c) {
+        final CustomAdapter ad = a;
+        final String ev = e;
+        final String co = c;
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                ad.add(ev,co);
+            }
+        });
+    }
+
 }

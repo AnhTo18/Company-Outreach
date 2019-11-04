@@ -51,8 +51,8 @@ public class CustomAdapter extends BaseAdapter {
     }
 
     public void add(String event, String company) {
-        events.add(event);
-        companies.add(company);
+        events.add(0, event);
+        companies.add(0, company);
         notifyDataSetChanged();
     }
 
