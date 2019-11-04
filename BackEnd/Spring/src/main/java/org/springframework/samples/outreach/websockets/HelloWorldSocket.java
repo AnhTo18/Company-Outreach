@@ -11,6 +11,11 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.apache.logging.log4j.message.Message;
 
+/**
+ * This socket will be used for notifications
+ * @author creimers
+ * @authore kschrock
+ */
 
 public class HelloWorldSocket {
 
