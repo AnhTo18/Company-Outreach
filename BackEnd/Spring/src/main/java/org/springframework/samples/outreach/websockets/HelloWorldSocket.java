@@ -20,7 +20,7 @@ import org.apache.logging.log4j.message.Message;
 public class HelloWorldSocket {
 
 
-    @ServerEndpoint(value = "/stream/{company}")
+    @ServerEndpoint(value = "/events/{company}")
     public class ChatEndpoint {
     @OnOpen
     public void onOpen(Session session) throws IOException {
@@ -29,6 +29,7 @@ public class HelloWorldSocket {
     @OnMessage
     public void onMessage(Session session, Message message) throws IOException {
     // Handle new messages
+    	broadcast(username + ": " + message);
     }
     @OnClose
     public void onClose(Session session) throws IOException {

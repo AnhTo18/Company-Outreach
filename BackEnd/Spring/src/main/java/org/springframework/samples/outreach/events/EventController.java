@@ -19,12 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.samples.outreach.owner.Owners;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.samples.outreach.websockets.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,24 +49,26 @@ class EventController {
 
     /*to save an event*/
 //    @PostMapping( path = "/events/new")
-//    public String saveOwner(Events event) {
+//    public String saveEvent(Events event) {
 //        eventRepository.save(event);
 //        return "New Event "+ event.getFirstName() + " Saved";
 //    }
     
     
     /**
-	   * This method creates and add a User to the Owners Repository.
-	   * THIS IS A POST METHOD, Path = /owners/add
+	   * This method creates and add a User to the Events Repository.
+	   * THIS IS A POST METHOD, Path = /events/add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
     @RequestMapping(value= "/add", method= RequestMethod.POST)
 	public HashMap<String, String>  createEvent(@RequestBody Events newevent) {
     	 HashMap<String, String> map = new HashMap<>();
+//    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
+//    	 WebSocketServer test = new WebSocketServer();
 		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
 		 eventRepository.save(newevent);
 		 map.put("verify", "Added");
-
+		 //test.onMessage(session, message);
 		 return map;
 
 	}
@@ -74,10 +76,10 @@ class EventController {
     /**
 	   * This method finds all the events within the event Repository.
 	   * THIS IS A GET METHOD, Path = /events
-	   * @return List<Owners> This returns the list of events within the Repository.
+	   * @return List<Events> This returns the list of events within the Repository.
 	   */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Events> getAllOwners() {
+    public List<Events> getAllEvents() {
         logger.info("Entered into Controller Layer");
         List<Events> results = eventRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
@@ -87,7 +89,7 @@ class EventController {
 //    /**
 //	   * This method returns info for the event you are interested in
 //	   * THIS IS A GET METHOD, Path = /events
-//	   * @return List<Owners> This returns the list of events within the Repository.
+//	   * @return List<Events> This returns the list of events within the Repository.
 //	   */
 //  @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 //  public List<Events> getEvent() {
@@ -99,14 +101,14 @@ class EventController {
     
     /**
 	   * This method finds the given Id event object within the event Repository.
-	   * THIS IS A GET METHOD, Path = /owners/{event}
+	   * THIS IS A GET METHOD, Path = /{event}
 	   * @param String event
-	   * @return Owners This returns the single owner by id within the Repository.
+	   * @return Events This returns the single event by id within the Repository.
 	   */
-  @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}")
-  public Events findOwnerById(@PathVariable("username") String username) {
+  @RequestMapping(method = RequestMethod.GET, path = "/{username}")
+  public Events findEventById(@PathVariable("username") String username) {
       logger.info("Entered into Controller Layer");
-    //  Optional<Owners> results = ownersRepository.findById(id);j
+    //  Optional<Events> results = EventsRepository.findById(id);j
       List<Events> results = eventRepository.findAll();
       username = username.toString().trim();
       for(Events current : results) {
