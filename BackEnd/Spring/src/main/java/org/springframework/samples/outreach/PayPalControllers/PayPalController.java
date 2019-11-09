@@ -13,9 +13,13 @@ public class PayPalController {
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "pay/cancel";
 
-	@GetMapping("/")
+	@GetMapping("/Paypal")
 	public String home() {
 		return "home";
+	}
+	
+	public String payment() {
+		return "";
 	}
 	
 	
