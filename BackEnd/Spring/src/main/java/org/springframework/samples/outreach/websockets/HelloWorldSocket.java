@@ -29,7 +29,7 @@ public class HelloWorldSocket {
     @OnMessage
     public void onMessage(Session session, Message message) throws IOException {
     // Handle new messages
-    	broadcast(username + ": " + message);
+    //	broadcast(username + ": " + message);
     }
     @OnClose
     public void onClose(Session session) throws IOException {
