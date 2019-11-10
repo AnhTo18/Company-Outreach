@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.outreach.websockets.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -46,25 +48,32 @@ class EventController {
   
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
-
-    /*to save an event*/
-//    @PostMapping( path = "/events/new")
-//    public String saveEvent(Events event) {
-//        eventRepository.save(event);
-//        return "New Event "+ event.getFirstName() + " Saved";
-//    }
-    
     
     /**
-	   * This method creates and add a User to the Events Repository.
-	   * THIS IS A POST METHOD, Path = /events/add
+	   * This method creates and add an event to the Events Repository.
+	   * THIS IS A POST METHOD, Path = /add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
-    @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createEvent(@RequestBody Events newevent) {
+    
+//    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
+//	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
+    @RequestMapping(value= "/add/{company}", method= RequestMethod.POST)
+	public HashMap<String, String>  createEvent(@PathVariable("company") String company, @RequestBody Events newevent) {
     	 HashMap<String, String> map = new HashMap<>();
+    	 ArrayList<String> UsersSubbed = new ArrayList<String>();
+    	 HelloWorldSocket notification = new HelloWorldSocket();
 //    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
 //    	 WebSocketServer test = new WebSocketServer();
+    	 String eventInfo = "";
+//    	 for(int i=0; i<company.isSubbed.size(); i++){
+//    	 UsersSubbed.add(company.subscribers[i]);
+//    	}
+    	 try {
+			notification.onMessage(UsersSubbed, eventInfo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
 		 eventRepository.save(newevent);
 		 map.put("verify", "Added");
