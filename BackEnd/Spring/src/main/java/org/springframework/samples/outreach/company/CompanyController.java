@@ -45,7 +45,7 @@ import javax.validation.Valid;
 class CompanyController {
 
     @Autowired
-    CompanyRepository ownersRepository;
+    CompanyRepository companyRepository;
     
   
 
@@ -53,7 +53,7 @@ class CompanyController {
     
     
     /**
-	   * This method creates and add a Company to the Owners Repository.
+	   * This method creates and add a Company to the Company Repository.
 	   * THIS IS A POST METHOD, Path = /company/add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
@@ -61,7 +61,7 @@ class CompanyController {
 	public HashMap<String, String>  createEmployee(@RequestBody Companies newemp) {
     	 HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
-		 ownersRepository.save(newemp);
+		 companyRepository.save(newemp);
 		 map.put("verify", "Added");
 
 		 return map;
@@ -77,7 +77,7 @@ class CompanyController {
     @RequestMapping(method = RequestMethod.GET, path = "/owners")
     public List<Companies> getAllOwners() {
         logger.info("Entered into Controller Layer");
-        List<Companies> results = ownersRepository.findAll();
+        List<Companies> results = companyRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
@@ -91,8 +91,8 @@ class CompanyController {
     @RequestMapping(method = RequestMethod.GET, path = "/{companyName}")
     public Companies findOwnerById(@PathVariable("companyName") String companyName) {
         logger.info("Entered into Controller Layer");
-      //  Optional<Owners> results = ownersRepository.findById(id);j
-        List<Companies> results = ownersRepository.findAll();
+      //  Optional<Owners> results = companyRepository.findById(id);j
+        List<Companies> results = companyRepository.findAll();
         companyName = companyName.toString().trim();
         for(Companies current : results) {
         	
@@ -106,22 +106,19 @@ class CompanyController {
     
     /**
 	   * This method tries to Login with the given Username and Password. 
-	   * It does this by searching through all Owner Objects within the 
-	   * Owner Repository.
+	   * It does this by searching through all Company Objects within the 
+	   * Company Repository.
 	   * THIS IS A GET METHOD, Path = /owners/login/{username}/{password}
 	   * @param String Username
 	   * @param String Password
 	   * @return Map<String, String> This returns "verify", "true" || "verify", "false".
 	   */
-    @RequestMapping(value = "/owners/login/{username}/{password}", method = RequestMethod.GET)
+    @RequestMapping(value = "/login/{username}/{password}", method = RequestMethod.GET)
     public Map<String, String> loginOwner( @PathVariable("username") String username, @PathVariable("password") String password) {
-    	
-     //   logger.info("Entered into Controller Layer");
-//    	String username = "kordell";
-//    	String password = "pass";
+   
     	username = username.toString().trim();
     	password = password.toString().trim();
-        List<Companies> results = ownersRepository.findAll();
+        List<Companies> results = companyRepository.findAll();
         
         HashMap<String, String> map = new HashMap<>();
        
@@ -151,12 +148,12 @@ class CompanyController {
     @RequestMapping( method= RequestMethod.POST, path= "/owners/deleteall")
 	public void deleteAll() {
 		System.out.println(this.getClass().getSimpleName() + " - Delete all employees is invoked.");
-		ownersRepository.deleteAll();
+		companyRepository.deleteAll();
 	}
     
     /**
 	   * This method deletes the ID Owner object within the Owner Repository.
-	   * THIS IS A POST METHOD, Path = /owners/delete/{id}
+	   * THIS IS A POST METHOD, Path = /company/delete/{id}
 	   * @param int ID
 	   * @return void
 	   */
@@ -164,11 +161,11 @@ class CompanyController {
 	public void deleteEmployeeById(@PathVariable int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete employee by id is invoked.");
 
-		Optional<Companies> emp =  ownersRepository.findById(id);
+		Optional<Companies> emp =  companyRepository.findById(id);
 		if(!emp.isPresent())
 			throw new Exception("Could not find employee with id- " + id);
 
-		ownersRepository.deleteById(id);
+		companyRepository.deleteById(id);
 	}
 
 

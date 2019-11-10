@@ -24,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.samples.outreach.company.Companies;
+import org.springframework.samples.outreach.company.CompanyRepository;
+import org.springframework.samples.outreach.owner.OwnerRepository;
+import org.springframework.samples.outreach.owner.Owners;
 import org.springframework.samples.outreach.websockets.*;
 
 import java.io.IOException;
@@ -45,6 +49,8 @@ class EventController {
     @Autowired
     EventRepository eventRepository;
     
+    @Autowired
+    CompanyRepository companyRepository;
   
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
@@ -60,16 +66,22 @@ class EventController {
     @RequestMapping(value= "/add/{company}", method= RequestMethod.POST)
 	public HashMap<String, String>  createEvent(@PathVariable("company") String company, @RequestBody Events newevent) {
     	 HashMap<String, String> map = new HashMap<>();
-    	 ArrayList<String> UsersSubbed = new ArrayList<String>();
-    	 HelloWorldSocket notification = new HelloWorldSocket();
-//    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
-//    	 WebSocketServer test = new WebSocketServer();
+    	 ArrayList<String> usersSubbed = new ArrayList<String>();
+    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
     	 String eventInfo = "";
+    	
+    	  Companies current = new Companies();
+      //    for(Companies current : results) {
+        	  
+        	 usersSubbed.addAll(current.getSubscribers());
+        	
+        //  }
 //    	 for(int i=0; i<company.isSubbed.size(); i++){
-//    	 UsersSubbed.add(company.subscribers[i]);
+//    		 UsersSubbed.add(company.subscribers[i]);
+//    		 UsersSubbed.add(companyRepository.findAll());
 //    	}
     	 try {
-			notification.onMessage(UsersSubbed, eventInfo);
+    		 eventmanager.onMessage(usersSubbed, eventInfo);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,19 +106,7 @@ class EventController {
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
-    
-//    /**
-//	   * This method returns info for the event you are interested in
-//	   * THIS IS A GET METHOD, Path = /events
-//	   * @return List<Events> This returns the list of events within the Repository.
-//	   */
-//  @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//  public List<Events> getEvent() {
-//      logger.info("Entered into Controller Layer");
-//      List<Events> results = eventRepository.findAll();
-//      logger.info("Number of Records Fetched:" + results.size());
-//      return results;
-//  }
+
     
     /**
 	   * This method finds the given Id event object within the event Repository.
