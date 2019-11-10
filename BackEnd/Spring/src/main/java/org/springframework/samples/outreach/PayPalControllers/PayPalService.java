@@ -61,6 +61,7 @@ public class PayPalService {
 	public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
 		Payment payment = new Payment();
 		payment.setId(paymentId);
+		System.out.println(payment.getId());
 		PaymentExecution paymentExecute = new PaymentExecution();
 		paymentExecute.setPayerId(payerId);
 		return payment.execute(apiContext, paymentExecute);
