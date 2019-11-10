@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS profile (
   INDEX(last_name)
 ) engine=InnoDB;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 CREATE TABLE IF NOT EXISTS testing2 (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_name VARCHAR(30),
@@ -20,11 +19,10 @@ CREATE TABLE IF NOT EXISTS testing2 (
   user_email VARCHAR(255),
   INDEX(user_email)
 ) engine=InnoDB;
-=======
-=======
 
 
->>>>>>> kschrock
+
+
 CREATE TABLE IF NOT EXISTS qrcode (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   points INT(4),
@@ -33,4 +31,4 @@ CREATE TABLE IF NOT EXISTS qrcode (
 ) engine=InnoDB;
 INSERT IGNORE INTO qrcode VALUES (NULL, 'Intel', '1000')
 INSERT IGNORE INTO qrcode VALUES (NULL, 'Ibm', '2500')
->>>>>>> kschrock
+
