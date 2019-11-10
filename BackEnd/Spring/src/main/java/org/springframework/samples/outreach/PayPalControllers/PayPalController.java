@@ -25,19 +25,19 @@ public class PayPalController {
 		return "home";
 	}
 
-	@GetMapping("/pay")
+	@PostMapping("/pay")
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
 			
-//			System.out.println(order.getPrice());// 10.0
-//			System.out.println(order.getDescription()); //testing payment 2
-//			System.out.println(order.getMethod()); //paypal
-//			System.out.println(order.getIntent()); //sale
+			System.out.println(order.getPrice());// 10.0
+			System.out.println(order.getDescription()); //testing payment 2
+			System.out.println(order.getMethod()); //paypal
+			System.out.println(order.getIntent()); //sale
 			
-			order.setPrice(10);
+			order.setCurrency("USD");
 			
 			order.setDescription("Fee to use Project OutReach");
-			Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
+			Payment payment = service.createPayment(10.00, order.getCurrency(), order.getMethod(),
 					order.getIntent(), order.getDescription(), "http://localhost:8080/" + CANCEL_URL,
 					"http://localhost:8080/" + SUCCESS_URL);
 			for(Links link:payment.getLinks()) {
