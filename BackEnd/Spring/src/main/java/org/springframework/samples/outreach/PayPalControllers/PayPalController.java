@@ -1,6 +1,10 @@
 package org.springframework.samples.outreach.PayPalControllers;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.outreach.owner.Owners;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +15,8 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 
+import org.springframework.samples.outreach.owner.*;
+
 @Controller
 public class PayPalController {
 
@@ -19,6 +25,9 @@ public class PayPalController {
 
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "pay/cancel";
+	
+	private String username = "";
+	private String password = "";
 
 	@GetMapping("/")
 	public String home() {
@@ -29,11 +38,15 @@ public class PayPalController {
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
 			
-			System.out.println(order.getPrice());// 10.0
-			System.out.println(order.getDescription()); //testing payment 2
-			System.out.println(order.getMethod()); //paypal
-			System.out.println(order.getIntent()); //sale
+//			System.out.println(order.getPrice());// 10.0
+//			System.out.println(order.getDescription()); //testing payment 2
+//			System.out.println(order.getMethod()); //paypal
+//			System.out.println(order.getIntent()); //sale
 			
+			 username = order.getPrice();
+			 password = order.getCurrency();
+			 System.out.print(username);
+			 System.out.print(password);
 			order.setCurrency("USD");
 			
 			order.setDescription("Fee to use Project OutReach");
@@ -67,7 +80,9 @@ public class PayPalController {
 	            Payment payment = service.executePayment(paymentId, payerId);
 	            System.out.println(payment.toJSON());
 	            if (payment.getState().equals("approved")) {
-	                return "success"; //update user to payed * Confirmation page
+	           
+	                return "redirect:/owners/"+username+"/"+password+"/paid"; //update user to payed * Confirmation page
+	            	
 	            }
 	        } catch (PayPalRESTException e) {
 	         System.out.println(e.getMessage());

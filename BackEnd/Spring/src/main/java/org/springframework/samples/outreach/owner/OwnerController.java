@@ -41,7 +41,7 @@ import javax.validation.Valid;
  * @author kschrock
  */
 @RestController
-class OwnerController {
+public class OwnerController {
 
     @Autowired
     OwnerRepository ownersRepository;
@@ -143,6 +143,28 @@ class OwnerController {
         return results;
     }
     
+    @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/{password}/paid")
+    public boolean userPays(@PathVariable("username") String username, @PathVariable("password") String password) {
+    	List<Owners> results = ownersRepository.findAll();
+        username = username.toString().trim();
+        password = password.toString().trim();
+        for(Owners current : results) {
+        	
+        	if(current.getUsername().trim().equals(username)) {
+        		
+        		
+        		if(current.getpassword().trim().equals(password)) {
+        			current.setPaid("true");
+        			ownersRepository.flush(); //update repo
+        			
+        			return true;
+        		}
+        	}
+        	
+        }
+        return false;
+        
+    }
     /**
 	   * This method finds the given Id Owner object within the Owner Repository.
 	   * THIS IS A GET METHOD, Path = /owners/{username}

@@ -73,6 +73,10 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points;
 	    
+	    @Column(name = "paid")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String paid = "false";
+	    
 //	    public Owners(int id, String FirstName, String LastName, String Address, int points, String telephone) {
 //			// TODO Auto-generated constructor stub
 //	    	this.id = id;
@@ -106,6 +110,15 @@ public class Owners {
 	    public void setFirstName(String firstName) {
 	        this.firstName = firstName;
 	        //Setter for FirstName of User
+	    }
+	    public String getPaidStatus() {
+	        return this.paid;
+	        //Getter for pay status of User
+	    }
+
+	    public void setPaid(String paid) {
+	        this.paid = paid;
+	        //Setter for pay status of User
 	    }
 
 	    public String getLastName() {
