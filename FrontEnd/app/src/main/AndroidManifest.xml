@@ -34,6 +34,10 @@
             android:label="Developer Home" />
         <activity android:name=".QrScanner"  />
         <activity android:name=".UserProfileActivity" />
+        <activity android:name=".Notification"
+            android:label="Notifications">
+
+        </activity>
     </application>
 
 </manifest>
