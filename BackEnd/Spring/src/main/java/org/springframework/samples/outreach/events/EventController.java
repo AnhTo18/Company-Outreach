@@ -64,30 +64,38 @@ class EventController {
 //    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
 //	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
     @RequestMapping(value= "/add/{company}", method= RequestMethod.POST)
-	public HashMap<String, String>  createEvent(@PathVariable("company") String company, @RequestBody Events newevent) {
-    	 HashMap<String, String> map = new HashMap<>();
-    	 ArrayList<String> usersSubbed = new ArrayList<String>();
-    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
-    	 String eventInfo = "";
-    	
-    	  Companies current = new Companies();
+	public HashMap<String, String>  createEvent(@PathVariable("company") String company) {
+    	Events newevent = new Events();
+    	//System.out.printf("go into comments for some reason");
+    	HashMap<String, String> map = new HashMap<>();
+//    	 ArrayList<String> usersSubbed = new ArrayList<String>();
+//    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
+//    	 String eventInfo = "";
+//    	
+//    	  Companies current = new Companies();
       //    for(Companies current : results) {
-        	  
-        	 usersSubbed.addAll(current.getSubscribers());
+        	  System.out.print("hello");
+        	  System.out.print("wtf");
+        	  /*
+        	   * 
+        	   */
         	
         //  }
 //    	 for(int i=0; i<company.isSubbed.size(); i++){
 //    		 UsersSubbed.add(company.subscribers[i]);
 //    		 UsersSubbed.add(companyRepository.findAll());
 //    	}
-    	 try {
-    		 eventmanager.onMessage(usersSubbed, eventInfo);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//    	 try {
+        	 // usersSubbed.addAll(current.getSubscribers());
+//    		 System.out.print("hello");
+//    		// eventmanager.onMessage(usersSubbed, eventInfo);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+  
 		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
-		 eventRepository.save(newevent);
+		eventRepository.save(newevent);
 		 map.put("verify", "Added");
 		 //test.onMessage(session, message);
 		 return map;

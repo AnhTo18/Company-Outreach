@@ -36,7 +36,7 @@ import org.springframework.core.style.ToStringCreator;
  * @author kschrock
  */
 @Entity
-@Table(name = "profile")
+@Table(name = "owners")
 public class Owners {
 
 	 @Id
