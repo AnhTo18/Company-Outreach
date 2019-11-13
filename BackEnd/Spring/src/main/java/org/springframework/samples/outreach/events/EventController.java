@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -64,41 +65,36 @@ class EventController {
 //    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
 //	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
     @RequestMapping(value= "/add/{company}", method= RequestMethod.POST)
-	public HashMap<String, String>  createEvent(@PathVariable("company") String company) {
+	public String  createEvent(@PathVariable("company") String company, @RequestBody Map<String, Object> payload) {
     	Events newevent = new Events();
     	//System.out.printf("go into comments for some reason");
     	HashMap<String, String> map = new HashMap<>();
-//    	 ArrayList<String> usersSubbed = new ArrayList<String>();
-//    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
-//    	 String eventInfo = "";
-//    	
-//    	  Companies current = new Companies();
+    	 ArrayList<String> usersSubbed = new ArrayList<String>();
+    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
+    	 String eventInfo = "";
+    	 
+    	 eventInfo = payload.toString();
+    	  Companies current = new Companies();
       //    for(Companies current : results) {
-        	  System.out.print("hello");
-        	  System.out.print("wtf");
         	  /*
         	   * 
         	   */
-        	
-        //  }
-//    	 for(int i=0; i<company.isSubbed.size(); i++){
-//    		 UsersSubbed.add(company.subscribers[i]);
-//    		 UsersSubbed.add(companyRepository.findAll());
-//    	}
-//    	 try {
-        	 // usersSubbed.addAll(current.getSubscribers());
-//    		 System.out.print("hello");
-//    		// eventmanager.onMessage(usersSubbed, eventInfo);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+        	current.addSubscriber("tom");
+        	current.addSubscriber("dick");
+        	current.addSubscriber("jane");
+        usersSubbed.addAll(current.getSubscribers());
+		// eventmanager.onMessage(usersSubbed, eventInfo);
   
 		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
 		eventRepository.save(newevent);
 		 map.put("verify", "Added");
-		 //test.onMessage(session, message);
-		 return map;
+		 try {
+			eventmanager.onMessage(usersSubbed, eventInfo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return "new event added, notification has been pushed";
 
 	}
 

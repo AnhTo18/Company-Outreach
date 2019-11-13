@@ -16,14 +16,17 @@
 package org.springframework.samples.outreach.company;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -69,7 +72,9 @@ public class Companies {
 	    
 	    @Column(name = "subscribers")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private ArrayList<String> subscribers;
+//	    @ElementCollection
+//	    private List<String> subscribers;
+	    private String subscribers;
 	    
 	    @Column(name = "isPaid")
 	    @NotFound(action = NotFoundAction.IGNORE)
@@ -124,7 +129,7 @@ public class Companies {
 	        //Getter for password
 	    }
 
-	    public void setPassord(String password) {
+	    public void setPassword(String password) {
 	        this.password = password;
 	        //Setter for password
 	    }
@@ -139,13 +144,15 @@ public class Companies {
 	        //Sets the companies paid status to true or false
 	    }
 	    
-	    public ArrayList<String> getSubscribers() {
+	    public String getSubscribers() {
 	        return this.subscribers;
 	        //gets status of company payment
 	    }
 
 	    public void addSubscriber(String name) {
-	        this.subscribers.add(name);
+//	        subscribers.add(name);
+	    	//not arraylist fault, somehow something isn't initializing? 
+	    	subscribers += name;
 	        //Sets the companies paid status to true or false
 	    }
 	

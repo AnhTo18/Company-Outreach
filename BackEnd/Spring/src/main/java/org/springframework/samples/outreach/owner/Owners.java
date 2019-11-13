@@ -15,6 +15,9 @@
  */
 package org.springframework.samples.outreach.owner;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,6 +25,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -72,6 +77,14 @@ public class Owners {
 	    @Column(name = "points")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points;
+
+//	    //not sure if this is right but we shall see
+//	    @ManyToMany
+//	    @JoinTable(name = "subscriptions",
+//	    joinColumns = @JoinColumn(name="subscribedTo"),
+//	    inverseJoinColumns=@JoinColumn(name="subscriber"))
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    private Set<String> subscriptions = new HashSet<>();
 	    
 //	    public Owners(int id, String FirstName, String LastName, String Address, int points, String telephone) {
 //			// TODO Auto-generated constructor stub
@@ -166,6 +179,17 @@ public class Owners {
 	        this.points = points;
 	        //Setter for password
 	    }
+
+//	    //need to fix subscriptions later
+//	    public String getSubscriptions() {
+//	        return this.points;
+//	        //Getter for password
+//	    }
+//
+//	    public void subscribe(String company) {
+//	        this.subscriptions = company;
+//	        //Setter for password
+//	    }
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
@@ -176,6 +200,7 @@ public class Owners {
 	                .append("firstName", this.getFirstName())
 	                .append("address", this.address)
 	                .append("points" , this.getPoints())
+//	                .append("subscriptions", this.getSubscriptions())
 	                .append("telephone", this.telephone).toString();
 	    }
 	
