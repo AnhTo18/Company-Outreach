@@ -6,7 +6,7 @@ public class Const {
     public static final String URL_LOGIN = "http://coms-309-ss-8.misc.iastate.edu:8080/owners/login";
     public static final String URL_QR = "http://coms-309-ss-8.misc.iastate.edu:8080/product/company/";
     public static final String URL_ADD_POINTS = "http://coms-309-ss-8.misc.iastate.edu:8080/owners/addpoints";
-
+    public static final String PaypalClientCode="";
     public static String username = "";
 
 }

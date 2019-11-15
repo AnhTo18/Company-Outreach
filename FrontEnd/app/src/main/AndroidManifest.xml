@@ -7,14 +7,15 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="edu.iastate.coms309.project309.util.AppController"
-        android:networkSecurityConfig="@xml/network_security_config"
+        android:name=".util.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PaymentDetails"></activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
@@ -27,17 +28,15 @@
         <activity android:name=".UserHomeActivity" />
         <activity
             android:name=".RegisterActivity"
-            android:label="Register Account">
-		</activity>
-		<activity
+            android:label="Register Account"></activity>
+        <activity
             android:name=".DevHomeActivity"
             android:label="Developer Home" />
-        <activity android:name=".QrScanner"  />
+        <activity android:name=".QrScanner" />
         <activity android:name=".UserProfileActivity" />
-        <activity android:name=".Notification"
-            android:label="Notifications">
-
-        </activity>
+        <activity
+            android:name=".Notification"
+            android:label="Notifications"></activity>
     </application>
 
 </manifest>

@@ -17,13 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions{
+    lintOptions {
         disable 'GoogleAppIndexingWarning'
     }
 
     //Robolectric
     testOptions {
-        unitTests{
+        unitTests {
             includeAndroidResources = true
         }
     }
@@ -58,6 +58,8 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.3'
     //Websocket
     implementation files('libraries/java_websocket.jar')
+    //paypal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.15.3'
 }
 
 //zxing-android-embedded
