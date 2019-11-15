@@ -1,10 +1,18 @@
 package edu.iastate.coms309.pointshopexperiment;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.bluetooth.le.AdvertiseData;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     GridView grid;
     RequestQueue rq;
     ArrayList<String[]> data;
+    Context context;
+    CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         grid = findViewById(R.id.gridView);
         data = new ArrayList<>();
+
+        context = getApplicationContext();
 
         String url = "";
 
@@ -65,11 +77,53 @@ public class MainActivity extends AppCompatActivity {
         rq.add(jor);
         */
 
-        for (int i = 0 ; i < 10 ; i++) {
-            String[] s = {"item " + i, "$10"};
+        //hard-coding entities for testing
+        for (int i = 0 ; i < 20 ; i++) {
+            int n = 10 + i;
+            String[] s = {"item " + i, n + " points"};
             data.add(s);
         }
-        CustomAdapter adapter = new CustomAdapter(getApplicationContext(), data);
+
+
+        adapter = new CustomAdapter(getApplicationContext(), data);
         grid.setAdapter(adapter);
+
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = adapter.getObject(position);
+                String price = adapter.getObject(position);
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Confirm Purchase")
+                        .setMessage("Purchase " + item + " for " + price + " points?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                //Execute transaction
+                                Toast.makeText(MainActivity.this, "confirmed", Toast.LENGTH_SHORT).show();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+
+
+            }
+        });
     }
+
+    public void itemClicked(int position) {
+        String item = adapter.getObject(position);
+        String price = adapter.getObject(position);
+
+        //Toast.makeText(getApplicationContext(), "" + item, Toast.LENGTH_SHORT).show();
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Confirm Purchase")
+                .setMessage("Purchase " + item)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //Execute transaction
+                        Toast.makeText(MainActivity.this, "confirmed", Toast.LENGTH_SHORT).show();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
 }

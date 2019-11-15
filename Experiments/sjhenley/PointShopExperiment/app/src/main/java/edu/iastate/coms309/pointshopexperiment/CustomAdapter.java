@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter {
 
-    Context context;
-    LayoutInflater infltr;
-    ArrayList<String[]> data;
+    private Context context;
+    private LayoutInflater infltr;
+    private ArrayList<String[]> data;
 
     public CustomAdapter(Context applicationContext, ArrayList<String[]> data)
     {
@@ -39,6 +39,15 @@ public class CustomAdapter extends BaseAdapter {
         TextView price = view.findViewById(R.id.textItemPrice);
         item.setText(data.get(i)[0]);
         price.setText(data.get(i)[1]);
+
         return view;
+    }
+
+    public String getObject(int i) {
+        return data.get(i)[0];
+    }
+
+    public String getPrice(int i) {
+        return data.get(i)[0];
     }
 }
