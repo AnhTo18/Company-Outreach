@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.samples.outreach.company.Companies;
+import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.OwnerRepository;
-import org.springframework.samples.outreach.owner.Owners;
+import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.websockets.*;
 
 import java.io.IOException;
@@ -65,7 +65,8 @@ class EventController {
 //    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
 //	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
     @RequestMapping(value= "/add/{company}", method= RequestMethod.POST)
-	public String  createEvent(@PathVariable("company") String company, @RequestBody Map<String, Object> payload) {
+	public String  createEvent(@PathVariable("company") String company, 
+			@RequestBody Map<String, Object> payload) {
     	Events newevent = new Events();
     	//System.out.printf("go into comments for some reason");
     	HashMap<String, String> map = new HashMap<>();
@@ -74,15 +75,16 @@ class EventController {
     	 String eventInfo = "";
     	 
     	 eventInfo = payload.toString();
-    	  Companies current = new Companies();
+    	  Company current = new Company();
       //    for(Companies current : results) {
         	  /*
         	   * 
         	   */
-        	current.addSubscriber("tom");
-        	current.addSubscriber("dick");
-        	current.addSubscriber("jane");
-        usersSubbed.addAll(current.getSubscribers());
+//    	  current.(payload.toString());
+//        	current.addSubscriber("tom");
+//        	current.addSubscriber("dick");
+//        	current.addSubscriber("jane");
+     //   usersSubbed.addAll(current.getSubscribers());
 		// eventmanager.onMessage(usersSubbed, eventInfo);
   
 		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");

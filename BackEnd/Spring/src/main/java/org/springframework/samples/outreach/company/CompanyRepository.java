@@ -28,9 +28,8 @@ import org.springframework.stereotype.Repository;
  * @author kschrock
  */
 @Repository
-public interface CompanyRepository extends JpaRepository<Companies, Integer> {
-
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 	
-
-
+public Company findCompanyByUsername(String username);
 }
+

@@ -28,7 +28,7 @@ import org.springframework.stereotype.Repository;
  * @author kschrock
  */
 @Repository
-public interface OwnerRepository extends JpaRepository<Owners, Integer> {
+public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 
 	
 

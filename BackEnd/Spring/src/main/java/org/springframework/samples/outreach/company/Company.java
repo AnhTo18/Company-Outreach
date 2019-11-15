@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.outreach.owner;
+package org.springframework.samples.outreach.company;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -33,6 +33,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.owner.Owner;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -41,8 +44,8 @@ import org.springframework.core.style.ToStringCreator;
  * @author kschrock
  */
 @Entity
-@Table(name = "owners")
-public class Owners {
+@Table(name = "company")
+public class Company {
 
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,52 +53,33 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
-	    @Column(name = "first_name")
+	    @Column(name = "company_name")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String firstName;
-
-	    @Column(name = "last_name")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String lastName;
+	    private String companyName;
 
 	    @Column(name = "address")
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String address;
+	    
+	    @Column(name = "user_name")
+	    @NotFound(action = NotFoundAction.IGNORE) 
+	    String username;
 
 	    @Column(name = "telephone")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String telephone;
 
-	    @Column(name = "user_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String username;
-
 	    @Column(name = "pass_word")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
 	    
-	    @Column(name = "points")
+	    @ManyToMany(mappedBy = "companies")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String points;
-
-//	    //not sure if this is right but we shall see
-//	    @ManyToMany
-//	    @JoinTable(name = "subscriptions",
-//	    joinColumns = @JoinColumn(name="subscribedTo"),
-//	    inverseJoinColumns=@JoinColumn(name="subscriber"))
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    private Set<String> subscriptions = new HashSet<>();
+	   	private List<Owner> owners;
 	    
-//	    public Owners(int id, String FirstName, String LastName, String Address, int points, String telephone) {
-//			// TODO Auto-generated constructor stub
-//	    	this.id = id;
-//	    	this.firstName = FirstName;
-//	    	this.lastName = LastName;
-//	    	this.address = Address;
-//	    	this.points = points + "";
-//	    	this.telephone = telephone;
-//		}
-
+	    @Column(name = "isPaid")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private boolean isPaid;
 
 		public Integer getId() {
 	        return id;
@@ -111,24 +95,14 @@ public class Owners {
 	        return this.id == null;
 	    }
 
-	    public String getFirstName() {
-	        return this.firstName;
+	    public String getCompanyName() {
+	        return this.companyName;
 	        //Getter for FirstName of User
 	    }
 
-	    public void setFirstName(String firstName) {
-	        this.firstName = firstName;
+	    public void setCompanyName(String companyName) {
+	        this.companyName = companyName;
 	        //Setter for FirstName of User
-	    }
-
-	    public String getLastName() {
-	        return this.lastName;
-	        //Getter for LastName of User
-	    }
-
-	    public void setLastName(String lastName) {
-	        this.lastName = lastName;
-	      //Setter for LastName of User
 	    }
 
 	    public String getAddress() {
@@ -150,6 +124,36 @@ public class Owners {
 	        this.telephone = telephone;
 	        //Setter for Telephone Number
 	    }
+	    
+	    public String getpassword() {
+	        return this.password;
+	        //Getter for password
+	    }
+
+	    public void setPassword(String password) {
+	        this.password = password;
+	        //Setter for password
+	    }
+	    
+	    public boolean getPaidStatus() {
+	        return this.isPaid;
+	        //gets status of company payment
+	    }
+
+	    public void setPaidStatus(boolean isPaid) {
+	        this.isPaid = isPaid;
+	        //Sets the companies paid status to true or false
+	    }
+	    
+	    public List<Owner> getOwners() {
+	        return this.owners;
+	        //gets status of company payment
+	    }
+
+	    public void setOwners(List<Owner> owners) {
+	    	this.owners  = owners;
+	    }
+	
 	    public String getUsername() {
 	        return this.username;
 	        //Getter for username
@@ -160,47 +164,17 @@ public class Owners {
 	        //Setter for username
 	    }
 	    
-	    public String getpassword() {
-	        return this.password;
-	        //Getter for password
-	    }
-
-	    public void setPassord(String password) {
-	        this.password = password;
-	        //Setter for password
-	    }
-	    
-	    public String getPoints() {
-	        return this.points;
-	        //Getter for password
-	    }
-
-	    public void setPoints(String points) {
-	        this.points = points;
-	        //Setter for password
-	    }
-
-//	    //need to fix subscriptions later
-//	    public String getSubscriptions() {
-//	        return this.points;
-//	        //Getter for password
-//	    }
-//
-//	    public void subscribe(String company) {
-//	        this.subscriptions = company;
-//	        //Setter for password
-//	    }
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
 
 	                .append("id", this.getId())
 	                .append("new", this.isNew())
-	                .append("lastName", this.getLastName())
-	                .append("firstName", this.getFirstName())
+	                .append("companyName", this.getCompanyName())
+	                .append("userName", this.getUsername())
 	                .append("address", this.address)
-	                .append("points" , this.getPoints())
-//	                .append("subscriptions", this.getSubscriptions())
+	                .append("isPaid", this.getPaidStatus())
+	                .append("owners",this.getOwners())
 	                .append("telephone", this.telephone).toString();
 	    }
 	

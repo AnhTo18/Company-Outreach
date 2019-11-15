@@ -58,12 +58,13 @@ class CompanyController {
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
     @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createEmployee(@RequestBody Companies newemp) {
+	public HashMap<String, String>  createCompany(@RequestBody Company newcomp) {
     	 HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
-		 companyRepository.save(newemp);
+		if(companyRepository.findCompanyByUsername(newcomp.getUsername() ) == null) {
+		 companyRepository.save(newcomp);
 		 map.put("verify", "Added");
-
+    }
 		 return map;
 
 	}
@@ -74,10 +75,10 @@ class CompanyController {
 	   * FOR TESTING PURPOSES ONLY(?)
 	   * @return List<Owners> This returns the list of owners within the Repository.
 	   */
-    @RequestMapping(method = RequestMethod.GET, path = "/owners")
-    public List<Companies> getAllOwners() {
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+    public List<Company> getAllCompanies() {
         logger.info("Entered into Controller Layer");
-        List<Companies> results = companyRepository.findAll();
+        List<Company> results = companyRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
@@ -89,12 +90,12 @@ class CompanyController {
 	   * @return Owners This returns the single owner by id within the Repository.
 	   */
     @RequestMapping(method = RequestMethod.GET, path = "/{companyName}")
-    public Companies findOwnerById(@PathVariable("companyName") String companyName) {
+    public Company findOwnerById(@PathVariable("companyName") String companyName) {
         logger.info("Entered into Controller Layer");
       //  Optional<Owners> results = companyRepository.findById(id);j
-        List<Companies> results = companyRepository.findAll();
+        List<Company> results = companyRepository.findAll();
         companyName = companyName.toString().trim();
-        for(Companies current : results) {
+        for(Company current : results) {
         	
         	if(current.getCompanyName().trim().equals(companyName)) {
         		return current;
@@ -118,12 +119,12 @@ class CompanyController {
    
     	username = username.toString().trim();
     	password = password.toString().trim();
-        List<Companies> results = companyRepository.findAll();
+        List<Company> results = companyRepository.findAll();
         
         HashMap<String, String> map = new HashMap<>();
        
         
-        for(Companies current : results) {
+        for(Company current : results) {
         	String currentUsername = current.getUsername().toString().trim();
         	String currentPassword = current.getpassword().toString().trim();
         	if(username.equals(currentUsername))
@@ -161,7 +162,7 @@ class CompanyController {
 	public void deleteEmployeeById(@PathVariable int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete employee by id is invoked.");
 
-		Optional<Companies> emp =  companyRepository.findById(id);
+		Optional<Company> emp =  companyRepository.findById(id);
 		if(!emp.isPresent())
 			throw new Exception("Could not find employee with id- " + id);
 
