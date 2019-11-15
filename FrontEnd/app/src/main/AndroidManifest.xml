@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".EventListActivity"></activity>
-        <activity android:name=".ListView" />
+        <activity android:name=".util.ListView" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
