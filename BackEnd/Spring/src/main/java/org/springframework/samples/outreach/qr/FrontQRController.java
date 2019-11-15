@@ -10,13 +10,17 @@ import javax.persistence.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.outreach.owner.Owners;
+import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+/**
+ * controller for the qrcodes, backend version.
+ * @author creimers
+ * @author kschrock
+ */
 @RestController
 public class FrontQRController {
 
@@ -29,7 +33,11 @@ public class FrontQRController {
 	  private final Logger logger = LoggerFactory.getLogger(QRController.class);
 	
 	 
-	  /*get all users*/
+	  /**
+	   * This method gets all the Codes in the Product Repository.
+	   * THIS IS A GET METHOD, Path = /Work 
+	   * @return Iterable<Product> This returns the list of QR code Objects.
+	   */
 	    @RequestMapping(method = RequestMethod.GET, path = "/Work")
 	    public Iterable<Product> getAllCodes() {
 	        logger.info("Entered into Controller Layer");
@@ -39,7 +47,15 @@ public class FrontQRController {
 	        return results;
 	    }
 
-		 //set quantity
+	    /**
+		   * This method sets the given quantity to the Correct QR Code and Update it
+		   * within the Product Repository.
+		   * THIS IS A POST METHOD, Path = /{company}/{ id}/{ quant}
+		   * @param Company
+		   * @param ID
+		   * @param Quanity
+		   * @return Map<String, String> This returns "Quantity", "Added" or "Quantity", "Did Not Add".
+		   */
 		 @RequestMapping(value = "/{company}/{ id}/{ quant}", method = RequestMethod.POST)
 		    public Map<String, String> setQuantity( @PathVariable("company") String company, @PathVariable(" id") String id, @PathVariable(" quant") String quant) {
 		    //This method will set the given Quantity to the correct QR Code and update it.
@@ -103,6 +119,15 @@ public class FrontQRController {
 	        //RETURN JSON DATA
 	        return map;
 	    }
+		 
+		 /**
+		   * This can be used once the user scans the code and gets the id and company. This will return json data of points to add to user
+		   * once the user gets back the info they can confirm then sends another post to the owner repo to update their points.
+		   * THIS IS A GET METHOD, Path = /{company}/{id}
+		   * @param Company
+		   * @param ID
+		   * @return HashMap<String, String>  This returns "points", "No More Scans Left" || "points", "Not Found" || ex. "points", "123".
+		   */
 		 @RequestMapping(value= "/{company}/{id}", method= RequestMethod.GET)
 			public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
 			//This can be used once the user scans the code and gets the id and company. This will return json data of points to add to user

@@ -13,7 +13,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-
+/**
+ * Simple JavaBean domain object representing an Product.
+ * This contains the fields to create an QR code.
+ * @author creimers
+ * @author kschrock
+ */
 @Entity
 @Table(name = "product")
 public class Product {

@@ -18,10 +18,12 @@ package org.springframework.samples.outreach;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
- * 
- *
+* This is the SpringBootApplication which will run the program.
+* @author creimers
+ *@author kschrock
  */
 
 @SpringBootApplication
