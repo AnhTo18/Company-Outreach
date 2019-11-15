@@ -108,22 +108,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void itemClicked(int position) {
-        String item = adapter.getObject(position);
-        String price = adapter.getObject(position);
-
-        //Toast.makeText(getApplicationContext(), "" + item, Toast.LENGTH_SHORT).show();
-
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Confirm Purchase")
-                .setMessage("Purchase " + item)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        //Execute transaction
-                        Toast.makeText(MainActivity.this, "confirmed", Toast.LENGTH_SHORT).show();
-                    }})
-                .setNegativeButton(android.R.string.no, null).show();
-    }
-
 }
