@@ -89,6 +89,7 @@ public class Owner {
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("owners") // prevent circular dependency with JSON deserializing
 	    private List<Company> companies;
 
 		public Integer getId() {
