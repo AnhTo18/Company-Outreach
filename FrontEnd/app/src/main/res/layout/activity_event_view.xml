@@ -40,5 +40,10 @@
         android:layout_height="100dp"
         android:text="Points Shop"
         />
+    <Button
+        android:id="@+id/buttonSubscribe"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        />
 
 </LinearLayout>

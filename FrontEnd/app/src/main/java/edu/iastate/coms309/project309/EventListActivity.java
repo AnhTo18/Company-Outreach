@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -72,7 +73,7 @@ public class EventListActivity extends AppCompatActivity {
         });
 
 
-        String url = "https://api.myjson.com/bins/1h7m20";
+        String url = "";
 
 
         rq = Volley.newRequestQueue(this);
@@ -97,6 +98,7 @@ public class EventListActivity extends AppCompatActivity {
 
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -104,12 +106,13 @@ public class EventListActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT).show();
             }
         });
         rq.add(jar);
 
 
-        String w = "ws://demos.kaazing.com/echo";
+        String w = "";
         Draft[] drafts = {new Draft_6455()};
 
         try {
@@ -127,6 +130,7 @@ public class EventListActivity extends AppCompatActivity {
                     int n = s.indexOf('$');
                     if (n < 0) {
                         Log.e("WebSocket Client", "Bad format from server");
+                        Toast.makeText(getApplicationContext(), "Websocket Error", Toast.LENGTH_SHORT).show();
                     }
 
                     //adapter.add(s.substring(0, n), s.substring(n + 1));
@@ -149,18 +153,6 @@ public class EventListActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         wc.connect();
-
-        findViewById(R.id.buttonAddEvent).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    wc.send("Fun and Games$Apple");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
 
     }
 

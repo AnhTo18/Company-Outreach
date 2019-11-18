@@ -13,7 +13,7 @@ import edu.iastate.coms309.project309.util.Const;
 
 public class EventViewActivity extends AppCompatActivity {
 
-    Button qr, shop;
+    Button qr, shop, sub;
     TextView e, c;
 
     @Override
@@ -43,5 +43,8 @@ public class EventViewActivity extends AppCompatActivity {
                 startActivity(new Intent(EventViewActivity.this, PointShopActivity.class));
             }
         });
+
+        sub = findViewById(R.id.buttonSubscribe);
+        sub.setText("Subscribe to " + Const.company);
     }
 }
