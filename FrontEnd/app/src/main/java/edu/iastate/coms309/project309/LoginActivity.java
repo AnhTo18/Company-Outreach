@@ -66,43 +66,44 @@ public class LoginActivity extends AppCompatActivity {
                     Toast t = Toast.makeText(getApplicationContext(), "Bypassing Login!", Toast.LENGTH_SHORT);
                     t.show();
                     startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
-                }
+                } else {
 
-                String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
+                    String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
 
-                jor2 = new JsonObjectRequest(Request.Method.GET, url, null , new Response.Listener<JSONObject>() {
-                    String verify = "false";
+                    jor2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        String verify = "false";
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(AppController.TAG, "Response:" + response.toString());
-                        try {
-                            verify = response.getString("verify");
-                        } catch (JSONException e) {
-                            Toast t = Toast.makeText(getApplicationContext(), "JSON Exception", Toast.LENGTH_SHORT);
-                            t.show();
-                            e.printStackTrace();
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d(AppController.TAG, "Response:" + response.toString());
+                            try {
+                                verify = response.getString("verify");
+                            } catch (JSONException e) {
+                                Toast t = Toast.makeText(getApplicationContext(), "JSON Exception", Toast.LENGTH_SHORT);
+                                t.show();
+                                e.printStackTrace();
+                            }
+
+                            if (verify.equals("true")) {
+                                Const.username = user.getText().toString();
+                                startActivity(new Intent(LoginActivity.this, EventListActivity.class));
+                            } else {
+                                Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
+                                t.show();
+                            }
                         }
-
-                        if (verify.equals("true")) {
-                            Const.username = user.getText().toString();
-                            startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
-                        } else {
-                            Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
+                            Log.e(AppController.TAG, "Error: " + error.getMessage());
+                            Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
                             t.show();
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
-                        Log.e(AppController.TAG, "Error: " + error.getMessage());
-                        Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
-                        t.show();
-                    }
-                });
+                    });
 
                     rq.add(jor2);
+                }
 
             }
         });

@@ -9,10 +9,12 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import android.content.Intent;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.java_websocket.client.WebSocketClient;
@@ -34,6 +36,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 
+import edu.iastate.coms309.project309.util.Const;
 import edu.iastate.coms309.project309.util.EventAdapter;
 
 public class EventListActivity extends AppCompatActivity {
@@ -58,6 +61,16 @@ public class EventListActivity extends AppCompatActivity {
 
         final EventAdapter adapter = new EventAdapter(getApplicationContext(), events, companies);
         list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Const.event = adapter.getEvent(position);
+                Const.company = adapter.getCompany(position);
+                startActivity(new Intent(EventListActivity.this, EventViewActivity.class));
+            }
+        });
+
 
         String url = "https://api.myjson.com/bins/1h7m20";
 

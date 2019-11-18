@@ -8,6 +8,8 @@ public class Const {
     public static final String URL_ADD_POINTS = "http://coms-309-ss-8.misc.iastate.edu:8080/owners/addpoints";
 
     public static String username = "";
+    public static String event = "";
+    public static String company = "";
 
 }
 

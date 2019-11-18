@@ -57,4 +57,12 @@ public class EventAdapter extends BaseAdapter
         notifyDataSetChanged();
     }
 
+    public String getEvent(int i) {
+        return events.get(i);
+    }
+
+    public String getCompany(int i) {
+        return companies.get(i);
+    }
+
 }
