@@ -24,10 +24,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.company.CompanyRepository;
+import org.springframework.samples.outreach.owner.OwnerRepository;
+import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.websockets.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -43,33 +50,53 @@ class EventController {
     @Autowired
     EventRepository eventRepository;
     
+    @Autowired
+    CompanyRepository companyRepository;
   
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
-
-    /*to save an event*/
-//    @PostMapping( path = "/events/new")
-//    public String saveEvent(Events event) {
-//        eventRepository.save(event);
-//        return "New Event "+ event.getFirstName() + " Saved";
-//    }
-    
     
     /**
-	   * This method creates and add a User to the Events Repository.
-	   * THIS IS A POST METHOD, Path = /events/add
+	   * This method creates and add an event to the Events Repository.
+	   * THIS IS A POST METHOD, Path = /add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
-    @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createEvent(@RequestBody Events newevent) {
-    	 HashMap<String, String> map = new HashMap<>();
-//    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
-//    	 WebSocketServer test = new WebSocketServer();
+    
+//    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
+//	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
+    @RequestMapping(value= "/add/{company}", method= RequestMethod.POST)
+	public String  createEvent(@PathVariable("company") String company, 
+			@RequestBody Map<String, Object> payload) {
+    	Events newevent = new Events();
+    	//System.out.printf("go into comments for some reason");
+    	HashMap<String, String> map = new HashMap<>();
+    	 ArrayList<String> usersSubbed = new ArrayList<String>();
+    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
+    	 String eventInfo = "";
+    	 
+    	 eventInfo = payload.toString();
+    	  Company current = new Company();
+      //    for(Companies current : results) {
+        	  /*
+        	   * 
+        	   */
+//    	  current.(payload.toString());
+//        	current.addSubscriber("tom");
+//        	current.addSubscriber("dick");
+//        	current.addSubscriber("jane");
+     //   usersSubbed.addAll(current.getSubscribers());
+		// eventmanager.onMessage(usersSubbed, eventInfo);
+  
 		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
-		 eventRepository.save(newevent);
+		eventRepository.save(newevent);
 		 map.put("verify", "Added");
-		 //test.onMessage(session, message);
-		 return map;
+		 try {
+			eventmanager.onMessage(usersSubbed, eventInfo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return "new event added, notification has been pushed";
 
 	}
 
@@ -85,19 +112,7 @@ class EventController {
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
-    
-//    /**
-//	   * This method returns info for the event you are interested in
-//	   * THIS IS A GET METHOD, Path = /events
-//	   * @return List<Events> This returns the list of events within the Repository.
-//	   */
-//  @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//  public List<Events> getEvent() {
-//      logger.info("Entered into Controller Layer");
-//      List<Events> results = eventRepository.findAll();
-//      logger.info("Number of Records Fetched:" + results.size());
-//      return results;
-//  }
+
     
     /**
 	   * This method finds the given Id event object within the event Repository.

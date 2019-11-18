@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.outreach.owner;
+package org.springframework.samples.outreach.company;
 
 import java.util.List;
 
@@ -23,14 +23,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository class for <code>Owners</code> domain objects 
+ * Repository class for <code>Companies</code> domain objects 
  * @author creimers
  * @author kschrock
  */
 @Repository
-public interface OwnerRepository extends JpaRepository<Owner, Integer> {
-
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 	
-
-
+public Company findCompanyByUsername(String username);
 }
+

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.samples.outreach.qr.ZXingHelper;
-import org.springframework.samples.outreach.owner.Owners;
+import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.qr.ProductService;
 /**
  * This is the QR Contoller that Generates the QR codes with the Correct info Company, Content, Points, Quantity left and ID.

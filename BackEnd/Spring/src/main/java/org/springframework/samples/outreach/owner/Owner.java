@@ -15,6 +15,12 @@
  */
 package org.springframework.samples.outreach.owner;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,12 +28,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.company.Company;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -36,8 +47,8 @@ import org.springframework.core.style.ToStringCreator;
  * @author kschrock
  */
 @Entity
-@Table(name = "profile")
-public class Owners {
+@Table(name = "owner")
+public class Owner {
 
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,6 +84,7 @@ public class Owners {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points;
 	    
+<<<<<<< HEAD:BackEnd/Spring/src/main/java/org/springframework/samples/outreach/owner/Owners.java
 	    @Column(name = "paid")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String paid = "false";
@@ -87,6 +99,14 @@ public class Owners {
 //	    	this.telephone = telephone;
 //		}
 
+=======
+	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private List<Company> companies;
+>>>>>>> 4f5f6c86fe0198a4e8f4822b42894e67db4c66e4:BackEnd/Spring/src/main/java/org/springframework/samples/outreach/owner/Owner.java
 
 		public Integer getId() {
 	        return id;
@@ -179,6 +199,19 @@ public class Owners {
 	        this.points = points;
 	        //Setter for password
 	    }
+
+	    //need to fix subscriptions later
+	    public List<Company> getCompanies() {
+	        return this.companies;
+	        //Getter for password
+	    }
+
+	    
+	    public void setCompanies(List<Company> companies) {
+	        this.companies = companies;
+	        //Setter for subscriptions
+	    }
+
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
@@ -189,6 +222,7 @@ public class Owners {
 	                .append("firstName", this.getFirstName())
 	                .append("address", this.address)
 	                .append("points" , this.getPoints())
+	                .append("companies", this.getCompanies())
 	                .append("telephone", this.telephone).toString();
 	    }
 	
