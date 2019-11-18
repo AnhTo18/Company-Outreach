@@ -1,4 +1,5 @@
 package edu.iastate.coms309.project309;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,7 +64,7 @@ public class PaypalActivity extends AppCompatActivity {
 
         Intent intent=new Intent(this,PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
-        startActivity(intent);
+        startService(intent);
 
         payButton=(Button)findViewById(R.id.payNow);
         amountEdit=(EditText)findViewById(R.id.Amount);
@@ -84,12 +85,14 @@ public class PaypalActivity extends AppCompatActivity {
     }
 
 
-    protected void onAcitivityResult(int requestCode, int resultCode, Intent data){
 
-        if(requestCode==PAYPAL_REQUEST_CODE){
-            if(resultCode==RESULT_OK){
-                PaymentConfirmation confirmation=data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                if(confirmation!=null) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == PAYPAL_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
                         startActivity(new Intent(this, PaymentDetails.class)
@@ -101,14 +104,12 @@ public class PaypalActivity extends AppCompatActivity {
                     }
                 }
 
-                }
-                else if(resultCode== Activity.RESULT_CANCELED)
-                    Toast.makeText(this,"Cancel",Toast.LENGTH_SHORT).show();
-                }
-                else if(resultCode==PaymentActivity.RESULT_EXTRAS_INVALID)
-                    Toast.makeText(this,"Invalid",Toast.LENGTH_SHORT).show();
-                }
-            }
+            } else if (resultCode == Activity.RESULT_CANCELED)
+                Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID)
+            Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show();
+    }
+    }
 
 
 
