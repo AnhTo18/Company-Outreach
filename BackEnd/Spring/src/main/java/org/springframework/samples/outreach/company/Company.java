@@ -74,6 +74,10 @@ public class Company {
 	    @Column(name = "pass_word")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
+
+	    @Column(name = "points")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String points ="0";
 	    
 	    @ManyToMany(mappedBy = "companies", fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
@@ -101,6 +105,16 @@ public class Company {
 	        return this.id == null;
 	    }
 
+	    public String getPoints() {
+	        return this.points;
+	        //Getter for password
+	    }
+
+	    public void setPoints(String points) {
+	        this.points = points;
+	        //Setter for password
+	    }
+	    
 	    public String getCompanyName() {
 	        return this.companyName;
 	        //Getter for FirstName of User
@@ -181,6 +195,7 @@ public class Company {
 	                .append("address", this.address)
 	                .append("isPaid", this.getPaidStatus())
 	                .append("owners",this.getOwners())
+	                .append("points" , this.getPoints())
 	                .append("telephone", this.telephone).toString();
 	    }
 	
