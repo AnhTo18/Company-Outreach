@@ -73,8 +73,12 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
 	    
-	    @ManyToMany(mappedBy = "companies")
+	    @ManyToMany(mappedBy = "companies", fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("companies") // prevent circular dependency with JSON deserializing
 	   	private List<Owner> owners;
 	    
 	    @Column(name = "isPaid")
