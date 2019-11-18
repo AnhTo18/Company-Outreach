@@ -28,7 +28,7 @@ import org.springframework.stereotype.Repository;
  * @author kschrock
  */
 @Repository
-public interface EventRepository extends JpaRepository<Events, Integer> {
+public interface EventRepository extends JpaRepository<Event, Integer> {
 
 	
 

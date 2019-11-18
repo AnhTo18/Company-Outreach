@@ -18,6 +18,7 @@ package org.springframework.samples.outreach.company;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -36,6 +37,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.owner.Owner;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -72,9 +74,17 @@ public class Company {
 	    @Column(name = "pass_word")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
-	    
-	    @ManyToMany(mappedBy = "companies")
+
+	    @Column(name = "points")
 	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String points ="0";
+	    
+	    @ManyToMany(mappedBy = "companies", fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("companies") // prevent circular dependency with JSON deserializing
 	   	private List<Owner> owners;
 	    
 	    @Column(name = "isPaid")
@@ -95,6 +105,16 @@ public class Company {
 	        return this.id == null;
 	    }
 
+	    public String getPoints() {
+	        return this.points;
+	        //Getter for password
+	    }
+
+	    public void setPoints(String points) {
+	        this.points = points;
+	        //Setter for password
+	    }
+	    
 	    public String getCompanyName() {
 	        return this.companyName;
 	        //Getter for FirstName of User
@@ -175,6 +195,7 @@ public class Company {
 	                .append("address", this.address)
 	                .append("isPaid", this.getPaidStatus())
 	                .append("owners",this.getOwners())
+	                .append("points" , this.getPoints())
 	                .append("telephone", this.telephone).toString();
 	    }
 	

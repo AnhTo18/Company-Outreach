@@ -16,6 +16,7 @@
 package org.springframework.samples.outreach.events;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.json.JSONObject;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.*;
+import io.micrometer.core.lang.NonNull;
 
 /**
  * Simple JavaBean domain object representing an event.
@@ -37,7 +41,7 @@ import org.springframework.core.style.ToStringCreator;
  */
 @Entity
 @Table(name = "company_events")
-public class Events {
+public class Event {
 
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +69,10 @@ public class Events {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String time;
 
+//	    @Column(name = "info")
+//	    @Convert(converter= JSONObjectConverter.class)
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    private JSONObject jsonData;
 
 	    public Integer getId() {
 	        return id;
@@ -129,6 +137,15 @@ public class Events {
 	        this.time = time;
 	        //Setter for event time
 	    }
+	    
+//	    public JSONObject getinfo() {
+//	    	return this.jsonData;
+//	    }
+//	    
+//	    public void setinfo(JSONObject info) {
+//	    	this.jsonData = info;
+//	    }
+	    
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
@@ -140,6 +157,9 @@ public class Events {
 	                .append("location", this.getLocation())
 	                .append("date" , this.getDate())
 	                .append("time", this.getTime()).toString();
+	        		
+//	        		 .append("ID", this.getId())
+//		                .append("event_info", this.getinfo()).toString();
 	    }
 	
 	

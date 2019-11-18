@@ -44,6 +44,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.company.Company;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -110,6 +111,7 @@ public class Owner {
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("owners") // prevent circular dependency with JSON deserializing
 	    private List<Company> companies;
 
 //	    @ManyToMany(mappedBy="owner")
