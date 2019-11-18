@@ -81,8 +81,11 @@ class OwnerController {
 				 return map;
 			}
 			//its getting the owner by id and adding it to the list of owners in the company
-			company.getOwners().add(ownersRepository.findById(ownerID).get());
 		}
+		Owner owner = ownersRepository.findById(ownerID).get();
+		owner.getCompanies().add(company);
+		company.getOwners().add(owner);
+		ownersRepository.save(owner);
 		/*end subscription logic */
 		 map.put("verify", "Subscribed");
 		 return map;
