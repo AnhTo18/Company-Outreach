@@ -18,10 +18,13 @@ package org.springframework.samples.outreach.owner;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,6 +34,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
@@ -107,7 +112,13 @@ public class Owner {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private List<Company> companies;
 
-
+//	    @ManyToMany(mappedBy="owner")
+//	    @ElementCollection(fetch=FetchType.EAGER)
+//	    @CollectionTable(name = "hashmap")
+//	    @MapKeyColumn(name = "k")
+//	    @Column(name = "v")
+//	    public Map<String, String> getMap;
+	    
 		public Integer getId() {
 	        return id;
 	        //Getter for ID of User
@@ -211,7 +222,7 @@ public class Owner {
 	        this.companies = companies;
 	        //Setter for subscriptions
 	    }
-
+	    
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
