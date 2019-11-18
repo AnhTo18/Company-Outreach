@@ -18,6 +18,7 @@ package org.springframework.samples.outreach.company;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -36,6 +37,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.owner.Owner;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Simple JavaBean domain object representing an owner.

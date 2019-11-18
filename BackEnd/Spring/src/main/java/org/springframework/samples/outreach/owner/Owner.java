@@ -39,6 +39,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.company.Company;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Simple JavaBean domain object representing an owner.
