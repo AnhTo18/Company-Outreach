@@ -204,10 +204,10 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
     
     @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/{password}/paid")
     public boolean userPays(@PathVariable("username") String username, @PathVariable("password") String password) {
-    	List<Owners> results = ownersRepository.findAll();
+    	List<Owner> results = ownersRepository.findAll();
         username = username.toString().trim();
         password = password.toString().trim();
-        for(Owners current : results) {
+        for(Owner current : results) {
         	
         	if(current.getUsername().trim().equals(username)) {
         		

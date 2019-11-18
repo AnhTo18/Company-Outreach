@@ -84,7 +84,7 @@ public class Owner {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points;
 	    
-<<<<<<< HEAD:BackEnd/Spring/src/main/java/org/springframework/samples/outreach/owner/Owners.java
+
 	    @Column(name = "paid")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String paid = "false";
@@ -99,14 +99,14 @@ public class Owner {
 //	    	this.telephone = telephone;
 //		}
 
-=======
+
 	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private List<Company> companies;
->>>>>>> 4f5f6c86fe0198a4e8f4822b42894e67db4c66e4:BackEnd/Spring/src/main/java/org/springframework/samples/outreach/owner/Owner.java
+
 
 		public Integer getId() {
 	        return id;
