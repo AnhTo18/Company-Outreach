@@ -1,7 +1,7 @@
 package edu.iastate.coms309.project309;
 
 
-import androidx.annotation.Nullable;
+import  androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -70,34 +70,42 @@ import java.net.URISyntaxException;
 public class Notification extends AppCompatActivity {
 
 
-    TextView t1;
+    EditText name, location,date,time,company;
 
     private WebSocketClient cc;
+    JSONObject event =new JSONObject();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification);
-
-        t1 = findViewById(R.id.text_view_result);
-
-
-
+        name=findViewById(R.id.name);
+        location=findViewById(R.id.location);
+        date=findViewById(R.id.date);
+        time=findViewById(R.id.time);
+        company=findViewById(R.id.company);
+        try{
+            event.put("name",name);
+            event.put("location",location);
+            event.put("date",date);
+            event.put("time",time);
+            event.put("company",company);
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+        }
                 Draft[] drafts = {new Draft_6455()};
                 //String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
                 String w = "";
-                w = "ws://coms-309-ss-8.misc.iastate.edu:8080/chat/" + Const.username;
+                w = "ws://coms-309-ss-8.misc.iastate.edu:8080/chat/notify/" + Const.username;
 
                 try {
                     cc = new WebSocketClient(new URI(w), (Draft) drafts[0]) {
                         @Override
                         public void onMessage(String message) {
-                            Log.d("messase", "server's message:" +message);
-                            AlertDialog.Builder builder=new AlertDialog.Builder(Notification.this);
-                            builder.setCancelable(true);
-                            builder.setMessage(message);
-                            builder.show();
-                            t1.append(message);
+                           //need to work on showing events
+
                         }
 
                         @Override
@@ -120,9 +128,10 @@ public class Notification extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 cc.connect();
+                cc.send(event.toString());
 
             }
-        ;
+
 /*
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
