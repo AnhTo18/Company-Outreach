@@ -37,7 +37,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.owner.Owner;
-import org.springframework.samples.outreach.owner.Subscription;
+import org.springframework.samples.outreach.subscription.Subscription;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -82,14 +82,14 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points ="0";
 	    
-	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-	   	private Set<Owner> owners;
-	    //companies
+//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+//	    		CascadeType.PERSIST,
+//	    		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+//	   	private Set<Owner> owners;
+//	    //companies
 	    
 	    @OneToMany(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
@@ -177,23 +177,27 @@ public class Company {
 	        this.isPaid = isPaid;
 	        //Sets the companies paid status to true or false
 	    }
-	    public Set<Owner> getOwners() {
-	        return this.owners;
-	        //gets status of company payment
-	    }
-
-	    public void setOwners(Set<Owner> owners) {
-	    	this.owners  = owners;
-	    }
+//	    public Set<Owner> getOwners() {
+//	        return this.owners;
+//	        //gets status of company payment
+//	    }
+//
+//	    public void setOwners(Set<Owner> owners) {
+//	    	this.owners  = owners;
+//	    }
 	    
+	    //need to fix subscriptions later
 	    public Set<Subscription> getSubscribers() {
 	        return this.subscribers;
-	        //gets status of company payment
+	        //Getter for password
 	    }
 
-	    public void setsubscribers(Set<Subscription> owners) {
-	    	this.subscribers  = owners;
+	    
+	    public void setSubscription(Set<Subscription> subscribers) {
+	        this.subscribers = subscribers;
+	        //Setter for subscriptions
 	    }
+	    
 	
 	    public String getUsername() {
 	        return this.username;
@@ -215,10 +219,12 @@ public class Company {
 	                .append("userName", this.getUsername())
 	                .append("address", this.address)
 	                .append("isPaid", this.getPaidStatus())
-	                .append("owners",this.getOwners())
+	            //    .append("owners",this.getOwners())
 	                .append("points" , this.getPoints())
 	                .append("telephone", this.telephone).toString();
 	    }
+
+		
 	
 	
 }

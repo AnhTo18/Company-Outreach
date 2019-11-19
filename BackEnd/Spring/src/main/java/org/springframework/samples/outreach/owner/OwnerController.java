@@ -63,34 +63,34 @@ public class OwnerController {
     
     
     /* subscription methods begin */
-    /**
-	   * This method subscribes a user to a company.
-	   * THIS IS A POST METHOD, Path = /owners/subscribe
-	   * @return HashMap<String, String> This returns JSON data of "verify", "Subscribed".
-	   */
-@RequestMapping(value= "/owners/subscribe/{ownerID}/{companyUsername}", method= RequestMethod.POST)
-	public HashMap<String, String>  subscribeToCompany(@PathVariable("companyUsername") String cmpUserName,
-			@PathVariable("ownerID") int ownerID) {
-	 HashMap<String, String> map = new HashMap<>();
-		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
-		/* add subscription logic here*/
-		Company company = companyRepository.findCompanyByUsername(cmpUserName);
-		for(Owner owner: company.getOwners()) {
-			if(owner.getId() == ownerID) {
-				 map.put("verify", "subscribed");
-				 return map;
-			}
-			//its getting the owner by id and adding it to the list of owners in the company
-		}
-		Owner owner = ownersRepository.findById(ownerID).get();
-		owner.getCompanies().add(company);
-		company.getOwners().add(owner);
-		ownersRepository.save(owner);
-		/*end subscription logic */
-		 map.put("verify", "Subscribed");
-		 return map;
-
-	}
+//    /**
+//	   * This method subscribes a user to a company.
+//	   * THIS IS A POST METHOD, Path = /owners/subscribe
+//	   * @return HashMap<String, String> This returns JSON data of "verify", "Subscribed".
+//	   */
+//@RequestMapping(value= "/owners/subscribe/{ownerID}/{companyUsername}", method= RequestMethod.POST)
+//	public HashMap<String, String>  subscribeToCompany(@PathVariable("companyUsername") String cmpUserName,
+//			@PathVariable("ownerID") int ownerID) {
+//	 HashMap<String, String> map = new HashMap<>();
+//		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
+//		/* add subscription logic here*/
+//		Company company = companyRepository.findCompanyByUsername(cmpUserName);
+//		for(Owner owner: company.getOwners()) {
+//			if(owner.getId() == ownerID) {
+//				 map.put("verify", "subscribed");
+//				 return map;
+//			}
+//			//its getting the owner by id and adding it to the list of owners in the company
+//		}
+//		Owner owner = ownersRepository.findById(ownerID).get();
+//		owner.getCompanies().add(company);
+//		company.getOwners().add(owner);
+//		ownersRepository.save(owner);
+//		/*end subscription logic */
+//		 map.put("verify", "Subscribed");
+//		 return map;
+//
+//	}
 
 /**
  * This method returns all of the companies that the user has subscribed to. This searches through

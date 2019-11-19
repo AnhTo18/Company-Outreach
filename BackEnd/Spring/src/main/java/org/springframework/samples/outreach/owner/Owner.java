@@ -42,6 +42,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.subscription.Subscription;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -106,13 +107,13 @@ public class Owner {
 	    // private List<Subscription> companies;
 	    
 	    
-	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
-	    private Set<Company> companies;
+//	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+//	    		CascadeType.PERSIST,
+//	    		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
+//	    private Set<Company> companies;
 
 	    
 		public Integer getId() {
@@ -208,16 +209,16 @@ public class Owner {
 	    }
 
 	  //need to fix subscriptions later
-	    public Set<Company> getCompanies() {
-	        return this.companies;
-	        //Getter for password
-	    }
-
-	    
-	    public void setCompanies(Set<Company> companies) {
-	        this.companies = companies;
-	        //Setter for subscriptions
-	    }
+//	    public Set<Company> getCompanies() {
+//	        return this.getCompanies();
+//	        //Getter for password
+//	    }
+//
+//	    
+//	    public void setCompanies(Set<Company> companies) {
+//	        this.companies = companies;
+//	        //Setter for subscriptions
+//	    }
 	    
 	    //need to fix subscriptions later
 	    public Set<Subscription> getSubscription() {
@@ -241,9 +242,10 @@ public class Owner {
 	                .append("firstName", this.getFirstName())
 	                .append("address", this.address)
 	                .append("points" , this.getPoints())
-	                .append("companies", this.getCompanies())
+	          //      .append("companies", this.getCompanies())
 	                .append("telephone", this.telephone).toString();
 	    }
+
 	
 	
 }
