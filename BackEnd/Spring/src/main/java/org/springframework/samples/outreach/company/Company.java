@@ -87,6 +87,16 @@ public class Company {
 	    @JsonIgnoreProperties("companies") // prevent circular dependency with JSON deserializing
 	   	private List<Owner> owners;
 	    
+	    
+	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("points") // prevent circular dependency with JSON deserializing
+	    private List<Company> companies;
+	    
+	    
 	    @Column(name = "isPaid")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private boolean isPaid;

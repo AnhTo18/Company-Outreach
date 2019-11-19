@@ -37,7 +37,6 @@ public class WebSocketServer {
     	      @PathParam("username") String username) throws IOException 
     {
         logger.info("Entered into Open");
-        
         sessionUsernameMap.put(session, username);
         usernameSessionMap.put(username, session);
         

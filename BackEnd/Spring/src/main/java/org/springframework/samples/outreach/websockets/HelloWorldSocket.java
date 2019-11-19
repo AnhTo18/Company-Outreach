@@ -31,37 +31,32 @@ public class HelloWorldSocket {
     private static Map<String, Session> usernameSessionMap = new HashMap<>();
     
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
-    
+
     @OnOpen
     public void onOpen(
-    	      Session session, 
-    	      @PathParam("username") String username) throws IOException 
+         Session session,
+         @PathParam("username") String username) throws IOException
     {
         logger.info("Entered into Open");
-        
         sessionUsernameMap.put(session, username);
         usernameSessionMap.put(username, session);
-        
+       
         String message="User:" + username + " has Joined the Chat";
-        	broadcast(message);
-		
+        broadcast(message);
+
     }
  
+    
     @OnMessage
-    public void onMessage(ArrayList<String> usersSubbed, String eventInfo) throws IOException 
-    {
-        // Handle new messages
-    	logger.info("Entered into Message: Got Message:"+eventInfo);
-    	String message = sessionUsernameMap.get(eventInfo);
-    	
-  
-    	//iterate through list of subbed users and broadcast event info to them
-    	for(int i =0; i<usersSubbed.size(); i++) {
-    		broadcast(usersSubbed.get(i) + ": " + message);
-    	}
-	    	
+    public void onMessage(String usersSubbed, String eventInfo) throws IOException
+    {  
+    // Handle new messages
+    logger.info("Entered into Message: Got Message:"+eventInfo);
+    String username = sessionUsernameMap.get(usersSubbed);
+    sendMessageToPArticularUser(usersSubbed, "[DM] " + username + ": " + eventInfo);
     }
- 
+  
+
     @OnClose
     public void onClose(Session session) throws IOException
     {

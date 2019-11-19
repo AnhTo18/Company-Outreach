@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
@@ -32,6 +33,9 @@ import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.websockets.*;
 
 import org.springframework.samples.outreach.events.Event;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+
+import javax.websocket.Session;
 
 /**
  * Controller to map events
@@ -55,22 +61,49 @@ class EventController {
     @Autowired
     CompanyRepository companyRepository;
   
+//    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
+//    private static Map<String, Session> usernameSessionMap = new HashMap<>();
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
     
     
     /**
-	   * This method creates and add a User to the Owners Repository.
+	   * This method creates and add an event to the Event Repository.
 	   * THIS IS A POST METHOD, Path = /events/add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
+     * @throws IOException 
 	   */
-  @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createEvent(@RequestBody Event newevent) {
+  @RequestMapping(value= "/add/{compusername}", method= RequestMethod.POST)
+	public HashMap<String, String>  createEvent(Session session, 
+			@PathVariable String compusername,
+			@RequestBody Event newevent) throws IOException {
   	 HashMap<String, String> map = new HashMap<>();
-		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
-		 eventRepository.save(newevent);
+		System.out.println(this.getClass().getSimpleName() + " - Create new Event method is invoked.");
+		 
+		//creates event
+		 eventRepository.save(newevent); 
 		 map.put("verify", "Added");
 		 eventRepository.flush();
+		 
+		 //this gets eventinfo into a string
+		String info = newevent.toString();
+		 String test = "";
+		 //broadcasts the event info the list of subscribers 
+		 HelloWorldSocket subBroadcaster = new HelloWorldSocket();
+		Company company = companyRepository.findCompanyByUsername(compusername);
+		//ArrayList<String> test = new ArrayList<>();
+			String cur = "";
+			System.out.print(cur + session.toString());
+			
+		for(Owner owner: company.getOwners()) {
+			test = owner.getUsername();
+			
+			subBroadcaster.onOpen(session, test);
+		
+			subBroadcaster.onMessage(session, test, info);
+		}
+		
+		//subBroadcaster.onMessage(test, "test");
 		 return map;
 
 	}
