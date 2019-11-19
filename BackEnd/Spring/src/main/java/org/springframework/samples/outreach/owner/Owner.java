@@ -95,31 +95,25 @@ public class Owner {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String paid = "false";
 	    
-//	    public Owners(int id, String FirstName, String LastName, String Address, int points, String telephone) {
-//			// TODO Auto-generated constructor stub
-//	    	this.id = id;
-//	    	this.firstName = FirstName;
-//	    	this.lastName = LastName;
-//	    	this.address = Address;
-//	    	this.points = points + "";
-//	    	this.telephone = telephone;
-//		}
 
-
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
+	    private Set<Subscription> subscription;
+	    // private List<Subscription> companies;
+	    
+	    
 	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("owners") // prevent circular dependency with JSON deserializing
-	    private List<Company> companies;
+	    @JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
+	    private Set<Company> companies;
 
-//	    @ManyToMany(mappedBy="owner")
-//	    @ElementCollection(fetch=FetchType.EAGER)
-//	    @CollectionTable(name = "hashmap")
-//	    @MapKeyColumn(name = "k")
-//	    @Column(name = "v")
-//	    public Map<String, String> getMap;
 	    
 		public Integer getId() {
 	        return id;
@@ -213,15 +207,27 @@ public class Owner {
 	        //Setter for password
 	    }
 
-	    //need to fix subscriptions later
-	    public List<Company> getCompanies() {
+	  //need to fix subscriptions later
+	    public Set<Company> getCompanies() {
 	        return this.companies;
 	        //Getter for password
 	    }
 
 	    
-	    public void setCompanies(List<Company> companies) {
+	    public void setCompanies(Set<Company> companies) {
 	        this.companies = companies;
+	        //Setter for subscriptions
+	    }
+	    
+	    //need to fix subscriptions later
+	    public Set<Subscription> getSubscription() {
+	        return this.subscription;
+	        //Getter for password
+	    }
+
+	    
+	    public void setSubscription(Set<Subscription> Subscription) {
+	        this.subscription = Subscription;
 	        //Setter for subscriptions
 	    }
 	    

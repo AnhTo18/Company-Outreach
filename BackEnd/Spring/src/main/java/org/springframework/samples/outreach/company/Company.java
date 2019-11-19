@@ -17,6 +17,7 @@ package org.springframework.samples.outreach.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,12 +30,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.owner.Owner;
+import org.springframework.samples.outreach.owner.Subscription;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -79,13 +82,23 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points ="0";
 	    
-	    @ManyToMany(mappedBy = "companies", fetch = FetchType.EAGER, cascade = {
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("companies") // prevent circular dependency with JSON deserializing
-	   	private List<Owner> owners;
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	   	private Set<Owner> owners;
+	    //companies
+	    
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	   	private Set<Subscription> subscribers;
+	    //java util version of set
 	    
 	    @Column(name = "isPaid")
 	    @NotFound(action = NotFoundAction.IGNORE)
@@ -164,14 +177,22 @@ public class Company {
 	        this.isPaid = isPaid;
 	        //Sets the companies paid status to true or false
 	    }
-	    
-	    public List<Owner> getOwners() {
+	    public Set<Owner> getOwners() {
 	        return this.owners;
 	        //gets status of company payment
 	    }
 
-	    public void setOwners(List<Owner> owners) {
+	    public void setOwners(Set<Owner> owners) {
 	    	this.owners  = owners;
+	    }
+	    
+	    public Set<Subscription> getSubscribers() {
+	        return this.subscribers;
+	        //gets status of company payment
+	    }
+
+	    public void setsubscribers(Set<Subscription> owners) {
+	    	this.subscribers  = owners;
 	    }
 	
 	    public String getUsername() {

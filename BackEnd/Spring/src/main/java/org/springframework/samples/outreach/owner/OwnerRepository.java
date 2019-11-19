@@ -31,7 +31,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 
-	public Owner findUserByID(int usernameID);
 
 
 }
