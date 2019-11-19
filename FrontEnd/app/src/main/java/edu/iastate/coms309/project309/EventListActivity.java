@@ -8,6 +8,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import android.content.Intent;
 import android.media.session.PlaybackState;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -127,14 +130,14 @@ public class EventListActivity extends AppCompatActivity {
                 public void onMessage(String s) {
                     Log.d("", "run() returned: " + s);
 
-                    int n = s.indexOf('$');
-                    if (n < 0) {
-                        Log.e("WebSocket Client", "Bad format from server");
-                        Toast.makeText(getApplicationContext(), "Websocket Error", Toast.LENGTH_SHORT).show();
-                    }
+                    try {
+                        JSONObject j = new JSONObject(s);
 
-                    //adapter.add(s.substring(0, n), s.substring(n + 1));
-                    add(adapter, s.substring(0, n), s.substring(n + 1) );
+                        add(adapter, j.getString("event"), j.getString("company") );
+                        //adapter.add(j.getString("event"),j.getString("company"));
+                    }catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
