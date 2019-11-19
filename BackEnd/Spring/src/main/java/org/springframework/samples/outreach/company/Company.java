@@ -91,13 +91,13 @@ public class Company {
 //	   	private Set<Owner> owners;
 //	    //companies
 	    
-	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+	    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-	   	private Set<Subscription> subscribers;
+	   	private Set<Subscription> subscriptions;
 	    //java util version of set
 	    
 	    @Column(name = "isPaid")
@@ -187,14 +187,14 @@ public class Company {
 //	    }
 	    
 	    //need to fix subscriptions later
-	    public Set<Subscription> getSubscribers() {
-	        return this.subscribers;
+	    public Set<Subscription> getSubscriptions() {
+	        return this.subscriptions;
 	        //Getter for password
 	    }
 
 	    
-	    public void setSubscription(Set<Subscription> subscribers) {
-	        this.subscribers = subscribers;
+	    public void setSubscriptions(Set<Subscription> subscriptions) {
+	        this.subscriptions = subscriptions;
 	        //Setter for subscriptions
 	    }
 	    

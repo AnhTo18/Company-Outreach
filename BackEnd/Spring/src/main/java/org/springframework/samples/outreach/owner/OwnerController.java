@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.*;
+import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,34 +64,39 @@ public class OwnerController {
     
     
     /* subscription methods begin */
-//    /**
-//	   * This method subscribes a user to a company.
-//	   * THIS IS A POST METHOD, Path = /owners/subscribe
-//	   * @return HashMap<String, String> This returns JSON data of "verify", "Subscribed".
-//	   */
-//@RequestMapping(value= "/owners/subscribe/{ownerID}/{companyUsername}", method= RequestMethod.POST)
-//	public HashMap<String, String>  subscribeToCompany(@PathVariable("companyUsername") String cmpUserName,
-//			@PathVariable("ownerID") int ownerID) {
-//	 HashMap<String, String> map = new HashMap<>();
-//		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
-//		/* add subscription logic here*/
-//		Company company = companyRepository.findCompanyByUsername(cmpUserName);
-//		for(Owner owner: company.getOwners()) {
-//			if(owner.getId() == ownerID) {
-//				 map.put("verify", "subscribed");
-//				 return map;
-//			}
-//			//its getting the owner by id and adding it to the list of owners in the company
-//		}
-//		Owner owner = ownersRepository.findById(ownerID).get();
-//		owner.getCompanies().add(company);
-//		company.getOwners().add(owner);
-//		ownersRepository.save(owner);
-//		/*end subscription logic */
-//		 map.put("verify", "Subscribed");
-//		 return map;
-//
-//	}
+    /**
+	   * This method subscribes a user to a company.
+	   * THIS IS A POST METHOD, Path = /owners/subscribe
+	   * @return HashMap<String, String> This returns JSON data of "verify", "Subscribed".
+	   */
+@RequestMapping(value= "/owners/subscribe/{ownerID}/{companyUsername}", method= RequestMethod.POST)
+	public HashMap<String, String>  subscribeToCompany(@PathVariable("companyUsername") String cmpUserName,
+			@PathVariable("ownerID") int ownerID) {
+	 HashMap<String, String> map = new HashMap<>();
+		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
+		/* add subscription logic here*/
+		Company company = companyRepository.findCompanyByUsername(cmpUserName);
+		for(Subscription subscription: company.getSubscriptions()) {
+			if(subscription.getOwner().getId() == ownerID) {
+				 map.put("verify", "subscribed");
+				 return map;
+			}
+			//its getting the owner by id and adding it to the list of owners in the company
+		}
+		Owner owner = ownersRepository.findById(ownerID).get();
+		Subscription subscription = new Subscription();
+		subscription.setCompany(company);
+		subscription.setOwner(owner);
+		owner.getSubscriptions().add(subscription);
+	
+		company.getSubscriptions().add(subscription);
+		ownersRepository.save(owner);
+		companyRepository.save(company);
+		/*end subscription logic */
+		 map.put("verify", "Subscribed");
+		 return map;
+
+	}
 
 /**
  * This method returns all of the companies that the user has subscribed to. This searches through
