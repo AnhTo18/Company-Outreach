@@ -17,6 +17,7 @@ package org.springframework.samples.outreach.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,15 +30,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.events.Event;
 import org.springframework.samples.outreach.owner.Owner;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -46,6 +50,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author kschrock
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 @Table(name = "company")
 public class Company {
 
@@ -63,6 +68,7 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String address;
 	    
+	    @JsonProperty("user_name")
 	    @Column(name = "user_name")
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String username;
@@ -88,13 +94,13 @@ public class Company {
 	   	private List<Owner> owners;
 	    
 	    
-	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("points") // prevent circular dependency with JSON deserializing
-	    private List<Company> companies;
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	    private Set<Event> events;
 	    
 	    
 	    @Column(name = "isPaid")
@@ -110,8 +116,26 @@ public class Company {
 	        this.id = id;
 	        //Setter for ID of User
 	    }
+	    
+	    
 
-	    public boolean isNew() {
+	    public Set<Event> getEvents() {
+			return events;
+		}
+
+		public void setEvents(Set<Event> events) {
+			this.events = events;
+		}
+
+		public boolean isPaid() {
+			return isPaid;
+		}
+
+		public void setPaid(boolean isPaid) {
+			this.isPaid = isPaid;
+		}
+
+		public boolean isNew() {
 	        return this.id == null;
 	    }
 
@@ -192,21 +216,6 @@ public class Company {
 	    public void setUsername(String username) {
 	        this.username = username;
 	        //Setter for username
-	    }
-	    
-	    @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
-
-	                .append("id", this.getId())
-	                .append("new", this.isNew())
-	                .append("companyName", this.getCompanyName())
-	                .append("userName", this.getUsername())
-	                .append("address", this.address)
-	                .append("isPaid", this.getPaidStatus())
-	                .append("owners",this.getOwners())
-	                .append("points" , this.getPoints())
-	                .append("telephone", this.telephone).toString();
 	    }
 	
 	

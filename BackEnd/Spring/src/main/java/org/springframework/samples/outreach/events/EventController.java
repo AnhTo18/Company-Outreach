@@ -66,47 +66,6 @@ class EventController {
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
     
-    
-    /**
-	   * This method creates and add an event to the Event Repository.
-	   * THIS IS A POST METHOD, Path = /events/add
-	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
-     * @throws IOException 
-	   */
-  @RequestMapping(value= "/add/{compusername}", method= RequestMethod.POST)
-	public HashMap<String, String>  createEvent(Session session, 
-			@PathVariable String compusername,
-			@RequestBody Event newevent) throws IOException {
-  	 HashMap<String, String> map = new HashMap<>();
-		System.out.println(this.getClass().getSimpleName() + " - Create new Event method is invoked.");
-		 
-		//creates event
-		 eventRepository.save(newevent); 
-		 map.put("verify", "Added");
-		 eventRepository.flush();
-		 
-		 //this gets eventinfo into a string
-		String info = newevent.toString();
-		 String test = "";
-		 //broadcasts the event info the list of subscribers 
-		 HelloWorldSocket subBroadcaster = new HelloWorldSocket();
-		Company company = companyRepository.findCompanyByUsername(compusername);
-		//ArrayList<String> test = new ArrayList<>();
-			String cur = "";
-			System.out.print(cur + session.toString());
-			
-		for(Owner owner: company.getOwners()) {
-			test = owner.getUsername();
-			
-			subBroadcaster.onOpen(session, test);
-		
-			subBroadcaster.onMessage(session, test, info);
-		}
-		
-		//subBroadcaster.onMessage(test, "test");
-		 return map;
-
-	}
   
     /**
 	   * This method creates and add an event to the Events Repository.

@@ -14,9 +14,17 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.samples.outreach.events.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * chat websocket server
  * @author creimers
@@ -26,12 +34,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class HelloWorldSocket {
 	
+	
+	@Autowired
+    CompanyRepository companyRepository;
+	
+	@Autowired
+    EventRepository eventRepository;
+	
 	// Store all socket session and their corresponding username.
     private static Map<Session, String> sessionUsernameMap = new HashMap<>();
     private static Map<String, Session> usernameSessionMap = new HashMap<>();
     
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
 
+    
+    
     @OnOpen
     public void onOpen(
          Session session,
@@ -48,12 +65,35 @@ public class HelloWorldSocket {
  
     
     @OnMessage
-    public void onMessage(String usersSubbed, String eventInfo) throws IOException
+    public void onMessage(Session session, String eventInfo) throws IOException 
     {  
+    	logger.info("enter onmessage");
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+    		 
+    		Event event = mapper.readValue(eventInfo, Event.class);
+    		logger.info("Created event object from json data");
+    		Company company = event.getCompany();
+    		company = companyRepository.findCompanyByUsername(company.getUsername());
+    		logger.info("company name is" + company.getCompanyName());
+    		event.setCompany(company);
+    		company.getEvents().add(event);
+    		companyRepository.save(company);
+    		companyRepository.flush();
+    		eventRepository.save(event);
+    		eventRepository.flush();
+    		 logger.info("Entered into Message: Got Message:"+eventInfo);
+    	}
+    	
+    	catch (IOException e){
+    		logger.info("didn't work");
+    		e.printStackTrace();
+    	}
+    	
     // Handle new messages
-    logger.info("Entered into Message: Got Message:"+eventInfo);
-    String username = sessionUsernameMap.get(usersSubbed);
-    sendMessageToPArticularUser(usersSubbed, "[DM] " + username + ": " + eventInfo);
+  
+//    String username = sessionUsernameMap.get(usersSubbed);
+//    sendMessageToPArticularUser(usersSubbed, "[DM] " + username + ": " + eventInfo);
     }
   
 
@@ -75,6 +115,7 @@ public class HelloWorldSocket {
     {
         // Do error handling here
     	logger.info("Entered into Error");
+    	throwable.printStackTrace();
     }
     
 	private void sendMessageToPArticularUser(String username, String message) 

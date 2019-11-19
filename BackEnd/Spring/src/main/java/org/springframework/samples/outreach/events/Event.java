@@ -15,6 +15,10 @@
  */
 package org.springframework.samples.outreach.events;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -23,6 +27,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -31,6 +36,10 @@ import org.hibernate.annotations.NotFoundAction;
 import org.json.JSONObject;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.*;
+import org.springframework.samples.outreach.company.Company;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.micrometer.core.lang.NonNull;
 
 /**
@@ -40,7 +49,8 @@ import io.micrometer.core.lang.NonNull;
  * @author kschrock
  */
 @Entity
-@Table(name = "company_events")
+@JsonIgnoreProperties(ignoreUnknown=true)
+@Table(name = "events")
 public class Event {
 
 	 @Id
@@ -57,110 +67,69 @@ public class Event {
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String location;
 
-	    @Column(name = "company_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String companyname;
-
 	    @Column(name = "date")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String date;
-	    
-	    @Column(name = "time")
+
+		@Column(name = "time")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String time;
-
-//	    @Column(name = "info")
-//	    @Convert(converter= JSONObjectConverter.class)
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    private JSONObject jsonData;
-
-	    public Integer getId() {
-	        return id;
-	        //Getter for ID of User
-	    }
-
-	    public void setId(Integer id) {
-	        this.id = id;
-	        //Setter for ID of User
-	    }
-
-	    public boolean isNew() {
-	        return this.id == null;
-	    }
 	    
-	    public String getEventName() {
-	        return this.eventname;
-	        //Getter for location of the event
-	    }
+	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	    private Company company;
 
-	    public void setEventName(String eventname) {
-	        this.eventname = eventname;
-	      //Setter for location of the event
-	    }
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getEventname() {
+			return eventname;
+		}
+
+		public void setEventname(String eventname) {
+			this.eventname = eventname;
+		}
+
+		public String getLocation() {
+			return location;
+		}
+
+		public void setLocation(String location) {
+			this.location = location;
+		}
+
+		public String getDate() {
+			return date;
+		}
+
+		public void setDate(String date) {
+			this.date = date;
+		}
+
+		public String getTime() {
+			return time;
+		}
+
+		public void setTime(String time) {
+			this.time = time;
+		}
+
+		public Company getCompany() {
+			return company;
+		}
+
+		public void setCompany(Company company) {
+			this.company = company;
+		}
 	    
-	    public String getLocation() {
-	        return this.location;
-	        //Getter for location of the event
-	    }
-
-	    public void setLocation(String location) {
-	        this.location = location;
-	      //Setter for location of the event
-	    }
-	    
-	    public String getCompanyName() {
-	        return this.companyname;
-	        //Getter for Company posting the event
-	    }
-
-	    public void setCompanyName(String company) {
-	        this.companyname = company;
-	        //Setter for Company posting the event
-	    }
-
-	    public String getDate() {
-	        return this.date;
-	        //Getter for event time
-	    }
-
-	    public void setDate(String date) {
-	        this.date = date;
-	        //Setter for event time
-	    }
-	    
-	    public String getTime() {
-	        return this.time;
-	        //Getter for event time
-	    }
-
-	    public void setTime(String time) {
-	        this.time = time;
-	        //Setter for event time
-	    }
-	    
-//	    public JSONObject getinfo() {
-//	    	return this.jsonData;
-//	    }
-//	    
-//	    public void setinfo(JSONObject info) {
-//	    	this.jsonData = info;
-//	    }
-	    
-	    @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
-
-	                .append("ID", this.getId())
-	                .append("new", this.isNew())
-	                .append("company", this.getCompanyName())
-	                .append("event", this.getEventName())
-	                .append("location", this.getLocation())
-	                .append("date" , this.getDate())
-	                .append("time", this.getTime()).toString();
-	        		
-//	        		 .append("ID", this.getId())
-//		                .append("event_info", this.getinfo()).toString();
-	    }
-	
 	
 }
