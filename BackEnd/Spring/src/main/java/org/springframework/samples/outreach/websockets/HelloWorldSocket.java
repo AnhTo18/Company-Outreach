@@ -44,6 +44,16 @@ public class HelloWorldSocket {
 	
 	@Autowired
     EventRepository eventRepository;
+    
+    @Autowired
+    public void setCompanyRepository(CompanyRepository companyRepository){
+        HelloWorldSocket.companyRepository = companyRepository;
+    }
+    
+    @Autowired
+    public void setEventRepository(EventRepository eventRepository){
+        HelloWorldSocket.eventRepository = eventRepository;
+    }
 	
 	// Store all socket session and their corresponding username.
     private static Map<Session, String> sessionUsernameMap = new HashMap<>();
@@ -86,15 +96,15 @@ public class HelloWorldSocket {
     		if(eventRepository == null) {
     			logger.info("event repo is null");
     		}
-//    	//	Company company = companyRepository.findCompanyByUsername(username);
-//    		logger.info("company name is" + company.getCompanyName());
-//    		event.setCompany(company);
-//    		company.getEvents().add(event);
-//    		companyRepository.save(company);
-//    		companyRepository.flush();
-//    		eventRepository.save(event);
-//    		eventRepository.flush();
-    		 logger.info("Entered into Message: Got Message:"+eventInfo);
+    		Company company = companyRepository.findCompanyByUsername(username);
+    		logger.info("company name is" + company.getCompanyName());
+    		event.setCompany(company);
+    		company.getEvents().add(event);
+    		companyRepository.save(company);
+    		companyRepository.flush();
+    		eventRepository.save(event);
+    		eventRepository.flush();
+    		logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
     	
     	catch (IOException e){
