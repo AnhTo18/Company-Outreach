@@ -117,7 +117,7 @@ public class PointShopActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 //Execute transaction
                                 String url = Const.URL_REDEEM + item + "/" + Const.username;
-                                JsonObjectRequest jor3 = new JsonObjectRequest(Request.Method.POST, Const.URL_REDEEM + Const.username, null, new Response.Listener<JSONObject>() {
+                                JsonObjectRequest jor3 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         Toast.makeText(PointShopActivity.this, "confirmed", Toast.LENGTH_SHORT).show();

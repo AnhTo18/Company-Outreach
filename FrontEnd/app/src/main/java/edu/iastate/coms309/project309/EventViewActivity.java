@@ -53,7 +53,7 @@ public class EventViewActivity extends AppCompatActivity {
 
 
         rq = Volley.newRequestQueue(this);
-        JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, Const.URL_EVENT_LIST + "event5", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, Const.URL_EVENT_LIST , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("Volley", response.toString());
@@ -116,5 +116,11 @@ public class EventViewActivity extends AppCompatActivity {
 
         sub = findViewById(R.id.buttonSubscribe);
         sub.setText("Subscribe to " + Const.company);
+        sub.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                rq.add(new JsonObjectRequest(Request.Method.POST, Const.URL_SHOW_USERS + Const.username + '/' + Const.company, null, null, null));
+            }
+        });
     }
 }
