@@ -23,14 +23,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository class for <code>Companies</code> domain objects 
+ * Repository class for <code>Prize</code> domain objects 
  * @author creimers
  * @author kschrock
  */
 @Repository
 public interface PrizeRepository extends JpaRepository<Prize, Integer> {
-	
-public Prize findPrizeByprizeName(String prizeName);
+
+	public Prize findPrizeByPrizename(String prizename);
+
 
 }
 

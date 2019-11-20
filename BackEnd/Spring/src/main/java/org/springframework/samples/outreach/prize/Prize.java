@@ -44,6 +44,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.springframework.samples.outreach.company.Company;
+
 /**
  * Simple JavaBean domain object representing an owner.
  * This contains the fields to create an owner.
@@ -51,7 +53,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author kschrock
  */
 @Entity
-@JsonIgnoreProperties(ignoreUnknown=true)
 @Table(name = "prize")
 public class Prize {
 
@@ -61,29 +62,29 @@ public class Prize {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
-	    @Column(name = "prize_name")
+	    @Column(name = "prizename")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String prizeName;
+	    private String prizename;
 
 	    @Column(name = "cost")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String cost;
+	    private int cost;
 
 	    @Column(name = "qty")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String qty;
+	    private int qty;
 
 	    @Column(name = "color") //perhaps N/A
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String color ="N/A";
 	    
-	    @ManyToMany(mappedBy = "prizes", fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("prizes") // prevent circular dependency with JSON deserializing
-	   	private Set<Company> company;
+//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+//	    		CascadeType.PERSIST,
+//	    		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
+//	   	private Set<Company> company;
 
 		public Integer getId() {
 			return id;
@@ -93,27 +94,27 @@ public class Prize {
 			this.id = id;
 		}
 
-		public String getPrizeName() {
-			return prizeName;
+		public String getPrizename() {
+			return prizename;
 		}
 
-		public void setPrizeName(String prizeName) {
-			this.prizeName = prizeName;
+		public void setPrizename(String prizename) {
+			this.prizename = prizename;
 		}
 
-		public String getCost() {
+		public int getCost() {
 			return cost;
 		}
 
-		public void setCost(String cost) {
+		public void setCost(int cost) {
 			this.cost = cost;
 		}
 
-		public String getQty() {
+		public int getQty() {
 			return qty;
 		}
 
-		public void setQty(String qty) {
+		public void setQty(int qty) {
 			this.qty = qty;
 		}
 
@@ -125,12 +126,13 @@ public class Prize {
 			this.color = color;
 		}
 
-		public Set<Company> getCompany() {
-			return company;
-		}
+//		public Set<Company> getCompany() {
+//			return company;
+//		}
+//
+//		public void setCompany(Set<Company> company) {
+//			this.company = company;
+//		}
 
-		public void setCompany(Set<Company> company) {
-			this.company = company;
-		}
-
+	    
 }

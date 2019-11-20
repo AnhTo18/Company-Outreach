@@ -19,7 +19,10 @@ import org.hamcrest.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.outreach.owner.Owner;
+import org.springframework.samples.outreach.owner.OwnerRepository;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +30,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.acl.Owner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -47,27 +50,123 @@ class PrizeController {
     @Autowired
     PrizeRepository prizeRepository;
     
+    @Autowired
+    OwnerRepository ownersRepository;
   
 
     private final Logger logger = LoggerFactory.getLogger(PrizeController.class);
     
     
- //TODO
+
     //consume method (redeem prize)
+    /**
+	   * Redeems a prize from the store
+	   * Searches the store for the prize the user wants, figures out how many points it costs,
+	   * deducts the points total from the user and decrements qty of productleft
+	   * THIS IS A POST METHOD, Path = /prize/redeem/{prizeName}/{username}
+	   * @param String prizeName
+	   * @param String Username
+	   * @return HashMap<String, String> This returns JSON data of "verify", "Added" || "verify", "NotFound".
+	   */
+  @RequestMapping(value= "/redeem/{prizeName}/{username}", method= RequestMethod.POST)
+	public HashMap<String, String> redeemPrize(@PathVariable("prizeName") String prizeName,
+   			@PathVariable("username") String username) {
+	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
+  	username = username.toString().trim();
+  
+      List<Owner> results = ownersRepository.findAll();
+      
+      HashMap<String, String> map = new HashMap<>();
+     
+      
+      //first get point cost
+      	int pointsCost = prizeRepository.findPrizeByPrizename(prizeName).getCost(); //gets proper info
+      
+      	//pass points cost in to deduct from users points
+      for(Owner current : results) {
+      	String currentUsername = current.getUsername().toString().trim();
+      	
+      	if(username.toString().trim().equals(currentUsername))
+      	{
+      		
+      		 map.put("verify", "Added");
+      		 int temp = 0;
+      		 int currentPoints;
+      		 try {
+      			 currentPoints = Integer.parseInt(current.getPoints());
+      		 }
+      		 catch (NumberFormatException e)
+      		 {
+      			 currentPoints = 0; //not found
+      		 }
+ 
+      		 temp = currentPoints - pointsCost; //add total points
+      		
+      	
+      		 current.setPoints(String.valueOf(temp)); //set current points to current user
+      		 ownersRepository.flush(); // updates changes
+      		
+      		//get current quantity
+          	int origQty = prizeRepository.findPrizeByPrizename(prizeName).getQty();
+          	//update with current qty -1 
+         	 prizeRepository.findPrizeByPrizename(prizeName).setQty(origQty-1);
+       
+         	 prizeRepository.flush(); //update change to qty
+ 
+      		 return map;
+      	
+      	}
+      }
+   
+     	
+      map.put("verify", "NotFound");
+		 return map;
+	
+	}
     
     
-     /*end testing*/
+  /**
+   * edits prize information
+   * @param id
+   * @param modPrize
+   * @return
+   */
+    //edit prize info
+    @RequestMapping(value= "/edit/{id}", method= RequestMethod.POST)
+   	public HashMap<String, String>  editPrize(@PathVariable int id,
+   			@RequestBody Prize modPrize) {
+    	System.out.println(this.getClass().getSimpleName() + " - Edit Prize method is invoked.");
+   	 HashMap<String, String> map = new HashMap<>();
+   	 //changes color parameter based on what you get sent
+   	 String colorChange= modPrize.getColor(); //gets proper info
+   	 prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setColor(colorChange);
+   	 //changes cost
+   	 int costChange= modPrize.getCost(); //gets proper info
+   	 prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setCost(costChange);
+   	 //changes qty
+   	int qtyChange= modPrize.getQty(); //gets proper info
+  	 prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setQty(qtyChange);
+   	 //changes prizename
+   	//just delete prize and re add it with new name instead
+   	 
+    	prizeRepository.flush();
+    	 map.put("verify", "edited");
+    	 return map;
+    }
+    
+   
     /**
 	   * This method creates and adds a prize to the Prize Repository.
-	   * THIS IS A POST METHOD, Path = /company/add
+	   * THIS IS A POST METHOD, Path = /prize/add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
     @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createCompany(@RequestBody Prize newprize) {
+	public HashMap<String, String>  createPrize(@RequestBody Prize newprize) {
     	 HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
-		if(prizeRepository.findPrizeByprizeName(newprize.getPrizeName() ) == null) {
+		if(prizeRepository.findPrizeByPrizename(newprize.getPrizename() ) == null) {
 		 prizeRepository.save(newprize);
+		 prizeRepository.flush();
 		 map.put("verify", "Added");
     }
 		 return map;
@@ -77,7 +176,7 @@ class PrizeController {
     
     /**
 	   * This method finds all the Prize objects within the Prize Repository.
-	   * THIS IS A GET METHOD, Path = /company
+	   * THIS IS A GET METHOD, Path = /prize
 	   * FOR TESTING PURPOSES ONLY(?)
 	   * @return List<Prize> This returns the list of prizes within the Repository.
 	   */
@@ -104,7 +203,7 @@ class PrizeController {
         prizeName = prizeName.toString().trim();
         for(Prize current : results) {
         	
-        	if(current.getPrizeName().trim().equals(prizeName)) {
+        	if(current.getPrizename().trim().equals(prizeName)) {
         		return current;
         	}
         	
@@ -125,6 +224,9 @@ class PrizeController {
 	}
     
     
+    
+    //TODO
+    //may need to delete by name instead of id
     /**
 	   * This method deletes the ID Prize object within the Prize Repository.
 	   * THIS IS A POST METHOD, Path = /company/delete/{id}
@@ -137,7 +239,7 @@ class PrizeController {
 
 		Optional<Prize> prize =  prizeRepository.findById(id);
 		if(!prize.isPresent())
-			throw new Exception("Could not find employee with id- " + id);
+			throw new Exception("Could not find prize with id- " + id);
 
 		prizeRepository.deleteById(id);
 	}

@@ -38,6 +38,7 @@ import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.events.Event;
 import org.springframework.samples.outreach.owner.Owner;
+//import org.springframework.samples.outreach.prize.Prize;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -101,6 +102,14 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
 	    private Set<Event> events;
+	    
+//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+//	    		CascadeType.PERSIST,
+//	    		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+//	    private Set<Prize> prizes;
 	    
 	    
 	    @Column(name = "isPaid")
@@ -206,6 +215,16 @@ public class Company {
 		public void setPaid(boolean isPaid) {
 			this.isPaid = isPaid;
 		}
+
+
+//		public Set<Prize> getPrizes() {
+//			return prizes;
+//		}
+//
+//
+//		public void setPrizes(Set<Prize> prizes) {
+//			this.prizes = prizes;
+//		}
 
 	
 }
