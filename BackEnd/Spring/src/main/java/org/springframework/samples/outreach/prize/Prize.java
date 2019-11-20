@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.outreach.events;
+package org.springframework.samples.outreach.prize;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,63 +30,61 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.json.JSONObject;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.*;
+import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.events.Event;
+import org.springframework.samples.outreach.owner.Owner;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.samples.outreach.company.Company;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import io.micrometer.core.lang.NonNull;
-
 /**
- * Simple JavaBean domain object representing an event.
- * This contains the fields to create an event.
+ * Simple JavaBean domain object representing an owner.
+ * This contains the fields to create an owner.
  * @author creimers
  * @author kschrock
  */
 @Entity
-@JsonIgnoreProperties(ignoreUnknown=true)
-@Table(name = "events")
-public class Event {
+@Table(name = "prize")
+public class Prize {
 
-	 public Event() {
-
-	}
-
-	@Id
+	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name = "id")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
-	 	@Column(name = "event_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String eventname;
-	 
-	    @Column(name = "location")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String location;
-
-	    @Column(name = "date")
+	    @Column(name = "prizename")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String date;
+	    private String prizename;
 
-		@Column(name = "time")
+	    @Column(name = "cost")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String time;
+	    private int cost;
+
+	    @Column(name = "qty")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private int qty;
+
+	    @Column(name = "color") //perhaps N/A
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String color ="N/A";
 	    
-	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-	    private Company company;
+//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+//	    		CascadeType.PERSIST,
+//	    		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
+//	   	private Set<Company> company;
 
 		public Integer getId() {
 			return id;
@@ -95,45 +94,45 @@ public class Event {
 			this.id = id;
 		}
 
-		public String getEventname() {
-			return eventname;
+		public String getPrizename() {
+			return prizename;
 		}
 
-		public void setEventname(String eventname) {
-			this.eventname = eventname;
+		public void setPrizename(String prizename) {
+			this.prizename = prizename;
 		}
 
-		public String getLocation() {
-			return location;
+		public int getCost() {
+			return cost;
 		}
 
-		public void setLocation(String location) {
-			this.location = location;
+		public void setCost(int cost) {
+			this.cost = cost;
 		}
 
-		public String getDate() {
-			return date;
+		public int getQty() {
+			return qty;
 		}
 
-		public void setDate(String date) {
-			this.date = date;
+		public void setQty(int qty) {
+			this.qty = qty;
 		}
 
-		public String getTime() {
-			return time;
+		public String getColor() {
+			return color;
 		}
 
-		public void setTime(String time) {
-			this.time = time;
+		public void setColor(String color) {
+			this.color = color;
 		}
 
-		public Company getCompany() {
-			return company;
-		}
+//		public Set<Company> getCompany() {
+//			return company;
+//		}
+//
+//		public void setCompany(Set<Company> company) {
+//			this.company = company;
+//		}
 
-		public void setCompany(Company company) {
-			this.company = company;
-		}
 	    
-	
 }

@@ -117,6 +117,7 @@ public class Owner {
 
 	    
 		public Integer getId() {
+<<<<<<< HEAD
 	        return id;
 	        //Getter for ID of User
 	    }
@@ -247,5 +248,77 @@ public class Owner {
 	    }
 
 	
+=======
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getFirstName() {
+			return firstName;
+		}
+
+		public void setFirstName(String firstName) {
+			this.firstName = firstName;
+		}
+
+		public String getLastName() {
+			return lastName;
+		}
+
+		public void setLastName(String lastName) {
+			this.lastName = lastName;
+		}
+
+		public String getAddress() {
+			return address;
+		}
+
+		public void setAddress(String address) {
+			this.address = address;
+		}
+
+		public String getTelephone() {
+			return telephone;
+		}
+
+		public void setTelephone(String telephone) {
+			this.telephone = telephone;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public String getPoints() {
+			return points;
+		}
+
+		public void setPoints(String points) {
+			this.points = points;
+		}
+
+		public List<Company> getCompanies() {
+			return companies;
+		}
+
+		public void setCompanies(List<Company> companies) {
+			this.companies = companies;
+		}
+>>>>>>> 420ee998978f2c787b2bca7daa7da6d5b072e0f5
 	
 }

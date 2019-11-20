@@ -324,7 +324,7 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         
         for(Owner current : results) {
         	String currentUsername = current.getUsername().toString().trim();
-        	String currentPassword = current.getpassword().toString().trim();
+        	String currentPassword = current.getPassword().toString().trim();
         	if(username.equals(currentUsername))
         	{
         		if(password.equals(currentPassword))

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
@@ -32,6 +33,9 @@ import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.websockets.*;
 
 import org.springframework.samples.outreach.events.Event;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+
+import javax.websocket.Session;
 
 /**
  * Controller to map events
@@ -55,25 +61,11 @@ class EventController {
     @Autowired
     CompanyRepository companyRepository;
   
+//    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
+//    private static Map<String, Session> usernameSessionMap = new HashMap<>();
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
     
-    
-    /**
-	   * This method creates and add a User to the Owners Repository.
-	   * THIS IS A POST METHOD, Path = /events/add
-	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
-	   */
-  @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createEvent(@RequestBody Event newevent) {
-  	 HashMap<String, String> map = new HashMap<>();
-		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
-		 eventRepository.save(newevent);
-		 map.put("verify", "Added");
-		 eventRepository.flush();
-		 return map;
-
-	}
   
     /**
 	   * This method creates and add an event to the Events Repository.
