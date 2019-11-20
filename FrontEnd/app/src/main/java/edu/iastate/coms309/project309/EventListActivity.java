@@ -76,11 +76,8 @@ public class EventListActivity extends AppCompatActivity {
         });
 
 
-        String url = "";
-
-
         rq = Volley.newRequestQueue(this);
-        JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, Const.URL_EVENT_LIST, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 JSONArray ja = new JSONArray();
@@ -95,7 +92,7 @@ public class EventListActivity extends AppCompatActivity {
 
                         JSONObject j = ja.getJSONObject(i);
 
-                        adapter.add(j.getString("event"), j.getString("company"));
+                        adapter.add(j.getString("eventName"), "");
 
                         Log.d("VOLLEY", j.getString("event") + "," + j.getString("company"));
 
@@ -115,7 +112,7 @@ public class EventListActivity extends AppCompatActivity {
         rq.add(jar);
 
 
-        String w = "";
+        String w = Const.WS_EVENT_UPDATE + Const.username;
         Draft[] drafts = {new Draft_6455()};
 
         try {
@@ -133,7 +130,7 @@ public class EventListActivity extends AppCompatActivity {
                     try {
                         JSONObject j = new JSONObject(s);
 
-                        add(adapter, j.getString("event"), j.getString("company") );
+                        add(adapter, j.getString("eventName"), j.getString("username") );
                         //adapter.add(j.getString("event"),j.getString("company"));
                     }catch (JSONException e) {
                         e.printStackTrace();
