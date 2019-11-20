@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (verify.equals("true")) {
                             Const.username = user.getText().toString();
+                            Const.password=pass.getText().toString();
                             startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
                         } else {
                             Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
