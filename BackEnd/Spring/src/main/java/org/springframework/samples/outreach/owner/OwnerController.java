@@ -151,8 +151,8 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
 	   * @param String Username
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added" || "verify", "NotFound".
 	   */
-    @RequestMapping(value= "/owners/addpoints/{points}/{username}", method= RequestMethod.POST)
-	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("username") String username ) {
+    @RequestMapping(value= "/owners/addpoints/{points}/{company}/{username}", method= RequestMethod.POST)
+	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("company") String company , @PathVariable("username") String username ) {
 	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
     	username = username.toString().trim();
     	
@@ -167,22 +167,38 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         	if(username.toString().trim().equals(currentUsername))
         	{
         		
-        		 map.put("verify", "Added");
-        		 int temp = 0;
-        		 int currentPoints;
-        		 try {
-        			 currentPoints = Integer.parseInt(current.getPoints());
-        		 }
-        		 catch (NumberFormatException e)
-        		 {
-        			 currentPoints = 0; //not found
-        		 }
+        		// map.put("verify", "Added");
+        		
         		// System.out.println("This is the current points.");
         	//	 System.out.println(currentPoints);
-        		 temp = currentPoints + points; //add total points
         		
+        		 for(Subscription subscription: current.getSubscriptions()) {
+        				if(subscription.getCompany().getUsername().trim().equals(company.trim())) {
+        					 int temp = 0;
+        	        		 int currentPoints;
+        	        		
+        	        		 try {
+        	        			 currentPoints =  subscription.getpoints();
+        	        					 //Integer.parseInt(subscription.getCompany().getPoints());
+        	        		 }
+        	        		 catch (NumberFormatException e)
+        	        		 {
+        	        			 currentPoints = 0; //not found
+        	        		 }
+        	        		 temp = currentPoints + points; //add total points
+        					System.out.println(currentPoints + "Before Amount");
+        					System.out.println(temp + "After Amount");
+        					subscription.setPoints(temp);
+        					//subscription.setID(1);
+        					 map.put("verify", "addedPoints!!");
+        					 ownersRepository.flush(); // updates changes
+        					 companyRepository.flush();
+        					 return map;
+        				}
+        				//its getting the owner by id and adding it to the list of owners in the company
+        			}
         	
-        		 current.setPoints(String.valueOf(temp)); //set current points to current user
+        		// current.setPoints(String.valueOf(temp)); //set current points to current user
         		 ownersRepository.flush(); // updates changes
         		 
 //        		 System.out.println("After current points.");

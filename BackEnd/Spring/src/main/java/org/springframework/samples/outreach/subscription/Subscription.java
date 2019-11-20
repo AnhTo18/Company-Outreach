@@ -81,7 +81,7 @@ public class Subscription {
 	   }
 	   
 	   public int getID() {
-	        return this.points;
+	        return this.id;
 	    }
 	   public int setID(int id) {
 		   return this.id = id;
