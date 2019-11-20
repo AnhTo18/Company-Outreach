@@ -101,13 +101,13 @@ public class HelloWorldSocket {
     		
     		Company company = companyRepository.findCompanyByUsername(username);
     		logger.info("company name is" + company.getCompanyName());
-    		company.getEvents().add(event);
+    //		company.getEvents().add(event);
     		company = companyRepository.save(company);
     		companyRepository.flush();
 //    		event.setCompany(company);
 //    		event = eventRepository.save(event);
 //    		eventRepository.flush();
-    		broadcastEvent(company.getOwners(), event); //change to getSubscribers() later
+    	//	broadcastEvent(company.getOwners(), event); //change to getSubscribers() later
     		logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
     	

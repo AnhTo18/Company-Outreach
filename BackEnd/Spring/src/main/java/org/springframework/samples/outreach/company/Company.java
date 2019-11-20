@@ -36,17 +36,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.events.Event;
 import org.springframework.samples.outreach.owner.Owner;
-<<<<<<< HEAD
 import org.springframework.samples.outreach.subscription.Subscription;
-=======
-//import org.springframework.samples.outreach.prize.Prize;
->>>>>>> 420ee998978f2c787b2bca7daa7da6d5b072e0f5
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -55,7 +49,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author kschrock
  */
 @Entity
-@JsonIgnoreProperties(ignoreUnknown=true)
 @Table(name = "company")
 public class Company {
 
@@ -73,7 +66,6 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String address;
 	    
-	    @JsonProperty("user_name")
 	    @Column(name = "user_name")
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String username;
@@ -108,26 +100,11 @@ public class Company {
 	   	private Set<Subscription> subscriptions;
 	    //java util version of set
 	    
-	    
-//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-//		CascadeType.PERSIST,
-//		CascadeType.MERGE
-//})
-//@NotFound(action = NotFoundAction.IGNORE)
-//@JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-//private Set<Prize> prizes;
-	    
-	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
+	    @Column(name = "isPaid")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-	    private Set<Event> events;
-
+	    private boolean isPaid;
 
 		public Integer getId() {
-<<<<<<< HEAD
 	        return id;
 	        //Getter for ID of User
 	    }
@@ -249,105 +226,5 @@ public class Company {
 
 		
 	
-=======
-			return id;
-		}
-
-
-		public void setId(Integer id) {
-			this.id = id;
-		}
-
-
-		public String getCompanyName() {
-			return companyName;
-		}
-
-
-		public void setCompanyName(String companyName) {
-			this.companyName = companyName;
-		}
-
-
-		public String getAddress() {
-			return address;
-		}
-
-
-		public void setAddress(String address) {
-			this.address = address;
-		}
-
-
-		public String getUsername() {
-			return username;
-		}
-
-
-		public void setUsername(String username) {
-			this.username = username;
-		}
-
-
-		public String getTelephone() {
-			return telephone;
-		}
-
-
-		public void setTelephone(String telephone) {
-			this.telephone = telephone;
-		}
-
-
-		public String getPassword() {
-			return password;
-		}
-
-
-		public void setPassword(String password) {
-			this.password = password;
-		}
-
-
-		public String getPoints() {
-			return points;
-		}
-
-
-		public void setPoints(String points) {
-			this.points = points;
-		}
-
-
-		public List<Owner> getOwners() {
-			return owners;
-		}
-
-
-		public void setOwners(List<Owner> owners) {
-			this.owners = owners;
-		}
-
-
-		public Set<Event> getEvents() {
-			return events;
-		}
-
-
-		public void setEvents(Set<Event> events) {
-			this.events = events;
-		}
-	  
-
-//		public Set<Prize> getPrizes() {
-//			return prizes;
-//		}
-//
-//
-//		public void setPrizes(Set<Prize> prizes) {
-//			this.prizes = prizes;
-//		}
-
->>>>>>> 420ee998978f2c787b2bca7daa7da6d5b072e0f5
 	
 }

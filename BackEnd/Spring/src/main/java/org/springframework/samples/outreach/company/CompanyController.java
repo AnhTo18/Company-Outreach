@@ -184,7 +184,7 @@ class CompanyController {
         
         for(Company current : results) {
         	String currentUsername = current.getUsername().toString().trim();
-        	String currentPassword = current.getPassword().toString().trim();
+        	String currentPassword = current.getpassword().toString().trim();
         	if(username.equals(currentUsername))
         	{
         		if(password.equals(currentPassword))
