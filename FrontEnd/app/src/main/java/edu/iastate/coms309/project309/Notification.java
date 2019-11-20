@@ -71,7 +71,7 @@ public class Notification extends AppCompatActivity {
 
 
     EditText name, location,date,time,company;
-
+    TextView t1;
     private WebSocketClient cc;
     JSONObject event =new JSONObject();
 
@@ -104,7 +104,7 @@ public class Notification extends AppCompatActivity {
                     cc = new WebSocketClient(new URI(w), (Draft) drafts[0]) {
                         @Override
                         public void onMessage(String message) {
-                           //need to work on showing events
+                           t1.setText(message);
 
                         }
 
