@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonElement;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,9 +53,20 @@ public class EventViewActivity extends AppCompatActivity {
 
 
         rq = Volley.newRequestQueue(this);
-        JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, Const.URL_EVENT_LIST + '/' + Const.event, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, Const.URL_EVENT_LIST + "event5", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d("Volley", response.toString());
+
+                try {
+                    loc.setText(response.getString("location"));
+                    date.setText(response.getString("date"));
+                    time.setText(response.getString("time"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                /*
                 JSONArray ja = new JSONArray();
                 try {
                     ja = response.getJSONArray("events");
@@ -75,6 +87,8 @@ public class EventViewActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                 */
             }
 
         }, new Response.ErrorListener() {

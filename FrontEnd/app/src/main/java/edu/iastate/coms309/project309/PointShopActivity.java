@@ -48,7 +48,6 @@ public class PointShopActivity extends AppCompatActivity {
         data = new ArrayList<>();
 
         pts = findViewById(R.id.textPoints);
-        pts.setText("Points: " + "5000");
 
         context = getApplicationContext();
 
@@ -57,6 +56,7 @@ public class PointShopActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.d("Volley", response.toString());
                     JSONArray jsonArray = response.getJSONArray("coupons");
 
                     for (int i = 0 ; i < jsonArray.length() ; i++) {
@@ -85,7 +85,7 @@ public class PointShopActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     TextView p = findViewById(R.id.textPoints);
-                    p.setText("Points: " + response.getInt("points"));
+                    p.setText("Points: " + response.getString("points"));
                 } catch (JSONException e) {
                     Log.e("Volley", "Volley Error");
                     e.printStackTrace();

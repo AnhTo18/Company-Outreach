@@ -77,24 +77,28 @@ public class EventListActivity extends AppCompatActivity {
 
 
         rq = Volley.newRequestQueue(this);
-        JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, Const.URL_EVENT_LIST, null, new Response.Listener<JSONObject>() {
+        JsonArrayRequest jar = new JsonArrayRequest(Request.Method.GET, Const.URL_EVENT_LIST, null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
-                JSONArray ja = new JSONArray();
+            public void onResponse(JSONArray response) {
+                /*
                 try {
                     ja = response.getJSONArray("events");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                for (int i = 0; i < ja.length(); i++) {
+                 */
+                Log.d("Volley", response.toString());
+                for (int i = 0; i < response.length(); i++) {
                     try {
 
-                        JSONObject j = ja.getJSONObject(i);
+                        JSONObject j = response.getJSONObject(i);
 
-                        adapter.add(j.getString("eventName"), "");
+                        Log.e("Volley", j.toString());
 
-                        Log.d("VOLLEY", j.getString("event") + "," + j.getString("company"));
+                        adapter.add(j.getString("eventname"), j.getString("company"));
+
+
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -125,17 +129,19 @@ public class EventListActivity extends AppCompatActivity {
 
                 @Override
                 public void onMessage(String s) {
-                    Log.d("", "run() returned: " + s);
+                    Log.d("WS", "run() returned: " + s);
 
-                    try {
-                        JSONObject j = new JSONObject(s);
+                    if(!s.contains("has Joined the Chat") && !s.contains("Disconnected")) {
+                        try {
+                            JSONObject j = new JSONObject(s);
 
-                        add(adapter, j.getString("eventName"), j.getString("username") );
-                        //adapter.add(j.getString("event"),j.getString("company"));
-                    }catch (JSONException e) {
-                        e.printStackTrace();
+                            add(adapter, j.getString("eventname"), "" );
+                            //adapter.add(j.getString("event"),j.getString("company"));
+                        }catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
-
                 }
 
                 @Override
