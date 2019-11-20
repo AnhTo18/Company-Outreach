@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.outreach.company;
+package org.springframework.samples.outreach.prize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.events.Event;
 import org.springframework.samples.outreach.owner.Owner;
 
@@ -51,8 +52,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
-@Table(name = "company")
-public class Company {
+@Table(name = "prize")
+public class Prize {
 
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,152 +61,76 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
-	    @Column(name = "company_name")
+	    @Column(name = "prize_name")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String companyName;
+	    private String prizeName;
 
-	    @Column(name = "address")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String address;
+	    @Column(name = "cost")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String cost;
+
+	    @Column(name = "qty")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String qty;
+
+	    @Column(name = "color") //perhaps N/A
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String color ="N/A";
 	    
-	    @JsonProperty("user_name")
-	    @Column(name = "user_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String username;
-
-	    @Column(name = "telephone")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String telephone;
-
-	    @Column(name = "pass_word")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String password;
-
-	    @Column(name = "points")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String points ="0";
-	    
-	    @ManyToMany(mappedBy = "companies", fetch = FetchType.EAGER, cascade = {
+	    @ManyToMany(mappedBy = "prizes", fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("companies") // prevent circular dependency with JSON deserializing
-	   	private List<Owner> owners;
-	    
-	    
-	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-	    private Set<Event> events;
-	    
-	    
-	    @Column(name = "isPaid")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private boolean isPaid;
-
+	    @JsonIgnoreProperties("prizes") // prevent circular dependency with JSON deserializing
+	   	private Set<Company> company;
 
 		public Integer getId() {
 			return id;
 		}
 
-
 		public void setId(Integer id) {
 			this.id = id;
 		}
 
-
-		public String getCompanyName() {
-			return companyName;
+		public String getPrizeName() {
+			return prizeName;
 		}
 
-
-		public void setCompanyName(String companyName) {
-			this.companyName = companyName;
+		public void setPrizeName(String prizeName) {
+			this.prizeName = prizeName;
 		}
 
-
-		public String getAddress() {
-			return address;
+		public String getCost() {
+			return cost;
 		}
 
-
-		public void setAddress(String address) {
-			this.address = address;
+		public void setCost(String cost) {
+			this.cost = cost;
 		}
 
-
-		public String getUsername() {
-			return username;
+		public String getQty() {
+			return qty;
 		}
 
-
-		public void setUsername(String username) {
-			this.username = username;
+		public void setQty(String qty) {
+			this.qty = qty;
 		}
 
-
-		public String getTelephone() {
-			return telephone;
+		public String getColor() {
+			return color;
 		}
 
-
-		public void setTelephone(String telephone) {
-			this.telephone = telephone;
+		public void setColor(String color) {
+			this.color = color;
 		}
 
-
-		public String getPassword() {
-			return password;
+		public Set<Company> getCompany() {
+			return company;
 		}
 
-
-		public void setPassword(String password) {
-			this.password = password;
+		public void setCompany(Set<Company> company) {
+			this.company = company;
 		}
 
-
-		public String getPoints() {
-			return points;
-		}
-
-
-		public void setPoints(String points) {
-			this.points = points;
-		}
-
-
-		public List<Owner> getOwners() {
-			return owners;
-		}
-
-
-		public void setOwners(List<Owner> owners) {
-			this.owners = owners;
-		}
-
-
-		public Set<Event> getEvents() {
-			return events;
-		}
-
-
-		public void setEvents(Set<Event> events) {
-			this.events = events;
-		}
-
-
-		public boolean isPaid() {
-			return isPaid;
-		}
-
-
-		public void setPaid(boolean isPaid) {
-			this.isPaid = isPaid;
-		}
-
-	
 }
