@@ -71,40 +71,87 @@ public class Notification extends AppCompatActivity {
 
 
     EditText name, location,date,time,company;
+    Button b1;
     TextView t1;
     private WebSocketClient cc;
-    JSONObject event =new JSONObject();
-
+    JSONObject event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        event=new JSONObject();
         setContentView(R.layout.notification);
         name=findViewById(R.id.name);
         location=findViewById(R.id.location);
         date=findViewById(R.id.date);
         time=findViewById(R.id.time);
         company=findViewById(R.id.company);
-        try{
-            event.put("name",name);
-            event.put("location",location);
-            event.put("date",date);
-            event.put("time",time);
-            event.put("company",company);
+        t1=findViewById(R.id.t1);
+        b1=findViewById(R.id.b);
+        Draft[] drafts = {new Draft_6455()};
+        //String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
+        String w = "";
+        w = "ws://coms-309-ss-8.misc.iastate.edu:8080/notify/" + Const.username;
+        try {
+            cc = new WebSocketClient(new URI(w), (Draft) drafts[0]) {
+                @Override
+                public void onMessage(String message) {
+                    t1.setText(message);
+
+                }
+
+                @Override
+                public void onOpen(ServerHandshake handshake) {
+                    Log.d("OPEN", "run() returned: " + "is connecting");
+                }
+
+                @Override
+                public void onClose(int code, String reason, boolean remote) {
+                    Log.d("CLOSE", "onClose() returned: " + reason);
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.d("Exception:", e.toString());
+                }
+            };
         }
-        catch(JSONException e){
+        catch (URISyntaxException e) {
+            Log.d("Exception:", e.getMessage().toString());
             e.printStackTrace();
         }
-                Draft[] drafts = {new Draft_6455()};
-                //String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
-                String w = "";
-                w = "ws://coms-309-ss-8.misc.iastate.edu:8080/chat/notify/" + Const.username;
+        cc.connect();
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+/*
+                    event.put("name", name.getText());
+                    event.put("location", location.getText());
+                    event.put("date", date.getText());
+                    event.put("time", time.getText());
+                    event.put("company", company.getText());
+*/
+
+                    event.put("eventName", name.getText().toString());
+                    event.put("location", location.getText().toString());
+                    event.put("date", date.getText().toString());
+                    event.put("time", time.getText().toString());
+                    event.put("username", company.getText().toString());
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+               /*
 
                 try {
                     cc = new WebSocketClient(new URI(w), (Draft) drafts[0]) {
                         @Override
                         public void onMessage(String message) {
-                           t1.setText(message);
+                            t1.setText(message);
 
                         }
 
@@ -123,30 +170,28 @@ public class Notification extends AppCompatActivity {
                             Log.d("Exception:", e.toString());
                         }
                     };
+
+
                 } catch (URISyntaxException e) {
                     Log.d("Exception:", e.getMessage().toString());
                     e.printStackTrace();
-                }
-                cc.connect();
-                cc.send(event.toString());
-
-            }
-
-/*
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    cc.send(e2.getText().toString());
-                }
-                catch (Exception e)
+                }*/
+try {
+    cc.send(event.toString());
+    Log.d("check", event.toString());
+}
+catch (Exception e)
                 {
                     Log.d("ExceptionSendMessage:", e.getMessage().toString());
                 }
+
+
             }
-        });
-    }
-    */
+
+
+
+    });
 
     }
 
+}

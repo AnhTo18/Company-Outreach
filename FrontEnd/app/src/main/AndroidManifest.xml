@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaymentDetails"></activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
@@ -34,9 +34,11 @@
             android:label="Developer Home" />
         <activity android:name=".QrScanner" />
         <activity android:name=".UserProfileActivity" />
-        <activity
-            android:name=".Notification"
-            android:label="Notifications"></activity>
+        <activity android:name=".Notification" />
+        <activity android:name=".PaymentDetails"></activity>
+        <activity android:name=".PaypalActivity"
+                  android:label="Paypal Screen"></activity>
+
     </application>
 
 </manifest>
