@@ -4,6 +4,7 @@ package org.springframework.samples.outreach.websockets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.websocket.OnClose;
@@ -25,7 +26,9 @@ import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.samples.outreach.events.*;
+import org.springframework.samples.outreach.owner.Owner;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -40,9 +43,11 @@ public class HelloWorldSocket {
 	
 	
 	@Autowired
+	static
     CompanyRepository companyRepository;
 	
 	@Autowired
+	static
     EventRepository eventRepository;
     
     @Autowired
@@ -86,28 +91,27 @@ public class HelloWorldSocket {
     	try {
     		 JSONObject jsonObject = new JSONObject(eventInfo);
     		 String username = jsonObject.getString("username");
-    		 logger.info("username is: " + username);
-    		Event event = mapper.readValue(eventInfo, Event.class);
-    		logger.info("event is " + event.getEventname());
-    		logger.info("Created event object from json data");
-    		if(companyRepository == null) {
-    			logger.info("company repository is null");
-    		}
-    		if(eventRepository == null) {
-    			logger.info("event repo is null");
-    		}
+    		
+    		Event event = new Event();
+    		event.setEventname(jsonObject.getString("eventName"));
+    		event.setDate(jsonObject.getString("date"));
+    		event.setLocation(jsonObject.getString("location"));
+    		event.setTime(jsonObject.getString("time"));
+    		
+    		
     		Company company = companyRepository.findCompanyByUsername(username);
     		logger.info("company name is" + company.getCompanyName());
-    		event.setCompany(company);
     		company.getEvents().add(event);
-    		companyRepository.save(company);
+    		company = companyRepository.save(company);
     		companyRepository.flush();
-    		eventRepository.save(event);
-    		eventRepository.flush();
+//    		event.setCompany(company);
+//    		event = eventRepository.save(event);
+//    		eventRepository.flush();
+    		broadcastEvent(company.getOwners(), event); //change to getSubscribers() later
     		logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
     	
-    	catch (IOException e){
+    	catch (Exception e){
     		logger.info("didn't work");
     		e.printStackTrace();
     	}
@@ -117,9 +121,8 @@ public class HelloWorldSocket {
 //    String username = sessionUsernameMap.get(usersSubbed);
 //    sendMessageToPArticularUser(usersSubbed, "[DM] " + username + ": " + eventInfo);
     }
-  
 
-    @OnClose
+	@OnClose
     public void onClose(Session session) throws IOException
     {
     	logger.info("Entered into Close");
@@ -140,6 +143,28 @@ public class HelloWorldSocket {
     	throwable.printStackTrace();
     }
     
+    
+
+	private void broadcastEvent(List<Owner> owners, Event event) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		for(Owner owner : owners) {
+			Session session = usernameSessionMap.get(owner.getUsername());
+			if(session != null) {
+				try {
+					session.getBasicRemote().sendText(mapper.writeValueAsString(event));
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
 	private void sendMessageToPArticularUser(String username, String message) 
     {	
     	try {

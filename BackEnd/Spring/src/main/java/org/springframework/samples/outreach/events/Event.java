@@ -53,7 +53,11 @@ import io.micrometer.core.lang.NonNull;
 @Table(name = "events")
 public class Event {
 
-	 @Id
+	 public Event() {
+
+	}
+
+	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name = "id")
 	    @NotFound(action = NotFoundAction.IGNORE)

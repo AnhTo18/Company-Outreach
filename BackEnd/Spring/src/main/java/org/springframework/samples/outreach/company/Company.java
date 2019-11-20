@@ -95,6 +95,14 @@ public class Company {
 	   	private List<Owner> owners;
 	    
 	    
+//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+//		CascadeType.PERSIST,
+//		CascadeType.MERGE
+//})
+//@NotFound(action = NotFoundAction.IGNORE)
+//@JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+//private Set<Prize> prizes;
+	    
 	    @OneToMany(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
@@ -102,19 +110,6 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
 	    private Set<Event> events;
-	    
-//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-//	    private Set<Prize> prizes;
-	    
-	    
-	    @Column(name = "isPaid")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private boolean isPaid;
 
 
 		public Integer getId() {
@@ -205,17 +200,7 @@ public class Company {
 		public void setEvents(Set<Event> events) {
 			this.events = events;
 		}
-
-
-		public boolean isPaid() {
-			return isPaid;
-		}
-
-
-		public void setPaid(boolean isPaid) {
-			this.isPaid = isPaid;
-		}
-
+	  
 
 //		public Set<Prize> getPrizes() {
 //			return prizes;
