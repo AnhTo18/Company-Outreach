@@ -17,7 +17,9 @@ package org.springframework.samples.outreach.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -28,14 +30,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.events.Event;
 import org.springframework.samples.outreach.owner.Owner;
+//import org.springframework.samples.outreach.prize.Prize;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -44,6 +51,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author kschrock
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 @Table(name = "company")
 public class Company {
 
@@ -61,6 +69,7 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String address;
 	    
+	    @JsonProperty("user_name")
 	    @Column(name = "user_name")
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String username;
@@ -72,111 +81,135 @@ public class Company {
 	    @Column(name = "pass_word")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
-	    
-	    @ManyToMany(mappedBy = "companies")
+
+	    @Column(name = "points")
 	    @NotFound(action = NotFoundAction.IGNORE)
+	    private String points ="0";
+	    
+	    @ManyToMany(mappedBy = "companies", fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("companies") // prevent circular dependency with JSON deserializing
 	   	private List<Owner> owners;
 	    
-	    @Column(name = "isPaid")
+	    
+//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+//		CascadeType.PERSIST,
+//		CascadeType.MERGE
+//})
+//@NotFound(action = NotFoundAction.IGNORE)
+//@JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+//private Set<Prize> prizes;
+	    
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private boolean isPaid;
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	    private Set<Event> events;
+
 
 		public Integer getId() {
-	        return id;
-	        //Getter for ID of User
-	    }
+			return id;
+		}
 
-	    public void setId(Integer id) {
-	        this.id = id;
-	        //Setter for ID of User
-	    }
 
-	    public boolean isNew() {
-	        return this.id == null;
-	    }
+		public void setId(Integer id) {
+			this.id = id;
+		}
 
-	    public String getCompanyName() {
-	        return this.companyName;
-	        //Getter for FirstName of User
-	    }
 
-	    public void setCompanyName(String companyName) {
-	        this.companyName = companyName;
-	        //Setter for FirstName of User
-	    }
+		public String getCompanyName() {
+			return companyName;
+		}
 
-	    public String getAddress() {
-	        return this.address;
-	        //Getter for Address of User
-	    }
 
-	    public void setAddress(String address) {
-	        this.address = address;
-	        //Setter for Address
-	    }
+		public void setCompanyName(String companyName) {
+			this.companyName = companyName;
+		}
 
-	    public String getTelephone() {
-	        return this.telephone;
-	        //Getter for Telephone Number
-	    }
 
-	    public void setTelephone(String telephone) {
-	        this.telephone = telephone;
-	        //Setter for Telephone Number
-	    }
-	    
-	    public String getpassword() {
-	        return this.password;
-	        //Getter for password
-	    }
+		public String getAddress() {
+			return address;
+		}
 
-	    public void setPassword(String password) {
-	        this.password = password;
-	        //Setter for password
-	    }
-	    
-	    public boolean getPaidStatus() {
-	        return this.isPaid;
-	        //gets status of company payment
-	    }
 
-	    public void setPaidStatus(boolean isPaid) {
-	        this.isPaid = isPaid;
-	        //Sets the companies paid status to true or false
-	    }
-	    
-	    public List<Owner> getOwners() {
-	        return this.owners;
-	        //gets status of company payment
-	    }
+		public void setAddress(String address) {
+			this.address = address;
+		}
 
-	    public void setOwners(List<Owner> owners) {
-	    	this.owners  = owners;
-	    }
-	
-	    public String getUsername() {
-	        return this.username;
-	        //Getter for username
-	    }
 
-	    public void setUsername(String username) {
-	        this.username = username;
-	        //Setter for username
-	    }
-	    
-	    @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
+		public String getUsername() {
+			return username;
+		}
 
-	                .append("id", this.getId())
-	                .append("new", this.isNew())
-	                .append("companyName", this.getCompanyName())
-	                .append("userName", this.getUsername())
-	                .append("address", this.address)
-	                .append("isPaid", this.getPaidStatus())
-	                .append("owners",this.getOwners())
-	                .append("telephone", this.telephone).toString();
-	    }
-	
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+
+		public String getTelephone() {
+			return telephone;
+		}
+
+
+		public void setTelephone(String telephone) {
+			this.telephone = telephone;
+		}
+
+
+		public String getPassword() {
+			return password;
+		}
+
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+
+		public String getPoints() {
+			return points;
+		}
+
+
+		public void setPoints(String points) {
+			this.points = points;
+		}
+
+
+		public List<Owner> getOwners() {
+			return owners;
+		}
+
+
+		public void setOwners(List<Owner> owners) {
+			this.owners = owners;
+		}
+
+
+		public Set<Event> getEvents() {
+			return events;
+		}
+
+
+		public void setEvents(Set<Event> events) {
+			this.events = events;
+		}
+	  
+
+//		public Set<Prize> getPrizes() {
+//			return prizes;
+//		}
+//
+//
+//		public void setPrizes(Set<Prize> prizes) {
+//			this.prizes = prizes;
+//		}
+
 	
 }

@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.outreach.events;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.OwnerRepository;
 import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.websockets.*;
+
+import org.springframework.samples.outreach.events.Event;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +43,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+
+import javax.websocket.Session;
 
 /**
  * Controller to map events
@@ -53,52 +61,46 @@ class EventController {
     @Autowired
     CompanyRepository companyRepository;
   
+//    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
+//    private static Map<String, Session> usernameSessionMap = new HashMap<>();
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
     
+  
     /**
 	   * This method creates and add an event to the Events Repository.
 	   * THIS IS A POST METHOD, Path = /add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
     
-//    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
-//	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
-    @RequestMapping(value= "/add/{company}", method= RequestMethod.POST)
-	public String  createEvent(@PathVariable("company") String company, 
-			@RequestBody Map<String, Object> payload) {
-    	Events newevent = new Events();
-    	//System.out.printf("go into comments for some reason");
-    	HashMap<String, String> map = new HashMap<>();
-    	 ArrayList<String> usersSubbed = new ArrayList<String>();
-    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
-    	 String eventInfo = "";
-    	 
-    	 eventInfo = payload.toString();
-    	  Company current = new Company();
-      //    for(Companies current : results) {
-        	  /*
-        	   * 
-        	   */
-//    	  current.(payload.toString());
-//        	current.addSubscriber("tom");
-//        	current.addSubscriber("dick");
-//        	current.addSubscriber("jane");
-     //   usersSubbed.addAll(current.getSubscribers());
-		// eventmanager.onMessage(usersSubbed, eventInfo);
-  
-		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
-		eventRepository.save(newevent);
-		 map.put("verify", "Added");
-		 try {
-			eventmanager.onMessage(usersSubbed, eventInfo);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 return "new event added, notification has been pushed";
-
-	}
+////    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
+////	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
+//    @RequestMapping(value= "/add/{cmpUsername}", method= RequestMethod.POST)
+//	public String  createEvent(@PathVariable("cmpUsername") String cmpUsername, 
+//			@RequestBody JSONObject payload) {
+//    	Event newevent = new Event();
+//    	//System.out.printf("go into comments for some reason");
+//    	HashMap<String, String> map = new HashMap<>();
+//    	 ArrayList<String> usersSubbed = new ArrayList<String>();
+//    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
+//    	 String eventInfo = "";
+//    	 
+//    	 eventInfo = payload.toString();
+//    	//  Company current = new Company();
+//    	 Event oof = new Event();
+//    	 oof.setinfo(payload);
+////		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
+////		eventRepository.save(newevent);
+////		 map.put("verify", "Added");
+////		 try {
+////			eventmanager.onMessage(usersSubbed, eventInfo);
+////		} catch (IOException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+//		 return "new event added, notification has been pushed";
+//
+//	}
 
     /**
 	   * This method finds all the events within the event Repository.
@@ -106,9 +108,9 @@ class EventController {
 	   * @return List<Events> This returns the list of events within the Repository.
 	   */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Events> getAllEvents() {
+    public List<Event> getAllEvents() {
         logger.info("Entered into Controller Layer");
-        List<Events> results = eventRepository.findAll();
+        List<Event> results = eventRepository.findAll();
         logger.info("Number of Records Fetched:" + results.size());
         return results;
     }
@@ -121,16 +123,16 @@ class EventController {
 	   * @return Events This returns the single event by id within the Repository.
 	   */
   @RequestMapping(method = RequestMethod.GET, path = "/{username}")
-  public Events findEventById(@PathVariable("username") String username) {
+  public Event findEventById(@PathVariable("username") String username) {
       logger.info("Entered into Controller Layer");
     //  Optional<Events> results = EventsRepository.findById(id);j
-      List<Events> results = eventRepository.findAll();
+      List<Event> results = eventRepository.findAll();
       username = username.toString().trim();
-      for(Events current : results) {
+      for(Event current : results) {
       	
-      	if(current.getEventName().trim().equals(username)) {
-      		return current;
-      	}
+//      	if(current.getEventName().trim().equals(username)) {
+//      		return current;
+//      	}
       	
       }
       return null; //NOT FOUND
@@ -168,7 +170,7 @@ class EventController {
 	public void deleteEventById(@PathVariable int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete event by id is invoked.");
 
-		Optional<Events> event =  eventRepository.findById(id);
+		Optional<Event> event =  eventRepository.findById(id);
 		if(!event.isPresent())
 			throw new Exception("Could not find event with id- " + id);
 

@@ -39,6 +39,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.company.Company;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -89,116 +90,79 @@ public class Owner {
 	    		CascadeType.MERGE
 	    })
 	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("owners") // prevent circular dependency with JSON deserializing
 	    private List<Company> companies;
 
 		public Integer getId() {
-	        return id;
-	        //Getter for ID of User
-	    }
+			return id;
+		}
 
-	    public void setId(Integer id) {
-	        this.id = id;
-	        //Setter for ID of User
-	    }
+		public void setId(Integer id) {
+			this.id = id;
+		}
 
-	    public boolean isNew() {
-	        return this.id == null;
-	    }
+		public String getFirstName() {
+			return firstName;
+		}
 
-	    public String getFirstName() {
-	        return this.firstName;
-	        //Getter for FirstName of User
-	    }
+		public void setFirstName(String firstName) {
+			this.firstName = firstName;
+		}
 
-	    public void setFirstName(String firstName) {
-	        this.firstName = firstName;
-	        //Setter for FirstName of User
-	    }
+		public String getLastName() {
+			return lastName;
+		}
 
-	    public String getLastName() {
-	        return this.lastName;
-	        //Getter for LastName of User
-	    }
+		public void setLastName(String lastName) {
+			this.lastName = lastName;
+		}
 
-	    public void setLastName(String lastName) {
-	        this.lastName = lastName;
-	      //Setter for LastName of User
-	    }
+		public String getAddress() {
+			return address;
+		}
 
-	    public String getAddress() {
-	        return this.address;
-	        //Getter for Address of User
-	    }
+		public void setAddress(String address) {
+			this.address = address;
+		}
 
-	    public void setAddress(String address) {
-	        this.address = address;
-	        //Setter for Address
-	    }
+		public String getTelephone() {
+			return telephone;
+		}
 
-	    public String getTelephone() {
-	        return this.telephone;
-	        //Getter for Telephone Number
-	    }
+		public void setTelephone(String telephone) {
+			this.telephone = telephone;
+		}
 
-	    public void setTelephone(String telephone) {
-	        this.telephone = telephone;
-	        //Setter for Telephone Number
-	    }
-	    public String getUsername() {
-	        return this.username;
-	        //Getter for username
-	    }
+		public String getUsername() {
+			return username;
+		}
 
-	    public void setUsername(String username) {
-	        this.username = username;
-	        //Setter for username
-	    }
-	    
-	    public String getpassword() {
-	        return this.password;
-	        //Getter for password
-	    }
+		public void setUsername(String username) {
+			this.username = username;
+		}
 
-	    public void setPassord(String password) {
-	        this.password = password;
-	        //Setter for password
-	    }
-	    
-	    public String getPoints() {
-	        return this.points;
-	        //Getter for password
-	    }
+		public String getPassword() {
+			return password;
+		}
 
-	    public void setPoints(String points) {
-	        this.points = points;
-	        //Setter for password
-	    }
+		public void setPassword(String password) {
+			this.password = password;
+		}
 
-	    //need to fix subscriptions later
-	    public List<Company> getCompanies() {
-	        return this.companies;
-	        //Getter for password
-	    }
+		public String getPoints() {
+			return points;
+		}
 
-	    
-	    public void setCompanies(List<Company> companies) {
-	        this.companies = companies;
-	        //Setter for subscriptions
-	    }
+		public void setPoints(String points) {
+			this.points = points;
+		}
 
-	    @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
+		public List<Company> getCompanies() {
+			return companies;
+		}
 
-	                .append("id", this.getId())
-	                .append("new", this.isNew())
-	                .append("lastName", this.getLastName())
-	                .append("firstName", this.getFirstName())
-	                .append("address", this.address)
-	                .append("points" , this.getPoints())
-	                .append("companies", this.getCompanies())
-	                .append("telephone", this.telephone).toString();
-	    }
-	
+		public void setCompanies(List<Company> companies) {
+			this.companies = companies;
+		}
 	
 }

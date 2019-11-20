@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.outreach.events;
+package org.springframework.samples.outreach.prize;
 
 import java.util.List;
 
@@ -23,14 +23,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository class for <code>Events</code> domain objects 
+ * Repository class for <code>Prize</code> domain objects 
  * @author creimers
  * @author kschrock
  */
 @Repository
-public interface EventRepository extends JpaRepository<Event, Integer> {
+public interface PrizeRepository extends JpaRepository<Prize, Integer> {
 
-	
+	public Prize findPrizeByPrizename(String prizename);
 
 
 }
+
