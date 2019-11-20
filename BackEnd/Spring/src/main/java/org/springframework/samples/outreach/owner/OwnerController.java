@@ -228,7 +228,7 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
     }
     
     @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/{password}/paid")
-    public boolean userPays(@PathVariable("username") String username, @PathVariable("password") String password) {
+    public boolean userPaysApp(@PathVariable("username") String username, @PathVariable("password") String password) {
     	List<Owner> results = ownersRepository.findAll();
         username = username.toString().trim();
         password = password.toString().trim();
@@ -242,6 +242,35 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         			ownersRepository.flush(); //update repo
         			
         			return true;
+        		}
+        	}
+        	
+        }
+        return false;
+        
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/{password}/{company}/paid")
+    public boolean userPaysCompany(@PathVariable("username") String username, @PathVariable("password") String password,@PathVariable("company") String company) {
+    	List<Owner> results = ownersRepository.findAll();
+        username = username.toString().trim();
+        password = password.toString().trim();
+        for(Owner current : results) {
+        	
+        	if(current.getUsername().trim().equals(username)) {
+        		
+        		
+        		if(current.getpassword().trim().equals(password)) {
+        			
+        			for(Subscription subscription: current.getSubscriptions()) {
+        				if(subscription.getCompany().getUsername().trim().equals(company.trim())) {
+        					subscription.getCompany().setPaidStatus(true);
+                			ownersRepository.flush(); //update repo
+                			companyRepository.flush();
+        					 return true;
+        				}
+        			}
+        			
         		}
         	}
         	
