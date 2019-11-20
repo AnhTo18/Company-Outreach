@@ -14,13 +14,16 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.samples.outreach.events.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +34,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author kschrock
  */
 @ServerEndpoint("/notify/{username}")
-@Component
+@Service
+@Configurable
 public class HelloWorldSocket {
 	
 	
@@ -65,23 +69,31 @@ public class HelloWorldSocket {
  
     
     @OnMessage
-    public void onMessage(Session session, String eventInfo) throws IOException 
+    public void onMessage(Session session, String eventInfo) throws IOException, JSONException 
     {  
     	logger.info("enter onmessage");
     	ObjectMapper mapper = new ObjectMapper();
     	try {
-    		 
+    		 JSONObject jsonObject = new JSONObject(eventInfo);
+    		 String username = jsonObject.getString("username");
+    		 logger.info("username is: " + username);
     		Event event = mapper.readValue(eventInfo, Event.class);
+    		logger.info("event is " + event.getEventname());
     		logger.info("Created event object from json data");
-    		Company company = event.getCompany();
-    		company = companyRepository.findCompanyByUsername(company.getUsername());
-    		logger.info("company name is" + company.getCompanyName());
-    		event.setCompany(company);
-    		company.getEvents().add(event);
-    		companyRepository.save(company);
-    		companyRepository.flush();
-    		eventRepository.save(event);
-    		eventRepository.flush();
+    		if(companyRepository == null) {
+    			logger.info("company repository is null");
+    		}
+    		if(eventRepository == null) {
+    			logger.info("event repo is null");
+    		}
+//    	//	Company company = companyRepository.findCompanyByUsername(username);
+//    		logger.info("company name is" + company.getCompanyName());
+//    		event.setCompany(company);
+//    		company.getEvents().add(event);
+//    		companyRepository.save(company);
+//    		companyRepository.flush();
+//    		eventRepository.save(event);
+//    		eventRepository.flush();
     		 logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
     	
