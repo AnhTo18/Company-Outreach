@@ -116,7 +116,6 @@ public class QrScanner extends AppCompatActivity {
                         Toast t = Toast.makeText(getApplicationContext(), "RQ Error", Toast.LENGTH_SHORT);
                         t.show();
                     }
-
                 }
             } else{
                 super.onActivityResult(requestCode,resultCode,data);

@@ -15,28 +15,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaymentDetails"></activity>
+
+        <activity android:name=".EventViewActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".EventListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".util.ListView"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserHomeActivity" />
         <activity
             android:name=".RegisterActivity"
-            android:label="Register Account"></activity>
+            android:label="Register Account"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DevHomeActivity"
-            android:label="Developer Home" />
-        <activity android:name=".QrScanner" />
-        <activity android:name=".UserProfileActivity" />
-        <activity
-            android:name=".Notification"
-            android:label="Notifications"></activity>
+            android:label="Developer Home"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".QrScanner"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UserProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PointShopActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
