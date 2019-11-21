@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.*;
+import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +44,7 @@ import javax.validation.Valid;
  * @author kschrock
  */
 @RestController
-class OwnerController {
+public class OwnerController {
 
     @Autowired
     OwnerRepository ownersRepository;
@@ -68,24 +69,36 @@ class OwnerController {
 	   * THIS IS A POST METHOD, Path = /owners/subscribe
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Subscribed".
 	   */
-@RequestMapping(value= "/owners/subscribe/{ownerID}/{companyUsername}", method= RequestMethod.POST)
+@RequestMapping(value= "/owners/subscribe/{username}/{companyUsername}", method= RequestMethod.POST)
 	public HashMap<String, String>  subscribeToCompany(@PathVariable("companyUsername") String cmpUserName,
-			@PathVariable("ownerID") int ownerID) {
+			@PathVariable("username") String username) {
 	 HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
 		/* add subscription logic here*/
+		Owner currentOwner = null;
+		for(Owner current: ownersRepository.findAll()) {
+			if(current.getUsername().equals(username)) {
+				currentOwner = current;
+			}
+		}
 		Company company = companyRepository.findCompanyByUsername(cmpUserName);
-		for(Owner owner: company.getOwners()) {
-			if(owner.getId() == ownerID) {
+		for(Subscription subscription: company.getSubscriptions()) {
+			if(subscription.getOwner().getId() == currentOwner.getId()) {
 				 map.put("verify", "subscribed");
 				 return map;
 			}
 			//its getting the owner by id and adding it to the list of owners in the company
 		}
-		Owner owner = ownersRepository.findById(ownerID).get();
-		owner.getCompanies().add(company);
-		company.getOwners().add(owner);
+		Owner owner = ownersRepository.findById(currentOwner.getId()).get();
+		
+		Subscription subscription = new Subscription();
+		subscription.setCompany(company);
+		subscription.setOwner(owner);
+		owner.getSubscriptions().add(subscription);
+	
+		company.getSubscriptions().add(subscription);
 		ownersRepository.save(owner);
+		companyRepository.save(company);
 		/*end subscription logic */
 		 map.put("verify", "Subscribed");
 		 return map;
@@ -145,8 +158,8 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
 	   * @param String Username
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added" || "verify", "NotFound".
 	   */
-    @RequestMapping(value= "/owners/addpoints/{points}/{username}", method= RequestMethod.POST)
-	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("username") String username ) {
+    @RequestMapping(value= "/owners/addpoints/{points}/{company}/{username}", method= RequestMethod.POST)
+	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("company") String company , @PathVariable("username") String username ) {
 	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
     	username = username.toString().trim();
     	
@@ -161,22 +174,38 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         	if(username.toString().trim().equals(currentUsername))
         	{
         		
-        		 map.put("verify", "Added");
-        		 int temp = 0;
-        		 int currentPoints;
-        		 try {
-        			 currentPoints = Integer.parseInt(current.getPoints());
-        		 }
-        		 catch (NumberFormatException e)
-        		 {
-        			 currentPoints = 0; //not found
-        		 }
+        		// map.put("verify", "Added");
+        		
         		// System.out.println("This is the current points.");
         	//	 System.out.println(currentPoints);
-        		 temp = currentPoints + points; //add total points
         		
+        		 for(Subscription subscription: current.getSubscriptions()) {
+        				if(subscription.getCompany().getUsername().trim().equals(company.trim())) {
+        					 int temp = 0;
+        	        		 int currentPoints;
+        	        		
+        	        		 try {
+        	        			 currentPoints =  subscription.getpoints();
+        	        					 //Integer.parseInt(subscription.getCompany().getPoints());
+        	        		 }
+        	        		 catch (NumberFormatException e)
+        	        		 {
+        	        			 currentPoints = 0; //not found
+        	        		 }
+        	        		 temp = currentPoints + points; //add total points
+        					System.out.println(currentPoints + "Before Amount");
+        					System.out.println(temp + "After Amount");
+        					subscription.setPoints(temp);
+        					//subscription.setID(1);
+        					 map.put("verify", "addedPoints!!");
+        					 ownersRepository.flush(); // updates changes
+        					 companyRepository.flush();
+        					 return map;
+        				}
+        				//its getting the owner by id and adding it to the list of owners in the company
+        			}
         	
-        		 current.setPoints(String.valueOf(temp)); //set current points to current user
+        		// current.setPoints(String.valueOf(temp)); //set current points to current user
         		 ownersRepository.flush(); // updates changes
         		 
 //        		 System.out.println("After current points.");
@@ -205,6 +234,57 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         return results;
     }
     
+    @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/{password}/paid")
+    public boolean userPaysApp(@PathVariable("username") String username, @PathVariable("password") String password) {
+    	List<Owner> results = ownersRepository.findAll();
+        username = username.toString().trim();
+        password = password.toString().trim();
+        for(Owner current : results) {
+        	
+        	if(current.getUsername().trim().equals(username)) {
+        		
+        		
+        		if(current.getpassword().trim().equals(password)) {
+        			current.setPaid("true");
+        			ownersRepository.flush(); //update repo
+        			
+        			return true;
+        		}
+        	}
+        	
+        }
+        return false;
+        
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/{password}/{company}/paid")
+    public boolean userPaysCompany(@PathVariable("username") String username, @PathVariable("password") String password,@PathVariable("company") String company) {
+    	List<Owner> results = ownersRepository.findAll();
+        username = username.toString().trim();
+        password = password.toString().trim();
+        for(Owner current : results) {
+        	
+        	if(current.getUsername().trim().equals(username)) {
+        		
+        		
+        		if(current.getpassword().trim().equals(password)) {
+        			
+        			for(Subscription subscription: current.getSubscriptions()) {
+        				if(subscription.getCompany().getUsername().trim().equals(company.trim())) {
+        					subscription.getCompany().setPaidStatus(true);
+                			ownersRepository.flush(); //update repo
+                			companyRepository.flush();
+        					 return true;
+        				}
+        			}
+        			
+        		}
+        	}
+        	
+        }
+        return false;
+        
+    }
     /**
 	   * This method finds the given Id Owner object within the Owner Repository.
 	   * THIS IS A GET METHOD, Path = /owners/{username}
@@ -251,7 +331,7 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         
         for(Owner current : results) {
         	String currentUsername = current.getUsername().toString().trim();
-        	String currentPassword = current.getPassword().toString().trim();
+        	String currentPassword = current.getpassword().toString().trim();
         	if(username.equals(currentUsername))
         	{
         		if(password.equals(currentPassword))

@@ -74,9 +74,13 @@ public class Prize {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private int qty;
 
-	    @Column(name = "color") //perhaps N/A
+//	    @Column(name = "color") //perhaps N/A
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    private String color ="N/A";
+	    
+	    @Column(name = "companyName") //perhaps N/A
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String color ="N/A";
+	    private String companyName ="";
 	    
 	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
@@ -101,6 +105,13 @@ public class Prize {
 		public void setPrizename(String prizename) {
 			this.prizename = prizename;
 		}
+		public String getCompanyName() {
+			return companyName;
+		}
+
+		public void setCompanyName(String company) {
+			this.companyName = company;
+		}
 
 		public int getCost() {
 			return cost;
@@ -118,13 +129,7 @@ public class Prize {
 			this.qty = qty;
 		}
 
-		public String getColor() {
-			return color;
-		}
-
-		public void setColor(String color) {
-			this.color = color;
-		}
+		
 
 		public Set<Company> getCompany() {
 			return company;

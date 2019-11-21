@@ -19,8 +19,10 @@ import org.hamcrest.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.owner.OwnerRepository;
+import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +54,9 @@ class PrizeController {
     
     @Autowired
     OwnerRepository ownersRepository;
+    
+    @Autowired
+    CompanyRepository companyRepository;
   
 
     private final Logger logger = LoggerFactory.getLogger(PrizeController.class);
@@ -68,9 +73,9 @@ class PrizeController {
 	   * @param String Username
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added" || "verify", "NotFound".
 	   */
-  @RequestMapping(value= "/redeem/{prizeName}/{username}", method= RequestMethod.POST)
-	public HashMap<String, String> redeemPrize(@PathVariable("prizeName") String prizeName,
-   			@PathVariable("username") String username) {
+  @RequestMapping(value= "/redeem/{companyName}/{prizeName}/{username}/{Quantity}", method= RequestMethod.POST)
+	public HashMap<String, String> redeemPrizes(@PathVariable("companyName") String companyName, @PathVariable("prizeName") String prizeName,
+   			@PathVariable("username") String username,@PathVariable("Quantity") String Quantity) {
 	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
   	username = username.toString().trim();
   
@@ -78,6 +83,7 @@ class PrizeController {
       
       HashMap<String, String> map = new HashMap<>();
      
+      int quantity = Integer.parseInt(Quantity);
       
       //first get point cost
       	int pointsCost = prizeRepository.findPrizeByPrizename(prizeName).getCost(); //gets proper info
@@ -88,32 +94,39 @@ class PrizeController {
       	
       	if(username.toString().trim().equals(currentUsername))
       	{
-      		
-      		 map.put("verify", "Added");
-      		 int temp = 0;
-      		 int currentPoints;
-      		 try {
-      			 currentPoints = Integer.parseInt(current.getPoints());
-      		 }
-      		 catch (NumberFormatException e)
-      		 {
-      			 currentPoints = 0; //not found
-      		 }
- 
-      		 temp = currentPoints - pointsCost; //add total points
-      		
-      	
-      		 current.setPoints(String.valueOf(temp)); //set current points to current user
-      		 ownersRepository.flush(); // updates changes
-      		
-      		//get current quantity
-          	int origQty = prizeRepository.findPrizeByPrizename(prizeName).getQty();
-          	//update with current qty -1 
-         	 prizeRepository.findPrizeByPrizename(prizeName).setQty(origQty-1);
-       
-         	 prizeRepository.flush(); //update change to qty
- 
-      		 return map;
+      		for(Subscription subscription: current.getSubscriptions()) {
+				if(subscription.getCompany().getUsername().trim().equals(companyName.trim())) {
+					 int totalCost = 0;
+	        	
+	        		 totalCost = pointsCost * quantity; //add total points
+//					System.out.println(currentPoints + "Before Amount");
+//					System.out.println(temp + "After Amount");
+					if(subscription.getpoints() - totalCost < 0) {
+						 map.put("verify", "Not Enough Points");
+						 return map;
+					}
+					if(prizeRepository.findPrizeByPrizename(prizeName).getQty() - quantity < 0) {
+						map.put("verify", "Not Enough Prizes Left");
+						 return map;
+					}
+					subscription.setPoints(subscription.getpoints() - totalCost);
+					//subscription.setID(1);
+					String userAddress = "You have " + quantity + " " + prizeName + ". Being sent to " + current.getAddress();
+					 map.put("verify", userAddress);
+					 ownersRepository.flush(); // updates changes
+					 companyRepository.flush();
+					//get current quantity
+					 
+			          	int origQty = prizeRepository.findPrizeByPrizename(prizeName).getQty();
+			          	//update with current qty -1 
+			         	 prizeRepository.findPrizeByPrizename(prizeName).setQty(origQty-quantity);
+			       
+			         	 prizeRepository.flush(); //update change to qty
+			         	 
+					 return map;
+				}
+				//its getting the owner by id and adding it to the list of owners in the company
+			}
       	
       	}
       }
@@ -137,9 +150,6 @@ class PrizeController {
    			@RequestBody Prize modPrize) {
     	System.out.println(this.getClass().getSimpleName() + " - Edit Prize method is invoked.");
    	 HashMap<String, String> map = new HashMap<>();
-   	 //changes color parameter based on what you get sent
-   	 String colorChange= modPrize.getColor(); //gets proper info
-   	 prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setColor(colorChange);
    	 //changes cost
    	 int costChange= modPrize.getCost(); //gets proper info
    	 prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setCost(costChange);

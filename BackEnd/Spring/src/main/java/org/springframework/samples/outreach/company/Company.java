@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.outreach.owner;
+package org.springframework.samples.outreach.company;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -31,17 +28,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.events.Event;
+import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.subscription.Subscription;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -54,8 +50,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author kschrock
  */
 @Entity
-@Table(name = "owner")
-public class Owner {
+@Table(name = "company")
+public class Company {
 
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,59 +59,61 @@ public class Owner {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
-	    @Column(name = "first_name")
+	    @Column(name = "company_name")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String firstName;
-
-	    @Column(name = "last_name")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String lastName;
+	    private String companyName;
 
 	    @Column(name = "address")
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String address;
+	    
+	    @Column(name = "user_name")
+	    @NotFound(action = NotFoundAction.IGNORE) 
+	    String username;
 
 	    @Column(name = "telephone")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String telephone;
 
-	    @Column(name = "user_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String username;
-
 	    @Column(name = "pass_word")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
-	    
+
 	    @Column(name = "points")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String points;
+	    private String points ="0";
 	    
-
-	    @Column(name = "paid")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String paid = "false";
-	    
-
-	    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
-	    private Set<Subscription> subscriptions;
-	    // private List<Subscription> companies;
-	    
-	    
-//	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
 //	    		CascadeType.PERSIST,
 //	    		CascadeType.MERGE
 //	    })
 //	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
-//	    private Set<Company> companies;
+//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+//	   	private Set<Owner> owners;
+//	    //companies
+	    
+	    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	   	private Set<Subscription> subscriptions;
+	    //java util version of set
+	    
+	    @Column(name = "isPaid")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private boolean isPaid;
 
 	    
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	    private Set<Event> events;
+
 		public Integer getId() {
 	        return id;
 	        //Getter for ID of User
@@ -130,33 +128,24 @@ public class Owner {
 	        return this.id == null;
 	    }
 
-	    public String getFirstName() {
-	        return this.firstName;
+	    public String getPoints() {
+	        return this.points;
+	        //Getter for password
+	    }
+
+	    public void setPoints(String points) {
+	        this.points = points;
+	        //Setter for password
+	    }
+	    
+	    public String getCompanyName() {
+	        return this.companyName;
 	        //Getter for FirstName of User
 	    }
 
-	    public void setFirstName(String firstName) {
-	        this.firstName = firstName;
+	    public void setCompanyName(String companyName) {
+	        this.companyName = companyName;
 	        //Setter for FirstName of User
-	    }
-	    public String getPaidStatus() {
-	        return this.paid;
-	        //Getter for pay status of User
-	    }
-
-	    public void setPaid(String paid) {
-	        this.paid = paid;
-	        //Setter for pay status of User
-	    }
-
-	    public String getLastName() {
-	        return this.lastName;
-	        //Getter for LastName of User
-	    }
-
-	    public void setLastName(String lastName) {
-	        this.lastName = lastName;
-	      //Setter for LastName of User
 	    }
 
 	    public String getAddress() {
@@ -178,48 +167,36 @@ public class Owner {
 	        this.telephone = telephone;
 	        //Setter for Telephone Number
 	    }
-	    public String getUsername() {
-	        return this.username;
-	        //Getter for username
-	    }
-
-	    public void setUsername(String username) {
-	        this.username = username;
-	        //Setter for username
-	    }
 	    
 	    public String getpassword() {
 	        return this.password;
 	        //Getter for password
 	    }
 
-	    public void setPassord(String password) {
+	    public void setPassword(String password) {
 	        this.password = password;
 	        //Setter for password
 	    }
 	    
-	    public String getPoints() {
-	        return this.points;
-	        //Getter for password
+	    public boolean getPaidStatus() {
+	        return this.isPaid;
+	        //gets status of company payment
 	    }
 
-	    public void setPoints(String points) {
-	        this.points = points;
-	        //Setter for password
+	    public void setPaidStatus(boolean isPaid) {
+	        this.isPaid = isPaid;
+	        //Sets the companies paid status to true or false
 	    }
-
-	  //need to fix subscriptions later
-//	    public Set<Company> getCompanies() {
-//	        return this.getCompanies();
-//	        //Getter for password
+	    //TESTING START
+//	    public Set<Owner> getOwners() {
+//	        return this.owners;
+//	        //gets status of company payment
 //	    }
 //
-//	    
-//	    public void setCompanies(Set<Company> companies) {
-//	        this.companies = companies;
-//	        //Setter for subscriptions
+//	    public void setOwners(Set<Owner> owners) {
+//	    	this.owners  = owners;
 //	    }
-	    
+	    //TESTING END
 	    //need to fix subscriptions later
 	    public Set<Subscription> getSubscriptions() {
 	        return this.subscriptions;
@@ -232,20 +209,42 @@ public class Owner {
 	        //Setter for subscriptions
 	    }
 	    
+	
+	    public String getUsername() {
+	        return this.username;
+	        //Getter for username
+	    }
+
+	    public void setUsername(String username) {
+	        this.username = username;
+	        //Setter for username
+	    }
+	    
+	    public Set<Event> getEvents() {
+			return events;
+		}
+
+
+		public void setEvents(Set<Event> events) {
+			this.events = events;
+		}
+
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)
 
 	                .append("id", this.getId())
 	                .append("new", this.isNew())
-	                .append("lastName", this.getLastName())
-	                .append("firstName", this.getFirstName())
+	                .append("companyName", this.getCompanyName())
+	                .append("userName", this.getUsername())
 	                .append("address", this.address)
+	                .append("isPaid", this.getPaidStatus())
+	            //    .append("owners",this.getOwners())
 	                .append("points" , this.getPoints())
-	          //      .append("companies", this.getCompanies())
 	                .append("telephone", this.telephone).toString();
 	    }
 
+		
 	
 	
 }
