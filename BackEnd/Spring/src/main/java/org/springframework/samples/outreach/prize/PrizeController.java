@@ -137,9 +137,6 @@ class PrizeController {
    			@RequestBody Prize modPrize) {
     	System.out.println(this.getClass().getSimpleName() + " - Edit Prize method is invoked.");
    	 HashMap<String, String> map = new HashMap<>();
-   	 //changes color parameter based on what you get sent
-   	 String colorChange= modPrize.getColor(); //gets proper info
-   	 prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setColor(colorChange);
    	 //changes cost
    	 int costChange= modPrize.getCost(); //gets proper info
    	 prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setCost(costChange);
@@ -160,15 +157,21 @@ class PrizeController {
 	   * THIS IS A POST METHOD, Path = /prize/add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
-    @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createPrize(@RequestBody Prize newprize) {
+    @RequestMapping(value= "/add/prize/{company}/{prizeName}/{quantity}/{cost}", method= RequestMethod.POST)
+	public HashMap<String, String>  createPrize(@PathVariable("company") String company ,@PathVariable("prizeName") String prizeName ,@PathVariable("quantity") int quantity,@PathVariable("cost") int cost ) {
     	 HashMap<String, String> map = new HashMap<>();
-		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
-		if(prizeRepository.findPrizeByPrizename(newprize.getPrizename() ) == null) {
-		 prizeRepository.save(newprize);
+    	 Prize current = new Prize();
+    	 current.setCompanyName(company);
+    	 current.setCost(cost);
+    	 current.setQty(quantity);
+    	 current.setPrizename(prizeName);
+		
+		if(prizeRepository.findPrizeByPrizename(current.getPrizename() ) == null) {
+		 prizeRepository.save(current);
 		 prizeRepository.flush();
 		 map.put("verify", "Added");
     }
+		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
 		 return map;
 
 	}
@@ -180,7 +183,7 @@ class PrizeController {
 	   * FOR TESTING PURPOSES ONLY(?)
 	   * @return List<Prize> This returns the list of prizes within the Repository.
 	   */
-    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll/prizes")
     public List<Prize> getAllCompanies() {
         logger.info("Entered into Controller Layer");
         List<Prize> results = prizeRepository.findAll();
