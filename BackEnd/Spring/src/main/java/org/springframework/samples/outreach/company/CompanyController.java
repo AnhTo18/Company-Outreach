@@ -53,62 +53,45 @@ class CompanyController {
     
     
     /*begin testing*/
-    
-    /**
- 	   * This method adds the given points to the given user. This searches through
- 	   * the Repository to find the user and give them the given amount of points to them
- 	   * and updating the Repository. 
- 	   * THIS IS A POST METHOD, Path = /owners/addpoints/{points}/{username}
- 	   * @param int Points
- 	   * @param String Username
- 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added" || "verify", "NotFound".
- 	   */
-     @RequestMapping(value= "/addpoints/{points}/{username}", method= RequestMethod.POST)
- 	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("username") String username ) {
- 	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
-     	username = username.toString().trim();
-     	
-         List<Company> results = companyRepository.findAll();
-         
-         HashMap<String, String> map = new HashMap<>();
-        
-         
-         for(Company current : results) {
-         	String currentUsername = current.getUsername().toString().trim();
-         	
-         	if(username.toString().trim().equals(currentUsername))
-         	{
-         		
-         		 map.put("verify", "Added");
-         		 int temp = 0;
-         		 int currentPoints;
-         		 try {
-         			 currentPoints = Integer.parseInt(current.getPoints());
-         		 }
-         		 catch (NumberFormatException e)
-         		 {
-         			 currentPoints = 0; //not found
-         		 }
-         		// System.out.println("This is the current points.");
-         	//	 System.out.println(currentPoints);
-         		 temp = currentPoints + points; //add total points
-         		
-         	
-         		 current.setPoints(String.valueOf(temp)); //set current points to current user
-         		 companyRepository.flush(); // updates changes
-         		 
-//         		 System.out.println("After current points.");
-//         		 System.out.println(currentPoints);
-         		 return map;
-         	
-         	}
-         }
-          
-     
-         map.put("verify", "NotFound");
- 		 return map;
- 	
- 	}
+ 
+     /**
+	   * This method tries to Login with the given Username and Password. 
+	   * It does this by searching through all Company Objects within the 
+	   * Company Repository.
+	   * THIS IS A GET METHOD, Path = /company/login/{username}/{password}
+	   * @param String Username
+	   * @param String Password
+	   * @return Map<String, String> This returns "verify", "true" || "verify", "false".
+	   */
+   @RequestMapping(value = "/login/{username}/{password}", method = RequestMethod.GET)
+   public Map<String, String> loginCompany( @PathVariable("username") String username, @PathVariable("password") String password) {
+   	
+    //   logger.info("Entered into Controller Layer");
+//   	String username = "kordell";
+//   	String password = "pass";
+   	username = username.toString().trim();
+   	password = password.toString().trim();
+       List<Company> results = companyRepository.findAll();
+       
+       HashMap<String, String> map = new HashMap<>();
+      
+       
+       for(Company current : results) {
+       	String currentUsername = current.getUsername().toString().trim();
+       	String currentPassword = current.getPassword().toString().trim();
+       	if(username.equals(currentUsername))
+       	{
+       		if(password.equals(currentPassword))
+       		{
+       		 map.put("verify", "true");
+       		 return map;
+       			
+       		}
+       	}
+       }
+        map.put("verify", "false");
+        return map;
+   }
      /*end testing*/
     /**
 	   * This method creates and add a Company to the Company Repository.
@@ -148,7 +131,7 @@ class CompanyController {
 	   * @return Owners This returns the single owner by id within the Repository.
 	   */
     @RequestMapping(method = RequestMethod.GET, path = "/{companyName}")
-    public Company findOwnerById(@PathVariable("companyName") String companyName) {
+    public Company findCompanyByID(@PathVariable("companyName") String companyName) {
         logger.info("Entered into Controller Layer");
       //  Optional<Owners> results = companyRepository.findById(id);j
         List<Company> results = companyRepository.findAll();
@@ -162,72 +145,4 @@ class CompanyController {
         }
         return null; //NOT FOUND
     }
-    
-    /**
-	   * This method tries to Login with the given Username and Password. 
-	   * It does this by searching through all Company Objects within the 
-	   * Company Repository.
-	   * THIS IS A GET METHOD, Path = /owners/login/{username}/{password}
-	   * @param String Username
-	   * @param String Password
-	   * @return Map<String, String> This returns "verify", "true" || "verify", "false".
-	   */
-    @RequestMapping(value = "/login/{username}/{password}", method = RequestMethod.GET)
-    public Map<String, String> loginOwner( @PathVariable("username") String username, @PathVariable("password") String password) {
-   
-    	username = username.toString().trim();
-    	password = password.toString().trim();
-        List<Company> results = companyRepository.findAll();
-        
-        HashMap<String, String> map = new HashMap<>();
-       
-        
-        for(Company current : results) {
-        	String currentUsername = current.getUsername().toString().trim();
-        	String currentPassword = current.getPassword().toString().trim();
-        	if(username.equals(currentUsername))
-        	{
-        		if(password.equals(currentPassword))
-        		{
-        		 map.put("verify", "true");
-        		 return map;
-        			
-        		}
-        	}
-        }
-         map.put("verify", "false");
-         return map;
-    }
-    
-    /**
-	   * This method deletes all the Owner objects within the Owner Repository.
-	   * THIS IS A POST METHOD, Path = /owners/deleteall
-	   * @return void
-	   */
-    @RequestMapping( method= RequestMethod.POST, path= "/owners/deleteall")
-	public void deleteAll() {
-		System.out.println(this.getClass().getSimpleName() + " - Delete all employees is invoked.");
-		companyRepository.deleteAll();
-	}
-    
-    /**
-	   * This method deletes the ID Owner object within the Owner Repository.
-	   * THIS IS A POST METHOD, Path = /company/delete/{id}
-	   * @param int ID
-	   * @return void
-	   */
-    @RequestMapping( method= RequestMethod.POST, value= "/owners/delete/{id}")
-	public void deleteEmployeeById(@PathVariable int id) throws Exception {
-		System.out.println(this.getClass().getSimpleName() + " - Delete employee by id is invoked.");
-
-		Optional<Company> emp =  companyRepository.findById(id);
-		if(!emp.isPresent())
-			throw new Exception("Could not find employee with id- " + id);
-
-		companyRepository.deleteById(id);
-	}
-
-
-
-
 }

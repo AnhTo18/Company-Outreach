@@ -98,11 +98,11 @@ public class HelloWorldSocket {
     		event.setLocation(jsonObject.getString("location"));
     		event.setTime(jsonObject.getString("time"));
     		
-    		
     		Company company = companyRepository.findCompanyByUsername(username);
     		logger.info("company name is" + company.getCompanyName());
     		company.getEvents().add(event);
-    		company = companyRepository.save(company);
+    		//company = companyRepository.save(company);
+    		companyRepository.save(company);
     		companyRepository.flush();
 //    		event.setCompany(company);
 //    		event = eventRepository.save(event);

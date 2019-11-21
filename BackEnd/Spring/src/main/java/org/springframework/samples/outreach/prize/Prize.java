@@ -36,8 +36,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.company.Company;
-import org.springframework.samples.outreach.events.Event;
+import org.springframework.samples.outreach.company.*;
+import org.springframework.samples.outreach.events.*;
 import org.springframework.samples.outreach.owner.Owner;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -78,13 +78,13 @@ public class Prize {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String color ="N/A";
 	    
-//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
-//	   	private Set<Company> company;
+	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
+	   	private Set<Company> company;
 
 		public Integer getId() {
 			return id;
@@ -126,13 +126,13 @@ public class Prize {
 			this.color = color;
 		}
 
-//		public Set<Company> getCompany() {
-//			return company;
-//		}
-//
-//		public void setCompany(Set<Company> company) {
-//			this.company = company;
-//		}
+		public Set<Company> getCompany() {
+			return company;
+		}
+
+		public void setCompany(Set<Company> company) {
+			this.company = company;
+		}
 
 	    
 }

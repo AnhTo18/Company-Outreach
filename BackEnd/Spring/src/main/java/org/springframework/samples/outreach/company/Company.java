@@ -39,6 +39,7 @@ import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.events.Event;
 import org.springframework.samples.outreach.owner.Owner;
 //import org.springframework.samples.outreach.prize.Prize;
+import org.springframework.samples.outreach.prize.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -95,13 +96,14 @@ public class Company {
 	   	private List<Owner> owners;
 	    
 	    
-//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-//		CascadeType.PERSIST,
-//		CascadeType.MERGE
-//})
-//@NotFound(action = NotFoundAction.IGNORE)
-//@JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-//private Set<Prize> prizes;
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+		CascadeType.PERSIST,
+		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	    private Set<String> prize;
+	    
 	    
 	    @OneToMany(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
@@ -200,16 +202,18 @@ public class Company {
 		public void setEvents(Set<Event> events) {
 			this.events = events;
 		}
+
+
+		public Set<Prize> getPrizes() {
+			return prizes;
+		}
+
+
+		public void setPrizes(Set<Prize> prizes) {
+			this.prizes = prizes;
+		}
 	  
 
-//		public Set<Prize> getPrizes() {
-//			return prizes;
-//		}
-//
-//
-//		public void setPrizes(Set<Prize> prizes) {
-//			this.prizes = prizes;
-//		}
 
 	
 }
