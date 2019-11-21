@@ -36,6 +36,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.events.Event;
 import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.subscription.Subscription;
 
@@ -103,6 +104,15 @@ public class Company {
 	    @Column(name = "isPaid")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private boolean isPaid;
+
+	    
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	    private Set<Event> events;
 
 		public Integer getId() {
 	        return id;
@@ -177,6 +187,7 @@ public class Company {
 	        this.isPaid = isPaid;
 	        //Sets the companies paid status to true or false
 	    }
+	    //TESTING START
 //	    public Set<Owner> getOwners() {
 //	        return this.owners;
 //	        //gets status of company payment
@@ -185,7 +196,7 @@ public class Company {
 //	    public void setOwners(Set<Owner> owners) {
 //	    	this.owners  = owners;
 //	    }
-	    
+	    //TESTING END
 	    //need to fix subscriptions later
 	    public Set<Subscription> getSubscriptions() {
 	        return this.subscriptions;
@@ -209,6 +220,15 @@ public class Company {
 	        //Setter for username
 	    }
 	    
+	    public Set<Event> getEvents() {
+			return events;
+		}
+
+
+		public void setEvents(Set<Event> events) {
+			this.events = events;
+		}
+
 	    @Override
 	    public String toString() {
 	        return new ToStringCreator(this)

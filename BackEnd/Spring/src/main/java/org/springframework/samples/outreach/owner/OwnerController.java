@@ -69,21 +69,28 @@ public class OwnerController {
 	   * THIS IS A POST METHOD, Path = /owners/subscribe
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Subscribed".
 	   */
-@RequestMapping(value= "/owners/subscribe/{ownerID}/{companyUsername}", method= RequestMethod.POST)
+@RequestMapping(value= "/owners/subscribe/{username}/{companyUsername}", method= RequestMethod.POST)
 	public HashMap<String, String>  subscribeToCompany(@PathVariable("companyUsername") String cmpUserName,
-			@PathVariable("ownerID") int ownerID) {
+			@PathVariable("username") String username) {
 	 HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
 		/* add subscription logic here*/
+		Owner currentOwner = null;
+		for(Owner current: ownersRepository.findAll()) {
+			if(current.getUsername().equals(username)) {
+				currentOwner = current;
+			}
+		}
 		Company company = companyRepository.findCompanyByUsername(cmpUserName);
 		for(Subscription subscription: company.getSubscriptions()) {
-			if(subscription.getOwner().getId() == ownerID) {
+			if(subscription.getOwner().getId() == currentOwner.getId()) {
 				 map.put("verify", "subscribed");
 				 return map;
 			}
 			//its getting the owner by id and adding it to the list of owners in the company
 		}
-		Owner owner = ownersRepository.findById(ownerID).get();
+		Owner owner = ownersRepository.findById(currentOwner.getId()).get();
+		
 		Subscription subscription = new Subscription();
 		subscription.setCompany(company);
 		subscription.setOwner(owner);

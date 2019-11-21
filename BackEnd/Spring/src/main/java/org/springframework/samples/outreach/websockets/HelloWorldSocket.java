@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -107,7 +108,7 @@ public class HelloWorldSocket {
 //    		event.setCompany(company);
 //    		event = eventRepository.save(event);
 //    		eventRepository.flush();
-    	//	broadcastEvent(company.getOwners(), event); //change to getSubscribers() later
+  //  		broadcastEvent(company.getOwners(), event); //change to getSubscribers() later
     		logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
     	
@@ -145,10 +146,10 @@ public class HelloWorldSocket {
     
     
 
-	private void broadcastEvent(List<Owner> owners, Event event) {
+	private void broadcastEvent(Set<Owner> set, Event event) {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		for(Owner owner : owners) {
+		for(Owner owner : set) {
 			Session session = usernameSessionMap.get(owner.getUsername());
 			if(session != null) {
 				try {
