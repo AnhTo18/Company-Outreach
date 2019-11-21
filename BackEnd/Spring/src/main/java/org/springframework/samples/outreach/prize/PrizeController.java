@@ -157,21 +157,15 @@ class PrizeController {
 	   * THIS IS A POST METHOD, Path = /prize/add
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
 	   */
-    @RequestMapping(value= "/add/prize/{company}/{prizeName}/{quantity}/{cost}", method= RequestMethod.POST)
-	public HashMap<String, String>  createPrize(@PathVariable("company") String company ,@PathVariable("prizeName") String prizeName ,@PathVariable("quantity") int quantity,@PathVariable("cost") int cost ) {
+    @RequestMapping(value= "/add", method= RequestMethod.POST)
+	public HashMap<String, String>  createPrize(@RequestBody Prize newprize) {
     	 HashMap<String, String> map = new HashMap<>();
-    	 Prize current = new Prize();
-    	 current.setCompanyName(company);
-    	 current.setCost(cost);
-    	 current.setQty(quantity);
-    	 current.setPrizename(prizeName);
-		
-		if(prizeRepository.findPrizeByPrizename(current.getPrizename() ) == null) {
-		 prizeRepository.save(current);
+		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
+		if(prizeRepository.findPrizeByPrizename(newprize.getPrizename() ) == null) {
+		 prizeRepository.save(newprize);
 		 prizeRepository.flush();
 		 map.put("verify", "Added");
     }
-		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
 		 return map;
 
 	}
@@ -183,7 +177,7 @@ class PrizeController {
 	   * FOR TESTING PURPOSES ONLY(?)
 	   * @return List<Prize> This returns the list of prizes within the Repository.
 	   */
-    @RequestMapping(method = RequestMethod.GET, path = "/getAll/prizes")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
     public List<Prize> getAllCompanies() {
         logger.info("Entered into Controller Layer");
         List<Prize> results = prizeRepository.findAll();
