@@ -45,6 +45,7 @@ public class PaymentDetails extends AppCompatActivity {
             e.printStackTrace();
         }
         String url=Const.URL_SHOW_USERS+"/"+Const.username+"/"+Const.password+"/";
+        Log.d("confirmation",txtStatus.getText().toString());
         if(txtStatus.getText().toString().equals("Approved")){
             url=Const.URL_SHOW_USERS+"/"+Const.username+"/"+Const.password+"/paid";
         }
