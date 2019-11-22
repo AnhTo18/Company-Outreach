@@ -77,7 +77,7 @@ public class CompanyLoginActivity extends AppCompatActivity {
                     startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
                 } else {
 
-                    String url = Const.URL_COMPANY_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
+                    String url = Const.URL_COMPANY_LOGIN  + user.getText().toString() + "/" + pass.getText().toString();
 
                     jor2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         String verify = "false";
@@ -96,7 +96,7 @@ public class CompanyLoginActivity extends AppCompatActivity {
                             if (verify.equals("true")) {
                                 Const.username = user.getText().toString();
                                 Const.password = pass.getText().toString();
-                                startActivity(new Intent(CompanyLoginActivity.this, Notification.class));
+                                startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
                             } else {
                                 Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
                                 t.show();

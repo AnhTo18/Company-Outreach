@@ -21,6 +21,8 @@
         <activity android:name=".CompanyHomeActivity" />
         <activity android:name=".CompanyRegisterActivity" />
         <activity android:name=".CompanyLoginActivity" />
+        <activity android:name=".Notification" />
+        <activity android:name=".UserHomeActivity" />
         <activity
             android:name=".EventViewActivity"
             android:screenOrientation="portrait" />
@@ -58,10 +60,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".PointShopActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notification"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" /><![CDATA[
 
             android:label="Developer Home" />
 
@@ -69,6 +68,7 @@
 
 
 
+    ]]>
     </application>
 
 </manifest>

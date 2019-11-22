@@ -31,7 +31,7 @@ public class MakePrizeActivity extends AppCompatActivity {
         prize = findViewById(R.id.textInputPrizeName);
         cost = findViewById(R.id.textInputCost);
         qty = findViewById(R.id.textInputQty);
-        submit = findViewById(R.id.buttonMakePrize);
+        submit = findViewById(R.id.buttonCreateSendPrize);
         rq = Volley.newRequestQueue(this);
 
         submit.setOnClickListener(new View.OnClickListener(){

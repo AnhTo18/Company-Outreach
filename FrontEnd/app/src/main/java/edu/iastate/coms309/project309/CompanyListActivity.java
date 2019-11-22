@@ -3,6 +3,7 @@ package edu.iastate.coms309.project309;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,20 +38,25 @@ public class CompanyListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_list);
 
-        list = findViewById(R.id.listView);
+        list = findViewById(R.id.listView2);
 
         companies = new ArrayList<>();
+
+        rq = Volley.newRequestQueue(this);
 
 
         JsonArrayRequest jor = new JsonArrayRequest(Request.Method.GET, Const.URL_COMPANIES, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
+
+                Log.d("VOLLEY", response.toString());
                 for (int i = 0 ; i < response.length() ; i++) {
 
                     try {
                         JSONObject j = response.getJSONObject(i);
                         companies.add(j.getString("companyName"));
+                        Log.d("VOLLEY", "added " + j.getString("companyName"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
