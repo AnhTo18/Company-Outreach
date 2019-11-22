@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.*;
+import org.springframework.samples.outreach.prize.Prize;
+import org.springframework.samples.outreach.prize.PrizeRepository;
 import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +53,9 @@ public class OwnerController {
     
     @Autowired
     CompanyRepository companyRepository;
+    
+    @Autowired
+    PrizeRepository prizeRepository;
   
 
     private final Logger logger = LoggerFactory.getLogger(OwnerController.class);
@@ -62,7 +67,37 @@ public class OwnerController {
 //        return "New Owner "+ owner.getFirstName() + " Saved";
 //    }
     
-    
+    /**
+	   * This method creates and adds a prize to the Prize Repository.
+	   * THIS IS A POST METHOD, Path = /prize/add
+	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
+	   */
+@RequestMapping(value= "/addPrize", method= RequestMethod.POST)
+	public HashMap<String, String>  createPrize(@RequestBody Prize newprize) {
+	 HashMap<String, String> map = new HashMap<>();
+		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
+//		if(prizeRepository.findPrizeByPrizename(newprize.getPrizename() ) == null) {
+		 prizeRepository.save(newprize);
+		 prizeRepository.flush();
+		 map.put("verify", "Added");
+//}
+		 return map;
+
+	}
+/**
+ * This method finds all the Prize objects within the Prize Repository.
+ * THIS IS A GET METHOD, Path = /prize
+ * FOR TESTING PURPOSES ONLY(?)
+ * @return List<Prize> This returns the list of prizes within the Repository.
+ */
+@RequestMapping(method = RequestMethod.GET, path = "/getAll/Prizes")
+public List<Prize> getAllCompanies() {
+  logger.info("Entered into Controller Layer");
+  List<Prize> results = prizeRepository.findAll();
+  logger.info("Number of Records Fetched:" + results.size());
+  return results;
+}
+
     /* subscription methods begin */
     /**
 	   * This method subscribes a user to a company.
@@ -104,7 +139,89 @@ public class OwnerController {
 		 return map;
 
 	}
+@RequestMapping(value= "/redeem/{companyName}/{prizeName}/{username}/{Quantity}", method= RequestMethod.POST)
+	public HashMap<String, String> redeemPrizes(@PathVariable("companyName") String companyName, @PathVariable("prizeName") String prizeName,
+ 			@PathVariable("username") String username,@PathVariable("Quantity") String Quantity) {
+	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
+	username = username.toString().trim();
 
+    List<Owner> results = ownersRepository.findAll();
+    
+    HashMap<String, String> map = new HashMap<>();
+   
+    int quantity = Integer.parseInt(Quantity);
+   
+    //first get point cost
+    	int pointsCost = prizeRepository.findPrizeByPrizename(prizeName).getCost(); //gets proper info
+    
+    	//pass points cost in to deduct from users points
+    for(Owner current : results) {
+    	String currentUsername = current.getUsername().toString().trim();
+    	
+    	if(username.toString().trim().equals(currentUsername))
+    	{
+    		 
+    		for(Subscription subscription: current.getSubscriptions()) {
+				if(subscription.getCompany().getCompanyName().trim().equals(companyName.trim())) {
+					 double totalCost = 0;
+					 double discount = 1;
+					 if(subscription.getCompany().getPaidStatus() == true) {
+						 discount = prizeRepository.findPrizeByPrizename(prizeName).getDiscount();
+						 discount = discount * quantity;
+						 totalCost = pointsCost * quantity - discount;
+					 }
+					 if(subscription.getCompany().getPaidStatus() == false) {
+					
+						 totalCost = pointsCost * quantity;
+					 }
+					 
+//					 System.out.println(discount);
+//					 System.out.println(quantity);
+//					 System.out.println(pointsCost);
+					
+	        		 //add total points
+//					System.out.println(currentPoints + "Before Amount");
+//					System.out.println(temp + "After Amount");
+	        		 System.out.println(totalCost);
+	        		 String output = "Not Enough " +subscription.getCompany().getCompanyName() +" Points";
+					if(subscription.getpoints() - totalCost < 0) {
+						 map.put("verify", output);
+						 return map;
+					}
+					if(prizeRepository.findPrizeByPrizename(prizeName).getQty() - quantity < 0) {
+						map.put("verify", "Not Enough Prizes Left");
+						 return map;
+					}
+					System.out.println(subscription.getpoints() - totalCost + "MATH");
+					double leftOverPoints = subscription.setPoints(subscription.getpoints() - totalCost);
+					System.out.println(leftOverPoints + "Left Over");
+					subscription.setPoints(leftOverPoints);
+					//subscription.setID(1);
+					String userAddress = "You have " + quantity + " " + prizeName + ". Being sent to " + current.getAddress();
+					 map.put("verify", userAddress);
+					 ownersRepository.flush(); // updates changes
+					 companyRepository.flush();
+					//get current quantity
+					 
+			          	int origQty = prizeRepository.findPrizeByPrizename(prizeName).getQty();
+			          	//update with current qty -1 
+			         	 prizeRepository.findPrizeByPrizename(prizeName).setQty(origQty-quantity);
+			       
+			         	 prizeRepository.flush(); //update change to qty
+			         	 
+					 return map;
+				}
+				//its getting the owner by id and adding it to the list of owners in the company
+			}
+    	
+    	}
+    }
+ 
+   	
+    map.put("verify", "NotFound");
+		 return map;
+	
+	}
 /**
  * This method returns all of the companies that the user has subscribed to. This searches through
  * the Repository to find the user and check companies they have subscribed to
@@ -180,9 +297,9 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         	//	 System.out.println(currentPoints);
         		
         		 for(Subscription subscription: current.getSubscriptions()) {
-        				if(subscription.getCompany().getUsername().trim().equals(company.trim())) {
-        					 int temp = 0;
-        	        		 int currentPoints;
+        				if(subscription.getCompany().getCompanyName().trim().equals(company.trim())) {
+        					 double temp = 0;
+        	        		 double currentPoints;
         	        		
         	        		 try {
         	        			 currentPoints =  subscription.getpoints();

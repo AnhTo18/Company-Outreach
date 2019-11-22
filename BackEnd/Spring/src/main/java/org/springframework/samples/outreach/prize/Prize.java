@@ -76,7 +76,7 @@ public class Prize {
 	    
 	    @Column(name = "discount")
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private int discount;
+	    private int pointsOff;
 
 //	    @Column(name = "color") //perhaps N/A
 //	    @NotFound(action = NotFoundAction.IGNORE)
@@ -110,11 +110,11 @@ public class Prize {
 			this.prizename = prizename;
 		}
 		public int getDiscount() {
-			return discount;
+			return pointsOff;
 		}
 
 		public void setDiscount(int discount) {
-			this.discount = discount;
+			this.pointsOff = discount;
 		}
 		public String getCompanyName() {
 			return companyName;
