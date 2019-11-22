@@ -122,17 +122,17 @@ class EventController {
 	   * @param String event
 	   * @return Events This returns the single event by id within the Repository.
 	   */
-  @RequestMapping(method = RequestMethod.GET, path = "/{username}")
-  public Event findEventById(@PathVariable("username") String username) {
+  @RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
+  public Event findEventById(@PathVariable("eventname") String eventname) {
       logger.info("Entered into Controller Layer");
     //  Optional<Events> results = EventsRepository.findById(id);j
       List<Event> results = eventRepository.findAll();
-      username = username.toString().trim();
+      eventname = eventname.toString().trim();
       for(Event current : results) {
       	
-//      	if(current.getEventName().trim().equals(username)) {
-//      		return current;
-//      	}
+      	if(current.getEventname().trim().equals(eventname)) {
+      		return current;
+      	}
       	
       }
       return null; //NOT FOUND

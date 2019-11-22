@@ -270,7 +270,7 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         		if(current.getpassword().trim().equals(password)) {
         			
         			for(Subscription subscription: current.getSubscriptions()) {
-        				if(subscription.getCompany().getUsername().trim().equals(company.trim())) {
+        				if(subscription.getCompany().getCompanyName().trim().equals(company.trim())) {
         					subscription.getCompany().setPaidStatus(true);
                 			ownersRepository.flush(); //update repo
                 			companyRepository.flush();
