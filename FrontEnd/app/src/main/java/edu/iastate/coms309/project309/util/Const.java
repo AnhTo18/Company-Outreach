@@ -20,9 +20,13 @@ public class Const {
 	public static final String PaypalClientCode="AbVR5V6IJR3_bo72_rbhN6L4hEre4Bgm5TO32KKghRhZV08zX3uNPN8XfVj5eqBzZjO9EMjuFjCRHpP3";
 
     public static String username = "";
+
 	public static String password = "";
     public static String event = "";
     public static String company = "";
+
+
+    public static String companyForDiscount="";
 
 
 }

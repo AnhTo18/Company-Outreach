@@ -45,8 +45,13 @@ public class PaymentDetails extends AppCompatActivity {
             e.printStackTrace();
         }
         String url=Const.URL_SHOW_USERS+"/"+Const.username+"/"+Const.password+"/";
-        if(txtStatus.getText().toString().equals("Approved")){
-            url=Const.URL_SHOW_USERS+"/"+Const.username+"/"+Const.password+"/paid";
+        Log.d("confirmation",txtStatus.getText().toString());
+
+
+        if(txtStatus.getText().toString().equals("approved")){
+            url=Const.URL_SHOW_USERS+"/"+Const.username+"/"+Const.password+"/"+Const.companyForDiscount+"/paid";
+            url=Const.URL_SHOW_USERS+"/user/password/"+Const.companyForDiscount+"/paid";  //need to connect to rest of front end
+
         }
         jor2 = new JsonObjectRequest(Request.Method.GET, url, null , new Response.Listener<JSONObject>() {
 

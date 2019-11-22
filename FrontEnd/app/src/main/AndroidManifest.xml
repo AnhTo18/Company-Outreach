@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".CompanyListActivity"></activity>
         <activity android:name=".MakePrizeActivity" />
         <activity android:name=".CompanyHomeActivity" />
@@ -33,6 +34,7 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,6 +47,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".DevHomeActivity"
+
             android:label="Developer Home"
             android:screenOrientation="portrait" />
         <activity
@@ -59,6 +62,13 @@
         <activity
             android:name=".Notification"
             android:screenOrientation="portrait" />
+
+            android:label="Developer Home" />
+
+
+
+
+
     </application>
 
 </manifest>
