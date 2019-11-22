@@ -2,12 +2,15 @@ package edu.iastate.coms309.project309;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.ArrayList;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,20 +41,27 @@ import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.arraylistAdapter;
 
 public class PaypalActivity extends AppCompatActivity {
+  //  private TextView mTextViewResult;
+    private RequestQueue mQueue;
+
+
     public static final int PAYPAL_REQUEST_CODE=7171;
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(Const.PaypalClientCode);
-
+    String items[]={"9"};
     Button payButton;
     EditText amountEdit;
+    ArrayList<String> array;
     String amount="";
-
-
+    arraylistAdapter adapter;
     @Override
     protected void onDestroy(){
         stopService(new Intent(this,PayPalService.class));
@@ -61,6 +72,72 @@ public class PaypalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paypal_payscreen);
+       // mTextViewResult = findViewById(R.id.text_view_result);
+        ListView listView =(ListView) findViewById(R.id.listView);
+
+        mQueue = Volley.newRequestQueue(this);
+        array= new ArrayList<String>();
+        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/user/findSubscriptions"; //have to change later so other user can actually use
+        String url3=Const.URL_SHOW_USERS+"/user/password/targetNorth2/paid";
+      //  String url1="https://api.myjson.com/bins/kp9wz";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+int b=response.length();
+Log.d("size", Integer.toString(b));
+                            for(int i=1; i<=response.length();i++){
+                                String a  =response.getString(Integer.toString(i));
+                                array.add(a);
+                            }
+                            String a = response.getString("2");
+                            System.out.println(a);
+/*
+
+                            JSONArray jsonArray=response.getJSONArray("employees");
+                            for(int i=0; i<jsonArray.length();i++){
+                                JSONObject company=jsonArray.getJSONObject(i);
+                                String user = company.getString("firstname");
+                                array.add(user);
+
+
+                                Log.d("username",user);
+
+
+
+                            }*/
+   // mTextViewResult.append(a);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("array",array.toString());
+                        System.out.println("arr: " + array.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
+                Log.e(AppController.TAG, "Error: " + error.getMessage());
+                Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
+                t.show();
+            }
+        });
+
+        mQueue.add(request);
+
+
+        adapter=new arraylistAdapter(getApplicationContext(),array);
+       listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Const.companyForDiscount=adapter.getCompany(position);
+                System.out.println(adapter.getCompany(position));
+            }
+        });
+
 
         Intent intent=new Intent(this,PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
