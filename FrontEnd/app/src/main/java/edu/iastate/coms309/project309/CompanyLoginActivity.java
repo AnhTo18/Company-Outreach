@@ -74,7 +74,7 @@ public class CompanyLoginActivity extends AppCompatActivity {
                     //Bypass login for testing
                     Toast t = Toast.makeText(getApplicationContext(), "Bypassing Login!", Toast.LENGTH_SHORT);
                     t.show();
-                    //startActivity(new Intent(CompanyLoginActivity.this, DevHomeActivity.class));
+                    startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
                 } else {
 
                     String url = Const.URL_COMPANY_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();

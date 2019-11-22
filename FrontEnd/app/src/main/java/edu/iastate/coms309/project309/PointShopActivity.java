@@ -116,7 +116,7 @@ public class PointShopActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 //Execute transaction
-                                String url = Const.URL_REDEEM + item + "/" + Const.username;
+                                String url = Const.URL_REDEEM + Const.company + "/" + item + "/" + Const.username + "/1";
                                 JsonObjectRequest jor3 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {

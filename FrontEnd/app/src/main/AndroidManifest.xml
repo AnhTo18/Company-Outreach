@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CompanyRegisterActivity"></activity>
+        <activity android:name=".CompanyListActivity"></activity>
+        <activity android:name=".MakePrizeActivity" />
+        <activity android:name=".CompanyHomeActivity" />
+        <activity android:name=".CompanyRegisterActivity" />
         <activity android:name=".CompanyLoginActivity" />
         <activity
             android:name=".EventViewActivity"

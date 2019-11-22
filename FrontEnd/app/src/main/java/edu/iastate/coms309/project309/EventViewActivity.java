@@ -27,7 +27,7 @@ import edu.iastate.coms309.project309.util.Const;
 
 public class EventViewActivity extends AppCompatActivity {
 
-    Button qr, shop, sub;
+    Button qr, shop;
     TextView e, c, loc, date, time;
     RequestQueue rq;
 
@@ -111,15 +111,6 @@ public class EventViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(EventViewActivity.this, PointShopActivity.class));
-            }
-        });
-
-        sub = findViewById(R.id.buttonSubscribe);
-        sub.setText("Subscribe to " + Const.company);
-        sub.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                rq.add(new JsonObjectRequest(Request.Method.POST, Const.URL_SHOW_USERS + Const.username + '/' + Const.company, null, null, null));
             }
         });
     }
