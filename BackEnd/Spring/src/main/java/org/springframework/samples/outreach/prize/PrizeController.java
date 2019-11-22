@@ -63,6 +63,27 @@ class PrizeController {
     
     
 
+    
+    
+    
+    /**
+	   * This method creates and adds a prize to the Prize Repository.
+	   * THIS IS A POST METHOD, Path = /prize/add
+	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
+	   */
+  @RequestMapping(value= "/addPrize", method= RequestMethod.POST)
+	public HashMap<String, String>  createPrize(@RequestBody Prize newprize) {
+  	 HashMap<String, String> map = new HashMap<>();
+		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
+//		if(prizeRepository.findPrizeByPrizename(newprize.getPrizename() ) == null) {
+		 prizeRepository.save(newprize);
+		 prizeRepository.flush();
+		 map.put("verify", "Added");
+//  }
+		 return map;
+
+	}
+  
     //consume method (redeem prize)
     /**
 	   * Redeems a prize from the store
@@ -165,23 +186,7 @@ class PrizeController {
     }
     
    
-    /**
-	   * This method creates and adds a prize to the Prize Repository.
-	   * THIS IS A POST METHOD, Path = /prize/add
-	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
-	   */
-    @RequestMapping(value= "/add", method= RequestMethod.POST)
-	public HashMap<String, String>  createPrize(@RequestBody Prize newprize) {
-    	 HashMap<String, String> map = new HashMap<>();
-		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
-		if(prizeRepository.findPrizeByPrizename(newprize.getPrizename() ) == null) {
-		 prizeRepository.save(newprize);
-		 prizeRepository.flush();
-		 map.put("verify", "Added");
-    }
-		 return map;
-
-	}
+   
 
     
     /**
@@ -190,7 +195,7 @@ class PrizeController {
 	   * FOR TESTING PURPOSES ONLY(?)
 	   * @return List<Prize> This returns the list of prizes within the Repository.
 	   */
-    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAll/Prizes")
     public List<Prize> getAllCompanies() {
         logger.info("Entered into Controller Layer");
         List<Prize> results = prizeRepository.findAll();

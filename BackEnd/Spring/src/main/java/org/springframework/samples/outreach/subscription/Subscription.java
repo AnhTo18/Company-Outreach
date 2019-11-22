@@ -49,7 +49,7 @@ public class Subscription {
 	    @JsonIgnoreProperties("subscriptions") // prevent circular dependency with JSON deserializing
 	private Company company;
 	
-	private int points;
+	private double points;
 	
 	
 	   public Company getCompany() {
@@ -72,12 +72,12 @@ public class Subscription {
 	        return this.owner = user;
 //	       
 	    }
-	   public int getpoints() {
+	   public double getpoints() {
 	        return this.points;
 //	        //gets status of points
 	    }
-	   public int setPoints(int point) {
-		   return this.points = point;
+	   public double setPoints(double d) {
+		   return this.points = d;
 	   }
 	   
 	   public int getID() {
