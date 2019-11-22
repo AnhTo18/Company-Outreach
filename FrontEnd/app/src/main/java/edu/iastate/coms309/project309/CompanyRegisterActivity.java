@@ -47,7 +47,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         username = findViewById(R.id.textInputUsernameCompany);
         password = findViewById(R.id.textInputPasswordCompany);
 
-        findViewById(R.id.buttonCreateAcct).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonCreateAcctCompany).setOnClickListener(new View.OnClickListener() {
             boolean success = false;
             @Override
             public void onClick(View view) {

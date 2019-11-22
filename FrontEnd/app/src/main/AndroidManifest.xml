@@ -53,6 +53,9 @@
         <activity
             android:name=".PointShopActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Notification"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
