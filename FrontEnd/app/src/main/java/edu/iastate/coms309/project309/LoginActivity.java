@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (verify.equals("true")) {
                                 Const.username = user.getText().toString();
                                 Const.password = pass.getText().toString();
+                                connectWS(user.getText().toString());
                                 startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
                             } else {
                                 Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
@@ -137,47 +138,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
 
-                Draft[] drafts = {new Draft_6455()};
-
-
-                String w = "ws://coms-309-ss-8.misc.iastate.edu:8080/notify/" + Const.username;
-
-                try {
-
-                    cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
-
-                        @Override
-                        public void onMessage(String message) {
-                            Log.d("", "run() returned: " + message);
-
-                        }
-
-                        @Override
-                        public void onOpen(ServerHandshake handshake) {
-                            Log.d("OPEN", "run() returned: " + "is connecting");
-                        }
-
-                        @Override
-                        public void onClose(int code, String reason, boolean remote) {
-                            Log.d("CLOSE", "onClose() returned: " + reason);
-                        }
-
-                        @Override
-                        public void onError(Exception e)
-                        {
-                            Log.d("Exception:", e.toString());
-                        }
-
-
-
-                    };
-                }
-                catch (URISyntaxException e) {
-                    Log.d("Exception:", e.getMessage().toString());
-                    e.printStackTrace();
-                }
-                cc.connect();
-
 
             }
 
@@ -185,5 +145,48 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void connectWS(String username) {
+        Draft[] drafts = {new Draft_6455()};
+
+
+        String w = "ws://coms-309-ss-8.misc.iastate.edu:8080/notify/" + username;
+
+        try {
+
+            cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
+
+                @Override
+                public void onMessage(String message) {
+                    Log.d("", "run() returned: " + message);
+
+                }
+
+                @Override
+                public void onOpen(ServerHandshake handshake) {
+                    Log.d("OPEN", "run() returned: " + "is connecting");
+                }
+
+                @Override
+                public void onClose(int code, String reason, boolean remote) {
+                    Log.d("CLOSE", "onClose() returned: " + reason);
+                }
+
+                @Override
+                public void onError(Exception e)
+                {
+                    Log.d("Exception:", e.toString());
+                }
+
+
+
+            };
+        }
+        catch (URISyntaxException e) {
+            Log.d("Exception:", e.getMessage().toString());
+            e.printStackTrace();
+        }
+        cc.connect();
     }
 }
