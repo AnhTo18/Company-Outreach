@@ -285,6 +285,32 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
         return false;
         
     }
+    
+    
+    @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/findSubscriptions")
+    public HashMap<String, String> findUserSubscriptions(@PathVariable("username") String username) {
+    	List<Owner> results = ownersRepository.findAll();
+    	username = username.toString().trim();
+    	
+    	 HashMap<String, String> map = new HashMap<>();
+    	 
+        for(Owner current : results) {
+        	
+        	
+        	if(current.getUsername().trim().equals(username)) {
+    			
+    			for(Subscription subscription: current.getSubscriptions()) {
+    				
+            			map.put(subscription.getID()+"", subscription.getCompany().getCompanyName());
+    				
+    			}
+    			
+    		}
+    	}
+        	
+        return map;
+        
+    }
     /**
 	   * This method finds the given Id Owner object within the Owner Repository.
 	   * THIS IS A GET METHOD, Path = /owners/{username}
