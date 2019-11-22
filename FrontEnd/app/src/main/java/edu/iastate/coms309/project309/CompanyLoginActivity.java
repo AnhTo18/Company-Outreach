@@ -30,10 +30,10 @@ import java.util.Map;
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
 
-public class LoginActivity extends AppCompatActivity {
+public class CompanyLoginActivity extends AppCompatActivity {
 
     EditText user, pass;
-    Button reg, login, comp;
+    Button reg, login, normal;
 
     RequestQueue rq;
     JsonObjectRequest jor2;
@@ -41,22 +41,21 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_company_login);
 
-        user = findViewById(R.id.loginInputUsername);
-        pass = findViewById(R.id.loginInputPassword);
-        reg = findViewById(R.id.buttonMakeAcct);
-        login = findViewById(R.id.buttonLogin);
+        user = findViewById(R.id.loginInputUsernameCompany);
+        pass = findViewById(R.id.loginInputPasswordCompany);
+        reg = findViewById(R.id.buttonMakeAcctCompany);
+        login = findViewById(R.id.buttonLoginCompany);
 
-        comp = findViewById(R.id.buttonGotoCompany);
+        normal = findViewById(R.id.buttonGotoUser);
 
-        comp.setOnClickListener(new View.OnClickListener(){
+        normal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, CompanyLoginActivity.class));
+                startActivity(new Intent(CompanyLoginActivity.this, LoginActivity.class));
             }
         });
-
 
         rq = Volley.newRequestQueue(this);
 
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                startActivity(new Intent(CompanyLoginActivity.this, CompanyRegisterActivity.class));
             }
         });
 
@@ -75,10 +74,10 @@ public class LoginActivity extends AppCompatActivity {
                     //Bypass login for testing
                     Toast t = Toast.makeText(getApplicationContext(), "Bypassing Login!", Toast.LENGTH_SHORT);
                     t.show();
-                    startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
+                    //startActivity(new Intent(CompanyLoginActivity.this, DevHomeActivity.class));
                 } else {
 
-                    String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
+                    String url = Const.URL_COMPANY_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
 
                     jor2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         String verify = "false";
@@ -97,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (verify.equals("true")) {
                                 Const.username = user.getText().toString();
                                 Const.password = pass.getText().toString();
-                                startActivity(new Intent(LoginActivity.this, EventListActivity.class));
+                                startActivity(new Intent(CompanyLoginActivity.this, Notification.class));
                             } else {
                                 Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
                                 t.show();

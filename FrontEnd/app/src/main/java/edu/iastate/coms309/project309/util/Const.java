@@ -11,6 +11,8 @@ public class Const {
     public static final String URL_EVENT_LIST = "http://" + DOMAIN + "events/";
     public static final String URL_SHOP = "http://" + DOMAIN +"prizes/";
     public static final String URL_REDEEM =  "http://" + DOMAIN + "prize/redeem/";
+    public static final String URL_COMPANY_LOGIN = "http://" + DOMAIN + "company/login/";
+    public static final String URL_COMPANY_REGISTER = "http://" + DOMAIN + "company/add/";
 	
 	public static final String PaypalClientCode="AbVR5V6IJR3_bo72_rbhN6L4hEre4Bgm5TO32KKghRhZV08zX3uNPN8XfVj5eqBzZjO9EMjuFjCRHpP3";
 

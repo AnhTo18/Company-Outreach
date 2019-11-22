@@ -8,37 +8,37 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context=".LoginActivity">
+    tools:context=".CompanyLoginActivity">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loginInputUsername"
+        android:id="@+id/loginInputUsernameCompany"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loginInputPassword"
+        android:id="@+id/loginInputPasswordCompany"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:hint="Password" />
 
-    <Button android:id="@+id/buttonLogin"
+    <Button android:id="@+id/buttonLoginCompany"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
         />
 
-    <Button android:id="@+id/buttonMakeAcct"
+    <Button android:id="@+id/buttonMakeAcctCompany"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Account"
         />
 
-    <Button android:id="@+id/buttonGotoCompany"
+    <Button android:id="@+id/buttonGotoUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Company Account"
+        android:text="User Account"
         />
 
 </LinearLayout>
