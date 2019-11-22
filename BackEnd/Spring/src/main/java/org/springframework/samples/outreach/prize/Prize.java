@@ -86,13 +86,13 @@ public class Prize {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String companyName ="";
 	    
-	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
-	   	private Set<Company> company;
+//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+//	    		CascadeType.PERSIST,
+//	    		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
+//	   	private Set<Company> company;
 
 		public Integer getId() {
 			return id;
@@ -142,13 +142,13 @@ public class Prize {
 
 		
 
-		public Set<Company> getCompany() {
-			return company;
-		}
-
-		public void setCompany(Set<Company> company) {
-			this.company = company;
-		}
+//		public Set<Company> getCompany() {
+//			return company;
+//		}
+//
+//		public void setCompany(Set<Company> company) {
+//			this.company = company;
+//		}
 
 	    
 }
