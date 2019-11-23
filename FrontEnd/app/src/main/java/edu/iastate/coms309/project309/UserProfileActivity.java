@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 
 public class UserProfileActivity extends AppCompatActivity {
     private TextView mTextViewResult;
@@ -42,6 +43,27 @@ public class UserProfileActivity extends AppCompatActivity {
 
         String url = Const.URL_SHOW_USERS + "/" + Const.username;
 
+        RequestController rc = new RequestController(getApplicationContext());
+        JSONObject j = rc.requestJsonObject(Request.Method.GET, url);
+
+        try {
+            String firstName = j.getString("firstName");
+            String lastName = j.getString("lastName");
+            String address = j.getString("address");
+            String telephone = j.getString("telephone");
+            String username = j.getString("username");
+            String points = j.getString("points");
+
+            mTextViewResult.append(username + ": " + (points == null ? 0 : points) + " points \n" +
+                    firstName + " " + lastName + "\n" +
+                    address + "\n" +
+                    telephone);
+        } catch (JSONException e) {
+            Log.e("JSON", "JSON Error: " + e.toString());
+            e.printStackTrace();
+        }
+
+        /*
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -73,6 +95,8 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         mQueue.add(request);
+        
+         */
     }
 }
 

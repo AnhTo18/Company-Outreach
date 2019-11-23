@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 
 public class MakePrizeActivity extends AppCompatActivity {
 
@@ -50,11 +51,8 @@ public class MakePrizeActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, Const.URL_ADD_PRIZE, j, null, null );
-
-                rq.add(jor);
-
-
+                RequestController rc = new RequestController(getApplicationContext());
+                JSONObject r = rc.requestJsonObject(Request.Method.POST, Const.URL_ADD_PRIZE, j);
 
             }
         });

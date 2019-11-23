@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 
 public class EventViewActivity extends AppCompatActivity {
 
@@ -51,7 +52,19 @@ public class EventViewActivity extends AppCompatActivity {
         date = findViewById(R.id.textDate);
         time = findViewById(R.id.textTime);
 
+        RequestController rc = new RequestController(getApplicationContext());
+        JSONObject j = rc.requestJsonObject(Request.Method.GET, Const.URL_EVENT_LIST + "/" + Const.event);
+        try {
+            loc.setText(j.getString("location"));
+            date.setText(j.getString("date"));
+            time.setText(j.getString("time"));
+        } catch (JSONException e) {
+            Log.e("JSON", "JSON Error: " + e.toString());
+            e.printStackTrace();
+        }
 
+
+        /*
         rq = Volley.newRequestQueue(this);
         JsonObjectRequest jar = new JsonObjectRequest(Request.Method.GET, Const.URL_EVENT_LIST , null, new Response.Listener<JSONObject>() {
             @Override
@@ -66,7 +79,7 @@ public class EventViewActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                /*
+
                 JSONArray ja = new JSONArray();
                 try {
                     ja = response.getJSONArray("events");
@@ -88,7 +101,7 @@ public class EventViewActivity extends AppCompatActivity {
                     }
                 }
 
-                 */
+
             }
 
         }, new Response.ErrorListener() {
@@ -99,6 +112,8 @@ public class EventViewActivity extends AppCompatActivity {
             }
         });
         rq.add(jar);
+
+         */
 
         qr.setOnClickListener(new View.OnClickListener() {
             @Override

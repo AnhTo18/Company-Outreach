@@ -29,6 +29,7 @@ import java.util.Map;
 
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 
 public class CompanyLoginActivity extends AppCompatActivity {
 
@@ -66,6 +67,30 @@ public class CompanyLoginActivity extends AppCompatActivity {
                 startActivity(new Intent(CompanyLoginActivity.this, CompanyRegisterActivity.class));
             }
         });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user.getText().toString().equals("a") && pass.getText().toString().equals("a")) {
+                    //Bypass login for testing
+                    Toast t = Toast.makeText(getApplicationContext(), "Bypassing Login!", Toast.LENGTH_SHORT);
+                    t.show();
+                    startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
+                } else {
+                    if (tryLogin(user.getText().toString(), pass.getText().toString())) {
+                        Const.username = user.getText().toString();
+                        Const.password = pass.getText().toString();
+                        startActivity(new Intent(CompanyLoginActivity.this, UserHomeActivity.class));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        });
+
+        /*
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,5 +144,24 @@ public class CompanyLoginActivity extends AppCompatActivity {
         });
 
 
+         */
+
+
+    }
+
+    public boolean tryLogin(String usr, String pss){
+        String verify = "false";
+
+        RequestController rc = new RequestController(getApplicationContext());
+        String url = Const.URL_COMPANY_LOGIN + "/" + usr + "/" + pss;
+        JSONObject j = rc.requestJsonObject(Request.Method.GET, url);
+        try {
+            verify = j.getString("verify");
+        } catch (JSONException e) {
+            Log.e("JSON", "JSON Error: " + e.toString());
+            e.printStackTrace();
+        }
+
+        return (verify.equals("true"));
     }
 }

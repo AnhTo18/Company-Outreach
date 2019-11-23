@@ -26,6 +26,7 @@ import java.util.Map;
 
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -68,6 +69,11 @@ public class RegisterActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                RequestController rc = new RequestController(getApplicationContext());
+                JSONObject j = rc.requestJsonObject(Request.Method.POST, Const.URL_REGISTER, js);
+
+
+                /*
                 jor = new JsonObjectRequest(Request.Method.POST, Const.URL_REGISTER, js, new Response.Listener<JSONObject>() {
 
                     @Override
