@@ -61,7 +61,7 @@ public class QrScanner extends AppCompatActivity {
                     Log.e(AppController.TAG, result.getContents());
                     String url = Const.URL_QR + "/" + result.getContents();
 
-                    jor = new JsonObjectRequest(Request.Method.GET, result.getContents(), null, new Response.Listener<JSONObject>() {  //need qrURL
+                    jor = new JsonObjectRequest(Request.Method.GET, "http://coms-309-ss-8.misc.iastate.edu:8080/" + result.getContents(), null, new Response.Listener<JSONObject>() {  //need qrURL
                         String company, points;
 
                         @Override
@@ -77,6 +77,7 @@ public class QrScanner extends AppCompatActivity {
                                 Toast t = Toast.makeText(getApplicationContext(), "JSON Error", Toast.LENGTH_SHORT);
                                 t.show();
                             }
+                            /*
 
                             String url2 = Const.URL_ADD_POINTS + "/" + points.substring(0, points.length() - 2) + "/" + Const.company + "/" + Const.username;
 
@@ -99,6 +100,10 @@ public class QrScanner extends AppCompatActivity {
                             });
 
                             rq.add(jor2);
+
+                             */
+
+
                         }
                     }, new Response.ErrorListener() {
 

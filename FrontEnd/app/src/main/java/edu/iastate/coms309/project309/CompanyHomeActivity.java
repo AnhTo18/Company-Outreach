@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class CompanyHomeActivity extends AppCompatActivity {
 
-    Button event, prize;
+    private Button event, prize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

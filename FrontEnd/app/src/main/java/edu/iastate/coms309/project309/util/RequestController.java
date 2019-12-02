@@ -54,7 +54,9 @@ public class RequestController {
     public JSONObject requestJsonObject(int method, String url, JSONObject jsonRequest)
     {
         Log.d("Volley", "Making Json " + ((method == 0) ? "GET" : "POST") + " Request to " + url);
-        Log.d("Volley", "JSONObject sent to server: " + jsonRequest.toString());
+        if (method == 1) {
+            Log.d("Volley", "JSONObject sent to server: " + jsonRequest.toString());
+        }
 
         final JSONObject[] ret = new JSONObject[1];
         JsonObjectRequest j = new JsonObjectRequest(method, url, jsonRequest, new Response.Listener<JSONObject>() {
@@ -97,7 +99,9 @@ public class RequestController {
     public JSONArray requestJsonArray(int method, String url, JSONArray jsonRequest)
     {
         Log.d("Volley", "Making Json " + ((method == 0) ? "GET" : "POST") + " Request to " + url);
-        Log.d("Volley", "JSONObject sent to server: " + jsonRequest.toString());
+        if (method == 1) {
+            Log.d("Volley", "JSONObject sent to server: " + jsonRequest.toString());
+        }
 
         final JSONArray[] ret = new JSONArray[1];
         JsonArrayRequest j = new JsonArrayRequest(method, url, jsonRequest, new Response.Listener<JSONArray>() {

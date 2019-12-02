@@ -26,10 +26,10 @@ import edu.iastate.coms309.project309.util.RequestController;
 public class CompanyListActivity extends AppCompatActivity {
 
 
-    ListView list;
-    ArrayList<String> companies;
+    private ListView list;
+    private ArrayList<String> companies;
 
-    RequestQueue rq;
+    private RequestQueue rq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
