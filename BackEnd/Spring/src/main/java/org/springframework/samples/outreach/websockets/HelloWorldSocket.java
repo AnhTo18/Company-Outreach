@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.samples.outreach.events.*;
 import org.springframework.samples.outreach.owner.Owner;
+import org.springframework.samples.outreach.subscription.Subscription;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -102,13 +103,15 @@ public class HelloWorldSocket {
     		
     		Company company = companyRepository.findCompanyByUsername(username);
     		logger.info("company name is" + company.getCompanyName());
-    //		company.getEvents().add(event);
+    		company.getEvents().add(event);
     		company = companyRepository.save(company);
     		companyRepository.flush();
+//    		logger.info(company.toString());
 //    		event.setCompany(company);
 //    		event = eventRepository.save(event);
-//    		eventRepository.flush();
-  //  		broadcastEvent(company.getOwners(), event); //change to getSubscribers() later
+    		eventRepository.flush();
+//    		logger.info(event.toString());
+    		broadcastEvent(company.getSubscriptions(), event); //change to getSubscribers() later
     		logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
     	
@@ -146,11 +149,12 @@ public class HelloWorldSocket {
     
     
 
-	private void broadcastEvent(Set<Owner> set, Event event) {
+	private void broadcastEvent(Set<Subscription> set, Event event) {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		for(Owner owner : set) {
-			Session session = usernameSessionMap.get(owner.getUsername());
+		for(Subscription owner : set) {
+			Session session = usernameSessionMap.get(owner.getOwner().getUsername());
+			//
 			if(session != null) {
 				try {
 					session.getBasicRemote().sendText(mapper.writeValueAsString(event));

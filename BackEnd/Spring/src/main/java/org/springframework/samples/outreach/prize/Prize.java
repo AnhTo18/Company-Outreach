@@ -36,8 +36,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.company.Company;
-import org.springframework.samples.outreach.events.Event;
+import org.springframework.samples.outreach.company.*;
+import org.springframework.samples.outreach.events.*;
 import org.springframework.samples.outreach.owner.Owner;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
