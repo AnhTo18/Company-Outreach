@@ -52,7 +52,7 @@ public class MakePrizeActivity extends AppCompatActivity {
                 }
 
                 RequestController rc = new RequestController(getApplicationContext());
-                JSONObject r = rc.requestJsonObject(Request.Method.POST, Const.URL_ADD_PRIZE, j);
+                rc.requestJsonObject(Request.Method.POST, Const.URL_ADD_PRIZE, j, null);
 
             }
         });

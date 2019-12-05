@@ -40,20 +40,36 @@ public class EventViewActivity extends AppCompatActivity {
         qr = findViewById(R.id.buttonGotoQR);
         shop = findViewById(R.id.buttonGotoShop);
 
-        shop.setText(Const.company + " Points Shop");
+        shop.setText("Points Shop");
 
         e = findViewById(R.id.textEventName);
-        e.setText(Const.event);
 
         c = findViewById(R.id.textCompanyName);
-        c.setText(Const.company);
 
         loc = findViewById(R.id.textLocation);
         date = findViewById(R.id.textDate);
         time = findViewById(R.id.textTime);
 
+        Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    e.setText(response.getString("eventname"));
+                    c.setText(response.getString("company"));
+                    loc.setText(response.getString("location"));
+                    date.setText(response.getString("date"));
+                    time.setText(response.getString("time"));
+                } catch (JSONException e) {
+                    Log.e("JSON", "JSON Error: " + e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
+
         RequestController rc = new RequestController(getApplicationContext());
-        JSONObject j = rc.requestJsonObject(Request.Method.GET, Const.URL_EVENT_LIST + "/" + Const.event);
+        rc.requestJsonObject(Request.Method.GET, Const.URL_EVENT_LIST + "/" + Const.event, r);
+
+        /*
         try {
             loc.setText(j.getString("location"));
             date.setText(j.getString("date"));
@@ -62,6 +78,8 @@ public class EventViewActivity extends AppCompatActivity {
             Log.e("JSON", "JSON Error: " + e.toString());
             e.printStackTrace();
         }
+
+         */
 
 
         /*

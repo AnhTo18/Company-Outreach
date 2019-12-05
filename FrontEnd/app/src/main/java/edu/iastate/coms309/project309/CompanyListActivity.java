@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -17,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.iastate.coms309.project309.util.Const;
@@ -27,7 +29,6 @@ public class CompanyListActivity extends AppCompatActivity {
 
 
     private ListView list;
-    private ArrayList<String> companies;
 
     private RequestQueue rq;
 
@@ -37,8 +38,6 @@ public class CompanyListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_company_list);
 
         list = findViewById(R.id.listView2);
-
-        companies = new ArrayList<>();
 
         rq = Volley.newRequestQueue(this);
 
@@ -73,22 +72,36 @@ public class CompanyListActivity extends AppCompatActivity {
 
          */
 
-        RequestController rc = new RequestController(getApplicationContext());
-        JSONArray ja = rc.requestJsonArray(Request.Method.GET, Const.URL_COMPANIES);
-        for (int i = 0 ; i < ja.length() ; i++) {
-            try {
-                JSONObject j = ja.getJSONObject(i);
-                companies.add(j.getString("companyName"));
-                Log.d("VOLLEY", "added " + j.getString("companyName"));
-            } catch (JSONException e) {
-                Log.e("JSON", "JSON Error: " + e.toString());
-                e.printStackTrace();
+        ;
+
+        Response.Listener<JSONArray> r = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0 ; i < response.length() ; i++) {
+                    ArrayList<String> companies = new ArrayList<>();
+                    try {
+                        JSONObject j = response.getJSONObject(i);
+                        companies.add(j.getString("user_name"));
+                        Log.d("VOLLEY", "added " + j.getString("companyName"));
+                    } catch (JSONException e) {
+                        Log.e("JSON", "JSON Error: " + e.toString());
+                        e.printStackTrace();
+                    }
+                    initializeList(companies);
+                }
             }
-        }
+        };
+        RequestController rc = new RequestController(getApplicationContext());
+        rc.requestJsonArray(Request.Method.GET, Const.URL_COMPANIES, r);
 
 
-        EventAdapter adapter = new EventAdapter(getApplicationContext(), companies, null);
+
+    }
+
+    private void initializeList(ArrayList<String> items) {
+        EventAdapter adapter = new EventAdapter(getApplicationContext(), items, null);
         list.setAdapter(adapter);
+        final ArrayList<String> arrayList = items;
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,7 +112,7 @@ public class CompanyListActivity extends AppCompatActivity {
 
                  */
                 RequestController rc = new RequestController(getApplicationContext());
-                JSONObject j = rc.requestJsonObject(Request.Method.POST, Const.URL_SUBSCRIBE + Const.username + "/" + companies.get(position));
+                rc.requestJsonObject(Request.Method.POST, Const.URL_SUBSCRIBE + Const.userID + "/" + arrayList.get(position), null);
             }
         });
     }

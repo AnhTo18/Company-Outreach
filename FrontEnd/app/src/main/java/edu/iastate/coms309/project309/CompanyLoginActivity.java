@@ -31,6 +31,8 @@ import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
 import edu.iastate.coms309.project309.util.RequestController;
 
+import static edu.iastate.coms309.project309.util.Const.URL_COMPANY_LOGIN;
+
 public class CompanyLoginActivity extends AppCompatActivity {
 
     EditText user, pass;
@@ -77,13 +79,28 @@ public class CompanyLoginActivity extends AppCompatActivity {
                     t.show();
                     startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
                 } else {
-                    if (tryLogin(user.getText().toString(), pass.getText().toString())) {
-                        Const.username = user.getText().toString();
-                        Const.password = pass.getText().toString();
-                        startActivity(new Intent(CompanyLoginActivity.this, UserHomeActivity.class));
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                    }
+                    Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            String v = "";
+                            try {
+                                v = response.getString("verify");
+                            } catch (JSONException e) {
+                                Log.e("JSON", "JSON Error: " + e.toString());
+                                e.printStackTrace();
+                            }
+
+                            if (v.equals("true")) {
+                                Const.username = user.getText().toString();
+                                Const.password = pass.getText().toString();
+                                startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+                    RequestController rc = new RequestController(getApplicationContext());
+                    rc.requestJsonObject(Request.Method.GET, URL_COMPANY_LOGIN + user.getText().toString() + "/" + pass.getText().toString(), r);
                 }
 
             }
@@ -149,19 +166,4 @@ public class CompanyLoginActivity extends AppCompatActivity {
 
     }
 
-    public boolean tryLogin(String usr, String pss){
-        String verify = "false";
-
-        RequestController rc = new RequestController(getApplicationContext());
-        String url = Const.URL_COMPANY_LOGIN + "/" + usr + "/" + pss;
-        JSONObject j = rc.requestJsonObject(Request.Method.GET, url);
-        try {
-            verify = j.getString("verify");
-        } catch (JSONException e) {
-            Log.e("JSON", "JSON Error: " + e.toString());
-            e.printStackTrace();
-        }
-
-        return (verify.equals("true"));
-    }
 }

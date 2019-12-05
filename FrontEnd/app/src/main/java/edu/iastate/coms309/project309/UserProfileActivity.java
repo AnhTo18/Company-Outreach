@@ -44,8 +44,9 @@ public class UserProfileActivity extends AppCompatActivity {
         String url = Const.URL_SHOW_USERS + "/" + Const.username;
 
         RequestController rc = new RequestController(getApplicationContext());
-        JSONObject j = rc.requestJsonObject(Request.Method.GET, url);
+        rc.requestJsonObject(Request.Method.GET, url, null);
 
+        /*
         try {
             String firstName = j.getString("firstName");
             String lastName = j.getString("lastName");
@@ -62,6 +63,8 @@ public class UserProfileActivity extends AppCompatActivity {
             Log.e("JSON", "JSON Error: " + e.toString());
             e.printStackTrace();
         }
+
+         */
 
         /*
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,

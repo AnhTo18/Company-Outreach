@@ -46,8 +46,12 @@ public class EventAdapter extends BaseAdapter
         view = infltr.inflate(R.layout.activity_list_view, null);
         TextView event =  view.findViewById(R.id.textViewEvent);
         TextView company = view.findViewById(R.id.textViewCompany);
-        event.setText(events.get(i));
-        company.setText(companies.get(i));
+        if (events != null) {
+            event.setText(events.get(i));
+        }
+        if (companies != null) {
+            company.setText(companies.get(i));
+        }
         return view;
     }
 

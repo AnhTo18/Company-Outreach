@@ -70,7 +70,24 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 RequestController rc = new RequestController(getApplicationContext());
-                JSONObject j = rc.requestJsonObject(Request.Method.POST, Const.URL_REGISTER, js);
+                Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String a = "";
+                        try {
+                            a = response.getString("verify");
+                        } catch (JSONException e) {
+                            Log.e("JSON", "JSON Error: " + e.toString());
+                            e.printStackTrace();
+                        }
+
+                        if (!a.equals("Added")) {
+                            Toast.makeText(getApplicationContext(), "Error creating account", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+                rc.requestJsonObject(Request.Method.POST, Const.URL_REGISTER, js, r);
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
 
 
                 /*
@@ -107,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
                 t.show();
                  */
 
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+
             }
         });
 

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,13 +72,32 @@ public class LoginActivity extends AppCompatActivity {
                     t.show();
                     startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
                 } else {
-                    if (tryLogin(user.getText().toString(), pass.getText().toString())) {
-                        Const.username = user.getText().toString();
-                        Const.password = pass.getText().toString();
-                        startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                    }
+
+                    String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
+                    Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            String v = "";
+                            try {
+                                v = response.getString("verify");
+                            } catch (JSONException e) {
+                                Log.e("JSON", "JSON Error: " + e.toString());
+                                e.printStackTrace();
+                            }
+
+                            if (v.equals("true")) {
+                                Const.username = user.getText().toString();
+                                Const.password = pass.getText().toString();
+                                findOwnerID(Const.username);
+                                startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+
+                    RequestController rc = new RequestController(getApplicationContext());
+                    rc.requestJsonObject(Request.Method.GET, url, r);
                 }
 
             }
@@ -183,19 +203,22 @@ public class LoginActivity extends AppCompatActivity {
         cc.connect();
     }
 
-    public boolean tryLogin(String usr, String pss){
-        String verify = "false";
+    public void findOwnerID(String username)
+    {
+        Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Const.userID = response.getInt("id");
+                } catch (JSONException e) {
+                    Log.e("JSON", "JSON Error: " + e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
 
         RequestController rc = new RequestController(getApplicationContext());
-        String url = Const.URL_LOGIN + "/" + usr + "/" + pss;
-        JSONObject j = rc.requestJsonObject(Request.Method.GET, url);
-        try {
-            verify = j.getString("verify");
-        } catch (JSONException e) {
-            Log.e("JSON", "JSON Error: " + e.toString());
-            e.printStackTrace();
-        }
+        rc.requestJsonObject(Request.Method.GET, Const.URL_SHOW_USERS + Const.username, r);
 
-        return (verify.equals("true"));
     }
 }

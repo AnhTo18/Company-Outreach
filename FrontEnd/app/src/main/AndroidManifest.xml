@@ -60,15 +60,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".PointShopActivity"
-            android:screenOrientation="portrait" /><![CDATA[
-
-            android:label="Developer Home" />
-
-
-
-
-
-    ]]>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

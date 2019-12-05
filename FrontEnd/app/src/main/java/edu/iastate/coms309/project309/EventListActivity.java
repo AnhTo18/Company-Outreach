@@ -3,6 +3,7 @@ package edu.iastate.coms309.project309;
 import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,9 +38,9 @@ public class EventListActivity extends AppCompatActivity {
 
     ListView list;
     RequestQueue rq;
-    ArrayList<String> events, companies;
 
     private WebSocketClient wc;
+    EventAdapter adapter;
 
 
     @Override
@@ -49,20 +50,7 @@ public class EventListActivity extends AppCompatActivity {
 
         list = findViewById(R.id.listView);
 
-        events = new ArrayList<>();
-        companies = new ArrayList<>();
 
-        final EventAdapter adapter = new EventAdapter(getApplicationContext(), events, companies);
-        list.setAdapter(adapter);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Const.event = adapter.getEvent(position);
-                Const.company = adapter.getCompany(position);
-                startActivity(new Intent(EventListActivity.this, EventViewActivity.class));
-            }
-        });
 
         /*
 
@@ -108,8 +96,28 @@ public class EventListActivity extends AppCompatActivity {
 
         */
 
+        Response.Listener<JSONArray> r = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0 ; i < response.length() ; i++) {
+                    ArrayList<String> companies = new ArrayList<>();
+                    ArrayList<String> events = new ArrayList<>();
+                    try {
+                        JSONObject j = response.getJSONObject(i);
+                        events.add(j.getString("eventname"));
+                        companies.add(j.getString("company"));
+                    } catch (JSONException e) {
+                        Log.e("JSON", "JSON Error: " + e.toString());
+                        e.printStackTrace();
+                    }
+                    initializeList(events, companies);
+                }
+            }
+        };
         RequestController rc = new RequestController(getApplicationContext());
-        JSONArray ja = rc.requestJsonArray(Request.Method.GET, Const.URL_EVENT_LIST);
+        rc.requestJsonArray(Request.Method.GET, Const.URL_EVENT_LIST, r);
+
+        /*
         for (int i = 0 ; i < ja.length(); i++) {
             try {
                 JSONObject j = ja.getJSONObject(i);
@@ -119,6 +127,8 @@ public class EventListActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+         */
 
 
         String w = Const.WS_EVENT_UPDATE + Const.username;
@@ -140,7 +150,7 @@ public class EventListActivity extends AppCompatActivity {
                         try {
                             JSONObject j = new JSONObject(s);
 
-                            add(adapter, j.getString("eventname"), j.getString("username"));
+                            add(adapter, j.getString("eventname"), j.getString("company"));
                             //adapter.add(j.getString("event"),j.getString("company"));
                         }catch (JSONException e) {
                             Log.e("JSON", "JSON Error: " + e.toString());
@@ -177,6 +187,21 @@ public class EventListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ad.add(ev,co);
+            }
+        });
+    }
+
+    private void initializeList(ArrayList<String> e, ArrayList<String> c)
+    {
+        adapter = new EventAdapter(getApplicationContext(), e, c);
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Const.event = adapter.getEvent(position);
+                Const.company = adapter.getCompany(position);
+                startActivity(new Intent(EventListActivity.this, EventViewActivity.class));
             }
         });
     }

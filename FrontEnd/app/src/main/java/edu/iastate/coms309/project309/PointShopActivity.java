@@ -54,7 +54,8 @@ public class PointShopActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         RequestController rc = new RequestController(getApplicationContext());
-        JSONArray ja = rc.requestJsonArray(Request.Method.GET, Const.URL_SHOP);
+        rc.requestJsonArray(Request.Method.GET, Const.URL_SHOP, null);
+        /*
         for (int i = 0 ; i < ja.length() ; i++) {
             try {
                 JSONObject j = ja.getJSONObject(i);
@@ -66,15 +67,20 @@ public class PointShopActivity extends AppCompatActivity {
             }
         }
 
-        JSONObject j = rc.requestJsonObject(Request.Method.GET, Const.URL_SHOW_USERS + Const.username);
+         */
+
+        rc.requestJsonObject(Request.Method.GET, Const.URL_SHOW_USERS + Const.username, null);
         TextView p = findViewById(R.id.textPoints);
 
+        /*
         try {
             p.setText("Points: " + j.getString("points"));
         } catch (JSONException e) {
             Log.e("JSON", "JSON Error: " + e.toString());
             e.printStackTrace();
         }
+
+         */
 
 
         /*
@@ -148,7 +154,7 @@ public class PointShopActivity extends AppCompatActivity {
                                 //Execute transaction
                                 String url = Const.URL_REDEEM + Const.company + "/" + item + "/" + Const.username + "/1";
                                 RequestController rc = new RequestController(getApplicationContext());
-                                JSONObject j = rc.requestJsonObject(Request.Method.POST, url);
+                                rc.requestJsonObject(Request.Method.POST, url, null);
 
                                 /*
                                 JsonObjectRequest jor3 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {

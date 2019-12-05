@@ -55,7 +55,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                 JSONObject js = new JSONObject();
                 try {
                     js.put("companyName", company.getText().toString());
-                    js.put("username", username.getText().toString());
+                    js.put("user_name", username.getText().toString());
                     js.put("password", password.getText().toString());
                 } catch (JSONException e) {
                     Log.e("JSON", "JSON Error: " + e.toString());
@@ -63,7 +63,23 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                 }
 
                 RequestController rc = new RequestController(getApplicationContext());
-                JSONObject r = rc.requestJsonObject(Request.Method.POST, Const.URL_COMPANY_REGISTER, js);
+                Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String a = "";
+                        try {
+                            a = response.getString("verify");
+                        } catch (JSONException e) {
+                            Log.e("JSON", "JSON Error: " + e.toString());
+                            e.printStackTrace();
+                        }
+
+                        if (!a.equals("Added")) {
+                            Toast.makeText(getApplicationContext(), "Error creating account", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+                rc.requestJsonObject(Request.Method.POST, Const.URL_COMPANY_REGISTER, js, r);
 
 
                 startActivity(new Intent(CompanyRegisterActivity.this, CompanyLoginActivity.class));

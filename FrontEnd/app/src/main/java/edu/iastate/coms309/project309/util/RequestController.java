@@ -13,14 +13,19 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+
 /**
  * Controller for requests with a server
  * @author Sam Henley
  */
 public class RequestController {
 
+    private static RequestController instance;
     private RequestQueue rq;
-    private Context c;
+    private static Context c;
+    private JSONArray ra;
 
     /**
      * Initialize Request Controller
@@ -29,8 +34,25 @@ public class RequestController {
     public RequestController(Context context)
     {
         c = context;
-        rq = Volley.newRequestQueue(c);
+        rq = getRequestQueue();
+
     }
+
+    public static synchronized RequestController getInstance(Context context)
+    {
+        if (instance == null) {
+            instance = new RequestController(context);
+        }
+        return instance;
+    }
+
+    public RequestQueue getRequestQueue() {
+        if (rq == null) {
+            rq = Volley.newRequestQueue(c.getApplicationContext());
+        }
+        return rq;
+    }
+
 
 
     /**
@@ -39,9 +61,9 @@ public class RequestController {
      * @param url address to make request with
      * @return response from server
      */
-    public JSONObject requestJsonObject(int method, String url)
+    public void requestJsonObject(int method, String url, Response.Listener<JSONObject> responseListener)
     {
-        return requestJsonObject(method, url, null);
+        requestJsonObject(method, url, null, responseListener);
     }
 
     /**
@@ -51,21 +73,15 @@ public class RequestController {
      * @param jsonRequest JSONObject sent to server with request
      * @return response from server
      */
-    public JSONObject requestJsonObject(int method, String url, JSONObject jsonRequest)
+    public void requestJsonObject(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> responseListener)
     {
         Log.d("Volley", "Making Json " + ((method == 0) ? "GET" : "POST") + " Request to " + url);
-        if (method == 1) {
+        if (jsonRequest != null) {
             Log.d("Volley", "JSONObject sent to server: " + jsonRequest.toString());
         }
 
-        final JSONObject[] ret = new JSONObject[1];
-        JsonObjectRequest j = new JsonObjectRequest(method, url, jsonRequest, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                ret[0] = response;
-                Log.d("Volley", "Server response: " + response.toString());
-            }
-        }, new Response.ErrorListener() {
+        JsonObjectRequest j = new JsonObjectRequest(method, url, jsonRequest, responseListener,
+         new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError e) {
                 Log.e("Volley", "Volley Error: " + e.toString());
@@ -74,8 +90,6 @@ public class RequestController {
         });
 
         rq.add(j);
-
-        return ret[0];
     }
 
     /**
@@ -84,9 +98,9 @@ public class RequestController {
      * @param url address to make request with
      * @return response from server
      */
-    public JSONArray requestJsonArray(int method, String url)
+    public void requestJsonArray(int method, String url, Response.Listener<JSONArray> responseListener)
     {
-        return requestJsonArray(method, url, null);
+        requestJsonArray(method, url, null, responseListener);
     }
 
     /**
@@ -96,21 +110,15 @@ public class RequestController {
      * @param jsonRequest JSONArray sent to server with request
      * @return response from server
      */
-    public JSONArray requestJsonArray(int method, String url, JSONArray jsonRequest)
+    public void requestJsonArray(int method, String url, JSONArray jsonRequest, Response.Listener<JSONArray> responseListener)
     {
+        ra = null;
         Log.d("Volley", "Making Json " + ((method == 0) ? "GET" : "POST") + " Request to " + url);
-        if (method == 1) {
+        if (jsonRequest != null) {
             Log.d("Volley", "JSONObject sent to server: " + jsonRequest.toString());
         }
 
-        final JSONArray[] ret = new JSONArray[1];
-        JsonArrayRequest j = new JsonArrayRequest(method, url, jsonRequest, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                ret[0] = response;
-                Log.d("Volley", "Server response: " + response.toString());
-            }
-        }, new Response.ErrorListener() {
+        JsonArrayRequest j = new JsonArrayRequest(method, url, jsonRequest, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError e) {
                 Log.e("Volley", "Volley Error: " + e.toString());
@@ -120,7 +128,6 @@ public class RequestController {
 
         rq.add(j);
 
-        return ret[0];
     }
 
 }
