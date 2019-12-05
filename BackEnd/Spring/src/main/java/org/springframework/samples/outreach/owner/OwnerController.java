@@ -259,8 +259,16 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
 	public HashMap<String, String>  createEmployee(@RequestBody Owner newemp) {
     	 HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
-		 ownersRepository.save(newemp);
-		 map.put("verify", "Added");
+		if(ownersRepository.findOwnerByUsername(newemp.getUsername() ) == null) {
+			//this checks for duplicates. It will not add anything if the user exists
+			ownersRepository.save(newemp);
+			 map.put("verify", "Added");
+	    }
+		if(ownersRepository.findOwnerByUsername(newemp.getUsername() ) != null) {
+			 map.put("verify", "Already Exists");
+		}
+//		 ownersRepository.save(newemp);
+//		 map.put("verify", "Added");
 		 ownersRepository.flush();
 		 return map;
 
