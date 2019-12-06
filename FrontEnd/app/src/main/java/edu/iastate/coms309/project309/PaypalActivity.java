@@ -77,22 +77,39 @@ public class PaypalActivity extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
         array= new ArrayList<String>();
-        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/user/findSubscriptions"; //have to change later so other user can actually use
+        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/i/findSubscriptions"; //have to change later so other user can actually use
         String url3=Const.URL_SHOW_USERS+"/user/password/targetNorth2/paid";
       //  String url1="https://api.myjson.com/bins/kp9wz";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+                  new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         try {
-int b=response.length();
-Log.d("size", Integer.toString(b));
-                            for(int i=1; i<=response.length();i++){
-                                String a  =response.getString(Integer.toString(i));
-                                array.add(a);
+                          //  JSONArray jsonArray=response.getJSONArray("name");
+
+                            /*for(int i=0;i<jsonArray.length();i++){
+                                JSONObject company=jsonArray.getJSONObject(i);
+                                array.add(company.getString("company"));
                             }
-                            String a = response.getString("2");
-                            System.out.println(a);
+                            */
+                            int b=response.length();
+                            System.out.println((b));
+                            Log.d("size", Integer.toString(b));
+                            for(int i=1; i<=response.length();i++){
+
+                                    String a = response.getString(Integer.toString(i));
+                                    Log.d("test",a);
+                                    array.add(a);
+
+
+
+
+                            }
+                            //String a = response.getString("2");
+                           // System.out.println(a);
+
+
 /*
 
                             JSONArray jsonArray=response.getJSONArray("employees");
@@ -109,7 +126,7 @@ Log.d("size", Integer.toString(b));
                             }*/
    // mTextViewResult.append(a);
 
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         Log.d("array",array.toString());

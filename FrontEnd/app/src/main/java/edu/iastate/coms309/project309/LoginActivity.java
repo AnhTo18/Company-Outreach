@@ -135,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onMessage(String message) {
                             Log.d("", "run() returned: " + message);
 
+
                         }
 
                         @Override
