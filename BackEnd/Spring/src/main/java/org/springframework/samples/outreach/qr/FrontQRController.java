@@ -10,7 +10,10 @@ import javax.persistence.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.Owner;
+import org.springframework.samples.outreach.owner.OwnerRepository;
+import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +32,12 @@ public class FrontQRController {
 	
 	@Autowired
 	ProductRepository productRepo;
+	
+	@Autowired
+	OwnerRepository ownersRepository;
+	    
+	@Autowired
+	CompanyRepository companyRepository;
 	//Product p1;
 	  private final Logger logger = LoggerFactory.getLogger(QRController.class);
 	
@@ -128,12 +137,17 @@ public class FrontQRController {
 		   * @param ID
 		   * @return HashMap<String, String>  This returns "points", "No More Scans Left" || "points", "Not Found" || ex. "points", "123".
 		   */
-		 @RequestMapping(value= "/{company}/{id}", method= RequestMethod.GET)
-			public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
+		 @RequestMapping(value= "Qr/{company}/{id}/{username}", method= RequestMethod.POST)
+			public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company, @PathVariable("username") String username ) {
 			//This can be used once the user scans the code and gets the id and company. This will return json data of points to add to user
 			 //once the user gets back the info they can confirm then sends another post to the owner repo to update their points.
-			
+			 username = username.toString().trim();
+ 	    	
+ 	       	List<Owner> results = ownersRepository.findAll();
+ 	        
+ 	       	HashMap<String, String> map2 = new HashMap<>();
 		    	
+ 	       	int currentPoints = 0;
 			 company = company.toString().trim();
 		        HashMap<String, String> map = new HashMap<>();
 		        int currentId1 = 0;
@@ -169,25 +183,69 @@ public class FrontQRController {
 			        		 
 			        	
 			        		 String points = current.getpoints() +"";
-			        		 
+			        		 int points2 = (int)(current.getpoints());
 			        		
 			        		 map.put("points", points);
 			        		
 			        		
 			        		 productRepo.flush(); //update DataBase
-			        		
-			        		 return map;
-			        		 
+			        
+			        	       
+			        	        
+			        	        for(Owner currentUser : results) {
+			        	        	String currentUsername = currentUser.getUsername().toString().trim();
+			        	        	
+			        	        	if(username.toString().trim().equals(currentUsername))
+			        	        	{
+			        	        		
+			        	        		// map.put("verify", "Added");
+			        	        		
+			        	        		// System.out.println("This is the current points.");
+			        	        	//	 System.out.println(currentPoints);
+			        	        		
+			        	        		 for(Subscription subscription: currentUser.getSubscriptions()) {
+			        	        				if(subscription.getCompany().getCompanyName().trim().equals(company.trim())) {
+			        	        					 int temp = 0;
+			        	        	        		
+			        	        	        		 try {
+			        	        	        			 currentPoints =  (int) subscription.getpoints();
+			        	        	        					 //Integer.parseInt(subscription.getCompany().getPoints());
+			        	        	        		 }
+			        	        	        		 catch (NumberFormatException e)
+			        	        	        		 {
+			        	        	        			 currentPoints = 0; //not found
+			        	        	        		 }
+			        	        	        		 temp = currentPoints + points2; //add total points
+			        	        					System.out.println(currentPoints + "Before Amount");
+			        	        					System.out.println(temp + "After Amount");
+			        	        					subscription.setPoints(temp);
+			        	        					//subscription.setID(1);
+			        	        					 map.put("verify", "addedPoints!!");
+			        	        					 ownersRepository.flush(); // updates changes
+			        	        					 companyRepository.flush();
+			        	        					 return map;
+			        	        				}
+			        	        				//its getting the owner by id and adding it to the list of owners in the company
+			        	        			}
+			        	        	
+			        	        		// current.setPoints(String.valueOf(temp)); //set current points to current user
+			        	        		 ownersRepository.flush(); // updates changes
+			        	        		 
+//			        	        		 System.out.println("After current points.");
+//			        	        		 System.out.println(currentPoints);
+			        	        		 return map;
+			        	        	
+			        	        	}
+			 
 						}
 
 					 }
-			           
-			   // } 
-
-		        map.put("points", "Not Found");
-		        return map;
+			          
 			
 			}
+				map.put("points", "Not Found and Not Added");
+				return map;
+		 }
 		
 }
 

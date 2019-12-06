@@ -16,6 +16,9 @@
 package org.springframework.samples.outreach.owner;
 
 import org.hamcrest.Matcher;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +34,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -413,12 +420,15 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
     
     
     @RequestMapping(method = RequestMethod.GET, path = "/owners/{username}/findSubscriptions")
-    public HashMap<String, String> findUserSubscriptions(@PathVariable("username") String username) {
+    public JSONArray findUserSubscriptions(@PathVariable("username") String username) throws JSONException {
     	List<Owner> results = ownersRepository.findAll();
     	username = username.toString().trim();
-    	
+    	ArrayList list = new ArrayList<>();
+    	String returnValue = "{";
+    	String company = "\"Company\"";
     	 HashMap<String, String> map = new HashMap<>();
-    	 
+    	 JSONArray ja = new JSONArray();
+    	 ja.put("subscribers");
         for(Owner current : results) {
         	
         	
@@ -426,14 +436,21 @@ public HashMap<String, String> checkSubscriptions(@PathVariable("username") Stri
     			
     			for(Subscription subscription: current.getSubscriptions()) {
     				
-            			map.put(subscription.getID()+"", subscription.getCompany().getCompanyName());
+            			map.put(subscription.getCompany().getId()+"", subscription.getCompany().getCompanyName());
+            			JSONObject jo = new JSONObject();
+            			jo.put("CompanyId", subscription.getCompany().getId());
+            			jo.put("Company", subscription.getCompany().getCompanyName());
+            			ja.put(jo);
     				
     			}
     			
     		}
-    	}
         	
-        return map;
+    	}
+        System.out.println(ja);
+       
+        return ja;
+    
         
     }
     /**
