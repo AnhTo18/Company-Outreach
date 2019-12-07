@@ -64,7 +64,8 @@
             android:screenOrientation="portrait" />
 
             android:label="Developer Home" />
-
+        <activity android:name=".UserHomeActivity"
+            android:screenOrientation="portrait"/>
 
 
 
