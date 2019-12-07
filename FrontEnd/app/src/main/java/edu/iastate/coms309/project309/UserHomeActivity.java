@@ -34,6 +34,12 @@ public class UserHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(UserHomeActivity.this, CompanyListActivity.class));
             }
         });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserHomeActivity.this, UserProfileActivity.class));
+            }
+        });
 
         prof.setOnClickListener(new View.OnClickListener() {
             @Override
