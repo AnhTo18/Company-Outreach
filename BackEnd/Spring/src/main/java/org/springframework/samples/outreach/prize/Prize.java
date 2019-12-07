@@ -82,9 +82,9 @@ public class Prize {
 //	    @NotFound(action = NotFoundAction.IGNORE)
 //	    private String color ="N/A";
 	    
-	    @Column(name = "companyName") //perhaps N/A
+	    @Column(name = "companyUsername") //perhaps N/A
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String companyName ="";
+	    private String companyUsername ="";
 	    
 //	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
 //	    		CascadeType.PERSIST,
@@ -117,11 +117,11 @@ public class Prize {
 			this.pointsOff = discount;
 		}
 		public String getCompanyName() {
-			return companyName;
+			return companyUsername;
 		}
 
 		public void setCompanyName(String company) {
-			this.companyName = company;
+			this.companyUsername = company;
 		}
 
 		public int getCost() {

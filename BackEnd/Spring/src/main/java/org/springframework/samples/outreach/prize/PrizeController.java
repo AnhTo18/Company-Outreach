@@ -94,8 +94,8 @@ class PrizeController {
 	   * @param String Username
 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added" || "verify", "NotFound".
 	   */
-  @RequestMapping(value= "/redeem/{companyName}/{prizeName}/{username}/{Quantity}", method= RequestMethod.POST)
-	public HashMap<String, String> redeemPrizes(@PathVariable("companyName") String companyName, @PathVariable("prizeName") String prizeName,
+  @RequestMapping(value= "/redeem/{companyUsername}/{prizeName}/{username}/{Quantity}", method= RequestMethod.POST)
+	public HashMap<String, String> redeemPrizes(@PathVariable("companyUsername") String companyUsername, @PathVariable("prizeName") String prizeName,
    			@PathVariable("username") String username,@PathVariable("Quantity") String Quantity) {
 	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
   	username = username.toString().trim();
@@ -116,7 +116,7 @@ class PrizeController {
       	if(username.toString().trim().equals(currentUsername))
       	{
       		for(Subscription subscription: current.getSubscriptions()) {
-				if(subscription.getCompany().getUsername().trim().equals(companyName.trim())) {
+				if(subscription.getCompany().getUsername().trim().equals(companyUsername.trim())) {
 					 int totalCost = 0;
 	        	
 	        		 totalCost = pointsCost * quantity; //add total points
