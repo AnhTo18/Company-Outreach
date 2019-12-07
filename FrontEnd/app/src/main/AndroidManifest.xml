@@ -23,6 +23,7 @@
 
         <activity android:name=".CompanyHomeActivity" />
         <activity android:name=".CompanyRegisterActivity" />
+        <activity android:name=".CompanyListActivity" />
         <activity android:name=".CompanyLoginActivity" />
         <activity android:name=".Notification" />
         <activity android:name=".UserHomeActivity" />

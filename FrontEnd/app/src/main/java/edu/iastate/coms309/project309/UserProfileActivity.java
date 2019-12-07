@@ -46,6 +46,8 @@ public class UserProfileActivity extends AppCompatActivity {
         RequestController rc = new RequestController(getApplicationContext());
         rc.requestJsonObject(Request.Method.GET, url, null);
 
+
+
         /*
         try {
             String firstName = j.getString("firstName");

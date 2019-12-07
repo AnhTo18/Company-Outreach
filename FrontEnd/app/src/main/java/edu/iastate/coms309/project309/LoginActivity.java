@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
-                            Log.e(AppController.TAG, "Error: " + error.getMessage());
+                            Log.e(AppController.TAG, "Error: "n n + error.getMessage());
                             Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
                         }
                     });
@@ -166,12 +166,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String w = "ws://coms-309-ss-8.misc.iastate.edu:8080/notify/" + username;
 
-
-
-
-
         try {
-
 
             cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
 
