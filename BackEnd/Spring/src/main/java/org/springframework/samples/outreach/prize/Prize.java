@@ -78,15 +78,15 @@ public class Prize {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private int pointsOff;
 
-<<<<<<< HEAD
+
 //	    @Column(name = "color") //perhaps N/A
 //	    @NotFound(action = NotFoundAction.IGNORE)
 //	    private String color ="N/A";
 	    
-	    @Column(name = "companyUsername") //perhaps N/A
-=======
-	    @Column(name = "companyName") //perhaps N/A
->>>>>>> 0e4d700605e6a27847a7cf5eda306005217cca03
+//	    @Column(name = "companyUsername") //perhaps N/A
+//
+//	    @Column(name = "companyName") //perhaps N/A
+
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String companyUsername ="";
 	    

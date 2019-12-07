@@ -24,17 +24,12 @@ import org.springframework.core.style.ToStringCreator;
 public class Product {
 
 	 @Id
-<<<<<<< HEAD
-	@Column(name = "id")
-    @NotFound(action = NotFoundAction.IGNORE)
-	private Integer id;
-=======
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name = "id")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
->>>>>>> 0e4d700605e6a27847a7cf5eda306005217cca03
+
 	@Column(name = "company")
     @NotFound(action = NotFoundAction.IGNORE)
 	private String company;
