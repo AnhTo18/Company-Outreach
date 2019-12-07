@@ -118,7 +118,7 @@ class CompanyController {
     @RequestMapping(value= "/add", method= RequestMethod.POST)
 	public HashMap<String, String>  createCompany(@RequestBody Company newcomp) {
     	 HashMap<String, String> map = new HashMap<>();
-		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
+		System.out.println(this.getClass().getSimpleName() + " - Create new Company method is invoked.");
 		if(companyRepository.findCompanyByUsername(newcomp.getUsername() ) == null) {
 		 companyRepository.save(newcomp);
 		 map.put("verify", "Added");

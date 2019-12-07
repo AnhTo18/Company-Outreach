@@ -233,17 +233,17 @@ public class FrontQRController {
 			        	        		 
 //			        	        		 System.out.println("After current points.");
 //			        	        		 System.out.println(currentPoints);
-			        	        		 return map;
 			        	        	
 			        	        	}
-			 
+			        	        
 						}
-
+			        	        
 					 }
 			          
 			
-			}
-				map.put("points", "Not Found and Not Added");
+			
+				 }map.put("Error", "Did Not Find User or Qr Code");
+				map.put("points", "Not Added");
 				return map;
 		 }
 		

@@ -23,7 +23,7 @@ import org.springframework.core.style.ToStringCreator;
 @Table(name = "product")
 public class Product {
 
-	@Id
+	 @Id
 	@Column(name = "id")
     @NotFound(action = NotFoundAction.IGNORE)
 	private Integer id;
