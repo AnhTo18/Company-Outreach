@@ -83,14 +83,14 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String points ="0";
 	    
-//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-//	   	private Set<Owner> owners;
-//	    //companies
+	    @ManyToOne(fetch = FetchType.EAGER, cascade = { //added during meeting
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
+	   	private Company company;
+	    
 	    
 	    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
@@ -187,16 +187,7 @@ public class Company {
 	        this.isPaid = isPaid;
 	        //Sets the companies paid status to true or false
 	    }
-	    //TESTING START
-//	    public Set<Owner> getOwners() {
-//	        return this.owners;
-//	        //gets status of company payment
-//	    }
-//
-//	    public void setOwners(Set<Owner> owners) {
-//	    	this.owners  = owners;
-//	    }
-	    //TESTING END
+
 	    //need to fix subscriptions later
 	    public Set<Subscription> getSubscriptions() {
 	        return this.subscriptions;
@@ -219,32 +210,21 @@ public class Company {
 	        this.username = username;
 	        //Setter for username
 	    }
-	    
-	    public Set<Event> getEvents() {
-			return events;
+
+		public Company getCompany() {
+			return company;
 		}
 
+		public void setCompany(Company company) {
+			this.company = company;
+		}
+
+		public Set<Event> getEvents() {
+			return events;
+		}
 
 		public void setEvents(Set<Event> events) {
 			this.events = events;
 		}
-
-	    @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
-
-	                .append("id", this.getId())
-	                .append("new", this.isNew())
-	                .append("companyName", this.getCompanyName())
-	                .append("userName", this.getUsername())
-	                .append("address", this.address)
-	                .append("isPaid", this.getPaidStatus())
-	            //    .append("owners",this.getOwners())
-	                .append("points" , this.getPoints())
-	                .append("telephone", this.telephone).toString();
-	    }
-
-		
-	
-	
+	    
 }

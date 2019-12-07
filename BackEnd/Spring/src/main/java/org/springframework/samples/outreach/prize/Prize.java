@@ -78,21 +78,17 @@ public class Prize {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private int pointsOff;
 
-//	    @Column(name = "color") //perhaps N/A
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    private String color ="N/A";
-	    
 	    @Column(name = "companyName") //perhaps N/A
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String companyName ="";
 	    
-//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
-//	   	private Set<Company> company;
+	    @OneToMany(fetch = FetchType.EAGER, cascade = {	//updated
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	   	private Set<Prize> prizes;
 
 		public Integer getId() {
 			return id;
@@ -140,15 +136,21 @@ public class Prize {
 			this.qty = qty;
 		}
 
-		
+		public int getPointsOff() {
+			return pointsOff;
+		}
 
-//		public Set<Company> getCompany() {
-//			return company;
-//		}
-//
-//		public void setCompany(Set<Company> company) {
-//			this.company = company;
-//		}
+		public void setPointsOff(int pointsOff) {
+			this.pointsOff = pointsOff;
+		}
+
+		public Set<Prize> getPrizes() {
+			return prizes;
+		}
+
+		public void setPrizes(Set<Prize> prizes) {
+			this.prizes = prizes;
+		}
 
 	    
 }
