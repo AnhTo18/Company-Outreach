@@ -77,7 +77,7 @@ public class PaypalActivity extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
         array= new ArrayList<String>();
-        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/i/findSubscriptions"; //have to change later so other user can actually use
+        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/"+Const.username+"/findSubscriptions"; e
         String url3=Const.URL_SHOW_USERS+"/user/password/targetNorth2/paid";
       //  String url1="https://api.myjson.com/bins/kp9wz";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
