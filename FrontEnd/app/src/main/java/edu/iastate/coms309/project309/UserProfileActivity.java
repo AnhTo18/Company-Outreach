@@ -43,30 +43,34 @@ public class UserProfileActivity extends AppCompatActivity {
 
         String url = Const.URL_SHOW_USERS + "/" + Const.username;
 
+
+
+        Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String firstName = response.getString("firstName");
+                    String lastName = response.getString("lastName");
+                    String address = response.getString("address");
+                    String telephone = response.getString("telephone");
+                    String username = response.getString("username");
+                    String points = response.getString("points");
+                    String paid = response.getString("paidStatus");
+
+                    mTextViewResult.append(username + ": " + (points == null ? 0 : points) + " points \n" +
+                            "Paid Membership:" + (paid.equals("true") ? " yes" : " no") + "\n" +
+                            firstName + " " + lastName + "\n" +
+                            address + "\n" +
+                            telephone);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
         RequestController rc = new RequestController(getApplicationContext());
-        rc.requestJsonObject(Request.Method.GET, url, null);
+        rc.requestJsonObject(Request.Method.GET, url, r);
 
-
-
-        /*
-        try {
-            String firstName = j.getString("firstName");
-            String lastName = j.getString("lastName");
-            String address = j.getString("address");
-            String telephone = j.getString("telephone");
-            String username = j.getString("username");
-            String points = j.getString("points");
-
-            mTextViewResult.append(username + ": " + (points == null ? 0 : points) + " points \n" +
-                    firstName + " " + lastName + "\n" +
-                    address + "\n" +
-                    telephone);
-        } catch (JSONException e) {
-            Log.e("JSON", "JSON Error: " + e.toString());
-            e.printStackTrace();
-        }
-
-         */
 
         /*
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -100,8 +104,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         mQueue.add(request);
-        
+
          */
     }
 }
-

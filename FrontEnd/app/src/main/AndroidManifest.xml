@@ -67,6 +67,7 @@
             android:name=".PointShopActivity"
             android:screenOrientation="portrait" />
 
+
     </application>
 
 </manifest>
