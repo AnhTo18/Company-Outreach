@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class UserHomeActivity extends AppCompatActivity {
 
 
-    Button events, comps,profile;
+    Button events, comps,profile,discount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class UserHomeActivity extends AppCompatActivity {
         events = findViewById(R.id.buttonEventList);
         comps = findViewById(R.id.buttonCompanyList);
         profile=findViewById(R.id.userProfile);
+        discount=findViewById(R.id.discount);
         events.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -37,6 +38,12 @@ public class UserHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(UserHomeActivity.this, UserProfileActivity.class));
+            }
+        });
+        discount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserHomeActivity.this, PaypalActivity.class));
             }
         });
 

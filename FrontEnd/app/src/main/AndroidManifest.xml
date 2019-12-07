@@ -16,11 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".CompanyListActivity"></activity>
+
         <activity android:name=".MakePrizeActivity" />
-        <activity android:name=".CompanyHomeActivity" />
-        <activity android:name=".CompanyRegisterActivity" />
-        <activity android:name=".CompanyLoginActivity" />
+
         <activity
             android:name=".EventViewActivity"
             android:screenOrientation="portrait" />
@@ -66,9 +64,19 @@
             android:label="Developer Home" />
         <activity android:name=".UserHomeActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".PaypalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PaymentDetails"
+            android:screenOrientation="portrait"/>
 
-
-
+        <activity android:name=".CompanyListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CompanyHomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CompanyRegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CompanyLoginActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
