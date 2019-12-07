@@ -49,7 +49,7 @@ public class Subscription {
 	    @JsonIgnoreProperties("subscriptions") // prevent circular dependency with JSON deserializing
 	private Company company;
 	
-	private double points;
+	private double points = 0.0;
 	
 	
 	   public Company getCompany() {

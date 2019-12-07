@@ -31,6 +31,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.outreach.company.Company;
 import org.springframework.test.context.jdbc.Sql;
 //import org.junit.Before;
 
@@ -74,6 +75,17 @@ public class MockitoControllerTest {
 		System.out.println("HELLO");
 		System.out.println(current);
  
+	}
+	/**
+	   * This method Tests addPoints function
+	   * @return void
+	   */
+	@Test
+	public void addPoints() {
+		Owner user = new Owner();
+		Company company = new Company();
+		
+		//user.setSubscriptions(company);
 	}
 	
 	/**
@@ -274,6 +286,7 @@ public class MockitoControllerTest {
 		System.out.println("------------------------------------------\n\n\n");
 	
 	}
+	
 	
 //	 @Test
 //	  @Sql("data.sql")

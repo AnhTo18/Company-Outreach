@@ -451,6 +451,7 @@ public class OwnerController {
 					JSONObject jo = new JSONObject();
 					jo.put("CompanyId", subscription.getCompany().getId());
 					jo.put("Company", subscription.getCompany().getCompanyName());
+					jo.put("CompanyUserPoints", subscription.getpoints());
 					ja.put(jo);
 
 				}
