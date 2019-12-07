@@ -79,9 +79,9 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
 
-	    @Column(name = "points")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String points ="0";
+//	    @Column(name = "points")
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    private String points ="0";
 	    
 	    @ManyToOne(fetch = FetchType.EAGER, cascade = { //added during meeting
 	    		CascadeType.PERSIST,
@@ -175,24 +175,24 @@ public class Company {
 		}
 
 
-		public String getPoints() {
-			return points;
-		}
+//		public String getPoints() {
+//			return points;
+//		}
+//
+//
+//		public void setPoints(String points) {
+//			this.points = points;
+//		}
 
 
-		public void setPoints(String points) {
-			this.points = points;
-		}
-
-
-		public Company getCompany() {
-			return company;
-		}
-
-
-		public void setCompany(Company company) {
-			this.company = company;
-		}
+//		public Company getCompany() {
+//			return company;
+//		}
+//
+//
+//		public void setCompany(Company company) {
+//			this.company = company;
+//		}
 
 
 		public Set<Subscription> getSubscriptions() {

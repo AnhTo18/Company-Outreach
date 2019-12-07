@@ -21,14 +21,14 @@ import org.springframework.core.style.ToStringCreator;
  */
 @Entity
 @Table(name = "product")
-public class QRcode {
+public class Product {
 
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name = "id")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
-	 
+
 	@Column(name = "company")
     @NotFound(action = NotFoundAction.IGNORE)
 	private String company;
@@ -72,4 +72,13 @@ public class QRcode {
 		this.quantity = quantity;
 	}
 
+	 @Override
+	    public String toString() {
+	        return new ToStringCreator(this)
+
+	                .append("id", this.getId())
+	                .append("company", this.getcompany())
+	                .append("points", this.getpoints())
+	                .append("quantity", this.getQuantity()).toString();
+	 }
 }

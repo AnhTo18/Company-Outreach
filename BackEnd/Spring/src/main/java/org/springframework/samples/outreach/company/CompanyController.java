@@ -51,65 +51,7 @@ class CompanyController {
 
     private final Logger logger = LoggerFactory.getLogger(CompanyController.class);
     
-    
-    /*begin testing*/
-    
-    /**
- 	   * This method adds the given points to the given user. This searches through
- 	   * the Repository to find the user and give them the given amount of points to them
- 	   * and updating the Repository. 
- 	   * THIS IS A POST METHOD, Path = /owners/addpoints/{points}/{username}
- 	   * @param int Points
- 	   * @param String Username
- 	   * @return HashMap<String, String> This returns JSON data of "verify", "Added" || "verify", "NotFound".
- 	   */
-     @RequestMapping(value= "/addpoints/{points}/{username}", method= RequestMethod.POST)
- 	public HashMap<String, String> addPoints(@PathVariable("points") int points, @PathVariable("username") String username ) {
- 	//This can be used once the user gets back the info from the other repo and confirms the points and sends it back to server.
-     	username = username.toString().trim();
-     	
-         List<Company> results = companyRepository.findAll();
-         
-         HashMap<String, String> map = new HashMap<>();
-        
-         
-         for(Company current : results) {
-         	String currentUsername = current.getUsername().toString().trim();
-         	
-         	if(username.toString().trim().equals(currentUsername))
-         	{
-         		
-         		 map.put("verify", "Added");
-         		 int temp = 0;
-         		 int currentPoints;
-         		 try {
-         			 currentPoints = Integer.parseInt(current.getPoints());
-         		 }
-         		 catch (NumberFormatException e)
-         		 {
-         			 currentPoints = 0; //not found
-         		 }
-         		// System.out.println("This is the current points.");
-         	//	 System.out.println(currentPoints);
-         		 temp = currentPoints + points; //add total points
-         		
-         	
-         		 current.setPoints(String.valueOf(temp)); //set current points to current user
-         		 companyRepository.flush(); // updates changes
-         		 
-//         		 System.out.println("After current points.");
-//         		 System.out.println(currentPoints);
-         		 return map;
-         	
-         	}
-         }
-          
-     
-         map.put("verify", "NotFound");
- 		 return map;
- 	
- 	}
-     /*end testing*/
+ 
     /**
 	   * This method creates and add a Company to the Company Repository.
 	   * THIS IS A POST METHOD, Path = /company/add

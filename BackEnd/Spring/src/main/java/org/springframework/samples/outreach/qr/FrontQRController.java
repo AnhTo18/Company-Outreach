@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class FrontQRController {
 
 	@Autowired
-	private QRService productService;
+	private ProductService productService;
 	
 	@Autowired
-	QRRepository productRepo;
+	ProductRepository productRepo;
 	
 	@Autowired
 	OwnerRepository ownersRepository;
@@ -48,9 +48,9 @@ public class FrontQRController {
 	   * @return Iterable<Product> This returns the list of QR code Objects.
 	   */
 	    @RequestMapping(method = RequestMethod.GET, path = "/Work")
-	    public Iterable<QRcode> getAllCodes() {
+	    public Iterable<Product> getAllCodes() {
 	        logger.info("Entered into Controller Layer");
-	        Iterable<QRcode> results = productService.findAll();
+	        Iterable<Product> results = productService.findAll();
 	        //logger.info("Number of Records Fetched:" + results.size());
 	        
 	        return results;
@@ -96,9 +96,9 @@ public class FrontQRController {
 				//Wrong Format 
 			 }
 			
-	        Iterable<QRcode> totalObjects = productService.findAll(); //gets all the product types of qrcodes
+	        Iterable<Product> totalObjects = productService.findAll(); //gets all the product types of qrcodes
 	       
-			 for (QRcode current : totalObjects)
+			 for (Product current : totalObjects)
 			 {
 				 String currentCompany = current.getcompany().toString().trim();
 				 //create Current Company by getting the current Product Object 
@@ -160,9 +160,9 @@ public class FrontQRController {
 				 }
 				 
 				//System.out.println(currentId1);
-		        Iterable<QRcode> yeet = productService.findAll(); //gets all the product types of qrcodes
+		        Iterable<Product> yeet = productService.findAll(); //gets all the product types of qrcodes
 		       
-				 for (QRcode current : yeet)
+				 for (Product current : yeet)
 				 {
 //					 String currentCompany = current.getcompany().toString().trim();
 //					 
@@ -233,17 +233,17 @@ public class FrontQRController {
 			        	        		 
 //			        	        		 System.out.println("After current points.");
 //			        	        		 System.out.println(currentPoints);
-			        	        		 return map;
 			        	        	
 			        	        	}
-			 
+			        	        
 						}
-
+			        	        
 					 }
 			          
 			
-			}
-				map.put("points", "Not Found and Not Added");
+			
+				 }map.put("Error", "Did Not Find User or Qr Code");
+				map.put("points", "Not Added");
 				return map;
 		 }
 		
