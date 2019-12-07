@@ -26,6 +26,7 @@ import java.util.Map;
 
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 
 
 public class CompanyRegisterActivity extends AppCompatActivity {
@@ -47,6 +48,46 @@ public class CompanyRegisterActivity extends AppCompatActivity {
         username = findViewById(R.id.textInputUsernameCompany);
         password = findViewById(R.id.textInputPasswordCompany);
 
+        findViewById(R.id.buttonCreateAcctCompany).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                JSONObject js = new JSONObject();
+                try {
+                    js.put("companyName", company.getText().toString());
+                    js.put("user_name", username.getText().toString());
+                    js.put("password", password.getText().toString());
+                } catch (JSONException e) {
+                    Log.e("JSON", "JSON Error: " + e.toString());
+                    e.printStackTrace();
+                }
+
+                RequestController rc = new RequestController(getApplicationContext());
+                Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String a = "";
+                        try {
+                            a = response.getString("verify");
+                        } catch (JSONException e) {
+                            Log.e("JSON", "JSON Error: " + e.toString());
+                            e.printStackTrace();
+                        }
+
+                        if (!a.equals("Added")) {
+                            Toast.makeText(getApplicationContext(), "Error creating account", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+                rc.requestJsonObject(Request.Method.POST, Const.URL_COMPANY_REGISTER, js, r);
+
+
+                startActivity(new Intent(CompanyRegisterActivity.this, CompanyLoginActivity.class));
+            }
+        });
+
+
+        /*
         findViewById(R.id.buttonCreateAcctCompany).setOnClickListener(new View.OnClickListener() {
             boolean success = false;
             @Override
@@ -84,7 +125,9 @@ public class CompanyRegisterActivity extends AppCompatActivity {
 
                 rq.add(jor);
 
-                /**
+
+
+
                  Toast t;
                  if(success) {
                  t = Toast.makeText(getApplicationContext(), "Account Created", Toast.LENGTH_SHORT);
@@ -92,11 +135,14 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                  t = Toast.makeText(getApplicationContext(), "Error creating account, please try again later",  Toast.LENGTH_SHORT );
                  }
                  t.show();
-                 */
+
 
                 startActivity(new Intent(CompanyRegisterActivity.this, CompanyLoginActivity.class));
             }
         });
+
+
+         */
 
 
     }

@@ -1,5 +1,15 @@
 package edu.iastate.coms309.project309.util;
 
+import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Const {
     public static final String DOMAIN =  "coms-309-ss-8.misc.iastate.edu:8080/";
     public static final String URL_REGISTER = "http://" + DOMAIN + "owners/add";
@@ -24,9 +34,13 @@ public class Const {
 	public static String password = "";
     public static String event = "";
     public static String company = "";
+    public static int userID = 0;
 
 
     public static String companyForDiscount="";
+
+
+
 
 
 }

@@ -124,13 +124,15 @@ public class Notification extends AppCompatActivity {
 
 
 
-try {
-    cc.send(event.toString());
-    Log.d("check", event.toString());
-}
-catch (Exception e)
+                try {
+                    cc.send(event.toString());
+                    Log.d("check", event.toString());
+                }
+                catch (Exception e)
                 {
-                    Log.d("ExceptionSendMessage:", e.getMessage().toString());
+                    try {
+                        Log.d("ExceptionSendMessage:", e.getMessage().toString());
+                    } catch(NullPointerException err) {}
                 }
 
 
@@ -138,7 +140,7 @@ catch (Exception e)
 
 
 
-    });
+        });
 
     }
 

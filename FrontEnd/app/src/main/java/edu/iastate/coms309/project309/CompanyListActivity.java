@@ -3,6 +3,7 @@ package edu.iastate.coms309.project309;
 import  androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,46 +11,50 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.iastate.coms309.project309.util.Const;
 import edu.iastate.coms309.project309.util.EventAdapter;
+import edu.iastate.coms309.project309.util.RequestController;
 
 public class CompanyListActivity extends AppCompatActivity {
 
 
-    ListView list;
-    ArrayList<String> companies;
+    private ListView list;
 
-    RequestQueue rq;
+    private RequestQueue rq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_list);
 
-        list = findViewById(R.id.listView);
+        list = findViewById(R.id.listView2);
 
-        companies = new ArrayList<>();
+        rq = Volley.newRequestQueue(this);
 
+        /*
 
         JsonArrayRequest jor = new JsonArrayRequest(Request.Method.GET, Const.URL_COMPANIES, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
+
+                Log.d("VOLLEY", response.toString());
                 for (int i = 0 ; i < response.length() ; i++) {
 
                     try {
                         JSONObject j = response.getJSONObject(i);
                         companies.add(j.getString("companyName"));
+                        Log.d("VOLLEY", "added " + j.getString("companyName"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -65,14 +70,49 @@ public class CompanyListActivity extends AppCompatActivity {
 
         rq.add(jor);
 
-        EventAdapter adapter = new EventAdapter(getApplicationContext(), companies, null);
+         */
+
+        ;
+
+        Response.Listener<JSONArray> r = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0 ; i < response.length() ; i++) {
+                    ArrayList<String> companies = new ArrayList<>();
+                    try {
+                        JSONObject j = response.getJSONObject(i);
+                        companies.add(j.getString("user_name"));
+                        Log.d("VOLLEY", "added " + j.getString("companyName"));
+                    } catch (JSONException e) {
+                        Log.e("JSON", "JSON Error: " + e.toString());
+                        e.printStackTrace();
+                    }
+                    initializeList(companies);
+                }
+            }
+        };
+        RequestController rc = new RequestController(getApplicationContext());
+        rc.requestJsonArray(Request.Method.GET, Const.URL_COMPANIES, r);
+
+
+
+    }
+
+    private void initializeList(ArrayList<String> items) {
+        EventAdapter adapter = new EventAdapter(getApplicationContext(), items, null);
         list.setAdapter(adapter);
+        final ArrayList<String> arrayList = items;
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*
                 JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, Const.URL_SUBSCRIBE + Const.username + "/" + companies.get(position) , null, null, null);
                 rq.add(jor);
+
+                 */
+                RequestController rc = new RequestController(getApplicationContext());
+                rc.requestJsonObject(Request.Method.POST, Const.URL_SUBSCRIBE + Const.userID + "/" + arrayList.get(position), null);
             }
         });
     }

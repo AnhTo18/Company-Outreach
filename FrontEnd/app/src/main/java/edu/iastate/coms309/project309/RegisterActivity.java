@@ -26,6 +26,7 @@ import java.util.Map;
 
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -68,6 +69,28 @@ public class RegisterActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                RequestController rc = new RequestController(getApplicationContext());
+                Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String a = "";
+                        try {
+                            a = response.getString("verify");
+                        } catch (JSONException e) {
+                            Log.e("JSON", "JSON Error: " + e.toString());
+                            e.printStackTrace();
+                        }
+
+                        if (!a.equals("Added")) {
+                            Toast.makeText(getApplicationContext(), "Error creating account", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                };
+                rc.requestJsonObject(Request.Method.POST, Const.URL_REGISTER, js, r);
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+
+
+                /*
                 jor = new JsonObjectRequest(Request.Method.POST, Const.URL_REGISTER, js, new Response.Listener<JSONObject>() {
 
                     @Override
@@ -101,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
                 t.show();
                  */
 
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+
             }
         });
 

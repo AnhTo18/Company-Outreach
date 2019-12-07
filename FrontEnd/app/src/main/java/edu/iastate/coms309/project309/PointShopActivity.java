@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
 import edu.iastate.coms309.project309.util.ShopAdapter;
 
 public class PointShopActivity extends AppCompatActivity {
@@ -51,6 +53,37 @@ public class PointShopActivity extends AppCompatActivity {
 
         context = getApplicationContext();
 
+        RequestController rc = new RequestController(getApplicationContext());
+        rc.requestJsonArray(Request.Method.GET, Const.URL_SHOP, null);
+        /*
+        for (int i = 0 ; i < ja.length() ; i++) {
+            try {
+                JSONObject j = ja.getJSONObject(i);
+                String[] s = {j.getString("item"), j.getString("price")};
+                data.add(s);
+            } catch (JSONException e) {
+                Log.e("JSON", "JSON Error: " + e.toString());
+                e.printStackTrace();
+            }
+        }
+
+         */
+
+        rc.requestJsonObject(Request.Method.GET, Const.URL_SHOW_USERS + Const.username, null);
+        TextView p = findViewById(R.id.textPoints);
+
+        /*
+        try {
+            p.setText("Points: " + j.getString("points"));
+        } catch (JSONException e) {
+            Log.e("JSON", "JSON Error: " + e.toString());
+            e.printStackTrace();
+        }
+
+         */
+
+
+        /*
         rq = Volley.newRequestQueue(this);
         JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, Const.URL_SHOP, null, new Response.Listener<JSONObject>() {
             @Override
@@ -79,6 +112,8 @@ public class PointShopActivity extends AppCompatActivity {
 
         rq.add(jor);
 
+         */
+        /*
         rq = Volley.newRequestQueue(this);
         JsonObjectRequest jor2 = new JsonObjectRequest(Request.Method.GET, Const.URL_SHOW_USERS + Const.username, null, new Response.Listener<JSONObject>() {
             @Override
@@ -98,8 +133,9 @@ public class PointShopActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         rq.add(jor2);
+
+         */
 
         adapter = new ShopAdapter(getApplicationContext(), data);
         grid.setAdapter(adapter);
@@ -117,6 +153,10 @@ public class PointShopActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 //Execute transaction
                                 String url = Const.URL_REDEEM + Const.company + "/" + item + "/" + Const.username + "/1";
+                                RequestController rc = new RequestController(getApplicationContext());
+                                rc.requestJsonObject(Request.Method.POST, url, null);
+
+                                /*
                                 JsonObjectRequest jor3 = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -128,8 +168,9 @@ public class PointShopActivity extends AppCompatActivity {
                                         Toast.makeText(PointShopActivity.this, "bad", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-
                                 rq.add(jor3);
+
+                                 */
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
 

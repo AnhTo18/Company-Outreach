@@ -29,6 +29,9 @@ import java.util.Map;
 
 import edu.iastate.coms309.project309.util.AppController;
 import edu.iastate.coms309.project309.util.Const;
+import edu.iastate.coms309.project309.util.RequestController;
+
+import static edu.iastate.coms309.project309.util.Const.URL_COMPANY_LOGIN;
 
 public class CompanyLoginActivity extends AppCompatActivity {
 
@@ -76,8 +79,47 @@ public class CompanyLoginActivity extends AppCompatActivity {
                     t.show();
                     startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
                 } else {
+                    Response.Listener<JSONObject> r = new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            String v = "";
+                            try {
+                                v = response.getString("verify");
+                            } catch (JSONException e) {
+                                Log.e("JSON", "JSON Error: " + e.toString());
+                                e.printStackTrace();
+                            }
 
-                    String url = Const.URL_COMPANY_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
+                            if (v.equals("true")) {
+                                Const.username = user.getText().toString();
+                                Const.password = pass.getText().toString();
+                                startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+                    RequestController rc = new RequestController(getApplicationContext());
+                    rc.requestJsonObject(Request.Method.GET, URL_COMPANY_LOGIN + user.getText().toString() + "/" + pass.getText().toString(), r);
+                }
+
+            }
+        });
+
+        /*
+
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user.getText().toString().equals("a") && pass.getText().toString().equals("a")) {
+                    //Bypass login for testing
+                    Toast t = Toast.makeText(getApplicationContext(), "Bypassing Login!", Toast.LENGTH_SHORT);
+                    t.show();
+                    startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
+                } else {
+
+                    String url = Const.URL_COMPANY_LOGIN  + user.getText().toString() + "/" + pass.getText().toString();
 
                     jor2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         String verify = "false";
@@ -96,7 +138,7 @@ public class CompanyLoginActivity extends AppCompatActivity {
                             if (verify.equals("true")) {
                                 Const.username = user.getText().toString();
                                 Const.password = pass.getText().toString();
-                                startActivity(new Intent(CompanyLoginActivity.this, Notification.class));
+                                startActivity(new Intent(CompanyLoginActivity.this, CompanyHomeActivity.class));
                             } else {
                                 Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
                                 t.show();
@@ -119,5 +161,9 @@ public class CompanyLoginActivity extends AppCompatActivity {
         });
 
 
+         */
+
+
     }
+
 }
