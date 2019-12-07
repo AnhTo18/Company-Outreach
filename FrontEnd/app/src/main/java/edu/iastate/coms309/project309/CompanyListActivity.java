@@ -79,14 +79,16 @@ public class CompanyListActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 for (int i = 0 ; i < response.length() ; i++) {
                     ArrayList<String> companies = new ArrayList<>();
+                    ArrayList<String> usernames = new ArrayList<>();
                     try {
                         JSONObject j = response.getJSONObject(i);
                         companies.add(j.getString("companyName"));
+                        usernames.add(j.getString("username"));
                     } catch (JSONException e) {
                         Log.e("JSON", "JSON Error: " + e.toString());
                         e.printStackTrace();
                     }
-                    initializeList(companies);
+                    initializeList(companies, usernames);
                 }
             }
         };
@@ -97,10 +99,10 @@ public class CompanyListActivity extends AppCompatActivity {
 
     }
 
-    private void initializeList(ArrayList<String> items) {
-        EventAdapter adapter = new EventAdapter(getApplicationContext(), items, null);
+    private void initializeList(ArrayList<String> items, ArrayList<String> usernames) {
+        EventAdapter adapter = new EventAdapter(getApplicationContext(), items, usernames);
         list.setAdapter(adapter);
-        final ArrayList<String> arrayList = items;
+        final ArrayList<String> arrayList = usernames;
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,7 +113,7 @@ public class CompanyListActivity extends AppCompatActivity {
 
                  */
                 RequestController rc = new RequestController(getApplicationContext());
-                rc.requestJsonObject(Request.Method.POST, Const.URL_SUBSCRIBE + Const.userID + "/" + arrayList.get(position), null);
+                rc.requestJsonObject(Request.Method.POST, Const.URL_SUBSCRIBE + Const.username + "/" + arrayList.get(position), null);
             }
         });
     }
