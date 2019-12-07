@@ -86,11 +86,6 @@ public class Owner {
 	    @Column(name = "pass_word")
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
-	    
-	    @Column(name = "points")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String points;
-	    
 
 	    @Column(name = "paid")
 	    @NotFound(action = NotFoundAction.IGNORE)
@@ -197,16 +192,6 @@ public class Owner {
 	        this.password = password;
 	        //Setter for password
 	    }
-	    
-	    public String getPoints() {
-	        return this.points;
-	        //Getter for password
-	    }
-
-	    public void setPoints(String points) {
-	        this.points = points;
-	        //Setter for password
-	    }
 
 	  //need to fix subscriptions later
 //	    public Set<Company> getCompanies() {
@@ -232,20 +217,6 @@ public class Owner {
 	        //Setter for subscriptions
 	    }
 	    
-	    @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
-
-	                .append("id", this.getId())
-	                .append("new", this.isNew())
-	                .append("lastName", this.getLastName())
-	                .append("firstName", this.getFirstName())
-	                .append("address", this.address)
-	                .append("points" , this.getPoints())
-	          //      .append("companies", this.getCompanies())
-	                .append("telephone", this.telephone).toString();
-	    }
-
 	
 	
 }

@@ -79,18 +79,18 @@ public class Company {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String password;
 
-	    @Column(name = "points")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String points ="0";
-	    
-//	    @OneToMany(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
+//	    @Column(name = "points")
 //	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-//	   	private Set<Owner> owners;
-//	    //companies
+//	    private String points ="0";
+	    
+	    @ManyToOne(fetch = FetchType.EAGER, cascade = { //added during meeting
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
+	   	private Company company;
+	    
 	    
 	    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
@@ -114,113 +114,108 @@ public class Company {
 	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
 	    private Set<Event> events;
 
+
 		public Integer getId() {
-	        return id;
-	        //Getter for ID of User
-	    }
+			return id;
+		}
 
-	    public void setId(Integer id) {
-	        this.id = id;
-	        //Setter for ID of User
-	    }
 
-	    public boolean isNew() {
-	        return this.id == null;
-	    }
+		public void setId(Integer id) {
+			this.id = id;
+		}
 
-	    public String getPoints() {
-	        return this.points;
-	        //Getter for password
-	    }
 
-	    public void setPoints(String points) {
-	        this.points = points;
-	        //Setter for password
-	    }
-	    
-	    public String getCompanyName() {
-	        return this.companyName;
-	        //Getter for FirstName of User
-	    }
+		public String getCompanyName() {
+			return companyName;
+		}
 
-	    public void setCompanyName(String companyName) {
-	        this.companyName = companyName;
-	        //Setter for FirstName of User
-	    }
 
-	    public String getAddress() {
-	        return this.address;
-	        //Getter for Address of User
-	    }
+		public void setCompanyName(String companyName) {
+			this.companyName = companyName;
+		}
 
-	    public void setAddress(String address) {
-	        this.address = address;
-	        //Setter for Address
-	    }
 
-	    public String getTelephone() {
-	        return this.telephone;
-	        //Getter for Telephone Number
-	    }
+		public String getAddress() {
+			return address;
+		}
 
-	    public void setTelephone(String telephone) {
-	        this.telephone = telephone;
-	        //Setter for Telephone Number
-	    }
-	    
-	    public String getpassword() {
-	        return this.password;
-	        //Getter for password
-	    }
 
-	    public void setPassword(String password) {
-	        this.password = password;
-	        //Setter for password
-	    }
-	    
-	    public boolean getPaidStatus() {
-	        return this.isPaid;
-	        //gets status of company payment
-	    }
+		public void setAddress(String address) {
+			this.address = address;
+		}
 
-	    public void setPaidStatus(boolean isPaid) {
-	        this.isPaid = isPaid;
-	        //Sets the companies paid status to true or false
-	    }
-	    //TESTING START
-//	    public Set<Owner> getOwners() {
-//	        return this.owners;
-//	        //gets status of company payment
-//	    }
+
+		public String getUsername() {
+			return username;
+		}
+
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+
+		public String getTelephone() {
+			return telephone;
+		}
+
+
+		public void setTelephone(String telephone) {
+			this.telephone = telephone;
+		}
+
+
+		public String getPassword() {
+			return password;
+		}
+
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+
+//		public String getPoints() {
+//			return points;
+//		}
 //
-//	    public void setOwners(Set<Owner> owners) {
-//	    	this.owners  = owners;
-//	    }
-	    //TESTING END
-	    //need to fix subscriptions later
-	    public Set<Subscription> getSubscriptions() {
-	        return this.subscriptions;
-	        //Getter for password
-	    }
+//
+//		public void setPoints(String points) {
+//			this.points = points;
+//		}
 
-	    
-	    public void setSubscriptions(Set<Subscription> subscriptions) {
-	        this.subscriptions = subscriptions;
-	        //Setter for subscriptions
-	    }
-	    
-	
-	    public String getUsername() {
-	        return this.username;
-	        //Getter for username
-	    }
 
-	    public void setUsername(String username) {
-	        this.username = username;
-	        //Setter for username
-	    }
-	    
-	    public Set<Event> getEvents() {
+//		public Company getCompany() {
+//			return company;
+//		}
+//
+//
+//		public void setCompany(Company company) {
+//			this.company = company;
+//		}
+
+
+		public Set<Subscription> getSubscriptions() {
+			return subscriptions;
+		}
+
+
+		public void setSubscriptions(Set<Subscription> subscriptions) {
+			this.subscriptions = subscriptions;
+		}
+
+
+		public boolean getPaidStatus() {
+			return isPaid;
+		}
+
+
+		public void setPaidStatus(boolean isPaid) {
+			this.isPaid = isPaid;
+		}
+
+
+		public Set<Event> getEvents() {
 			return events;
 		}
 
@@ -229,22 +224,5 @@ public class Company {
 			this.events = events;
 		}
 
-	    @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
-
-	                .append("id", this.getId())
-	                .append("new", this.isNew())
-	                .append("companyName", this.getCompanyName())
-	                .append("userName", this.getUsername())
-	                .append("address", this.address)
-	                .append("isPaid", this.getPaidStatus())
-	            //    .append("owners",this.getOwners())
-	                .append("points" , this.getPoints())
-	                .append("telephone", this.telephone).toString();
-	    }
-
-		
-	
-	
+	    
 }
