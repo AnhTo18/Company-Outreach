@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import samples.springframework.samples.outreach.qrv2.QRcode;
-
 import org.springframework.samples.outreach.qr.ZXingHelper;
 import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.samples.outreach.company.CompanyRepository;
