@@ -150,7 +150,7 @@ public class EventListActivity extends AppCompatActivity {
                         try {
                             JSONObject j = new JSONObject(s);
 
-                            add(adapter, j.getString("eventname"), j.getString("company"));
+                            add(adapter, j.getString("eventname"), "");
                             //adapter.add(j.getString("event"),j.getString("company"));
                         }catch (JSONException e) {
                             Log.e("JSON", "JSON Error: " + e.toString());

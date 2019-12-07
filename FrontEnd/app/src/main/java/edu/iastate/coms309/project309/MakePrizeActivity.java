@@ -20,7 +20,7 @@ import edu.iastate.coms309.project309.util.RequestController;
 
 public class MakePrizeActivity extends AppCompatActivity {
 
-    EditText prize, cost, qty;
+    EditText prize, cost, qty, discount;
     Button submit;
     RequestQueue rq;
 
@@ -31,6 +31,7 @@ public class MakePrizeActivity extends AppCompatActivity {
 
         prize = findViewById(R.id.textInputPrizeName);
         cost = findViewById(R.id.textInputCost);
+        discount = findViewById(R.id.textInputDiscount);
         qty = findViewById(R.id.textInputQty);
         submit = findViewById(R.id.buttonCreateSendPrize);
         rq = Volley.newRequestQueue(this);
@@ -46,6 +47,7 @@ public class MakePrizeActivity extends AppCompatActivity {
                     j.put("cost", cost.getText().toString());
                     j.put("qty", qty.getText().toString());
                     j.put("company", Const.username);
+                    j.put("pointsOff", discount.getText().toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -53,6 +55,7 @@ public class MakePrizeActivity extends AppCompatActivity {
 
                 RequestController rc = new RequestController(getApplicationContext());
                 rc.requestJsonObject(Request.Method.POST, Const.URL_ADD_PRIZE, j, null);
+                finish();
 
             }
         });

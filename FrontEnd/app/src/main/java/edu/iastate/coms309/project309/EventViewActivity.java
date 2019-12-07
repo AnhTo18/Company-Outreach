@@ -67,7 +67,7 @@ public class EventViewActivity extends AppCompatActivity {
         };
 
         RequestController rc = new RequestController(getApplicationContext());
-        rc.requestJsonObject(Request.Method.GET, Const.URL_EVENT_LIST + "/" + Const.event, r);
+        rc.requestJsonObject(Request.Method.GET, Const.URL_EVENT_LIST + Const.event, r);
 
         /*
         try {

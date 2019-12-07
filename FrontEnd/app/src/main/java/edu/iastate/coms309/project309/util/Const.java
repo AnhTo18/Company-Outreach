@@ -19,7 +19,7 @@ public class Const {
     public static final String URL_ADD_POINTS = "http://" + DOMAIN +"owners/addpoints";
     public static final String WS_EVENT_UPDATE = "ws://" + DOMAIN + "notify/";
     public static final String URL_EVENT_LIST = "http://" + DOMAIN + "events/";
-    public static final String URL_SHOP = "http://" + DOMAIN +"getAll/prizes/";
+    public static final String URL_SHOP = "http://" + DOMAIN +"getAll/Prizes/";
     public static final String URL_REDEEM =  "http://" + DOMAIN + "redeem/";
     public static final String URL_COMPANY_LOGIN = "http://" + DOMAIN + "company/login/";
     public static final String URL_COMPANY_REGISTER = "http://" + DOMAIN + "company/add/";

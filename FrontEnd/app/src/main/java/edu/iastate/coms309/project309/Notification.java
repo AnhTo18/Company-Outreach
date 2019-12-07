@@ -54,7 +54,7 @@ import java.net.URISyntaxException;
 public class Notification extends AppCompatActivity {
 
 
-    EditText name, location,date,time,company;
+    EditText name, location,date,time;
     Button b1;
     TextView t1;
     private WebSocketClient cc;
@@ -69,7 +69,6 @@ public class Notification extends AppCompatActivity {
         location=findViewById(R.id.location);
         date=findViewById(R.id.date);
         time=findViewById(R.id.time);
-        company=findViewById(R.id.company);
         t1=findViewById(R.id.t1);
         b1=findViewById(R.id.b);
         Draft[] drafts = {new Draft_6455()};
@@ -115,7 +114,7 @@ public class Notification extends AppCompatActivity {
                     event.put("location", location.getText().toString());
                     event.put("date", date.getText().toString());
                     event.put("time", time.getText().toString());
-                    event.put("username", company.getText().toString());
+                    event.put("username", Const.username);
 
 
                 } catch (JSONException e) {
@@ -135,7 +134,7 @@ public class Notification extends AppCompatActivity {
                     } catch(NullPointerException err) {}
                 }
 
-
+            finish();
             }
 
 

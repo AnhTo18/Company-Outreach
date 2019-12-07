@@ -49,9 +49,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".DevHomeActivity"
-
             android:label="Developer Home"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".QrScanner"
             android:screenOrientation="portrait" />
@@ -61,13 +61,6 @@
         <activity
             android:name=".PointShopActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Notification"
-            android:screenOrientation="portrait" />
-
-            android:label="Developer Home" />
-        <activity android:name=".UserHomeActivity"
-            android:screenOrientation="portrait"/>
 
 
 
