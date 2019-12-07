@@ -48,7 +48,7 @@ import java.net.URISyntaxException;
 public class LoginActivity extends AppCompatActivity {
 
     EditText user, pass;
-    Button reg, login;
+    Button reg, login, comp;
 
     RequestQueue rq;
     JsonObjectRequest jor2;
@@ -64,6 +64,16 @@ public class LoginActivity extends AppCompatActivity {
         pass = findViewById(R.id.loginInputPassword);
         reg = findViewById(R.id.buttonMakeAcct);
         login = findViewById(R.id.buttonLogin);
+
+        comp = findViewById(R.id.buttonGotoCompany);
+
+        comp.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, CompanyLoginActivity.class));
+            }
+        });
+
 
         rq = Volley.newRequestQueue(this);
 
@@ -84,44 +94,49 @@ public class LoginActivity extends AppCompatActivity {
                     Toast t = Toast.makeText(getApplicationContext(), "Bypassing Login!", Toast.LENGTH_SHORT);
                     t.show();
                     startActivity(new Intent(LoginActivity.this, DevHomeActivity.class));
-                }
+                } else {
 
-                String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
+                    String url = Const.URL_LOGIN + "/" + user.getText().toString() + "/" + pass.getText().toString();
 
-                jor2 = new JsonObjectRequest(Request.Method.GET, url, null , new Response.Listener<JSONObject>() {
-                    String verify = "false";
+                    jor2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        String verify = "false";
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(AppController.TAG, "Response:" + response.toString());
-                        try {
-                            verify = response.getString("verify");
-                        } catch (JSONException e) {
-                            Toast t = Toast.makeText(getApplicationContext(), "JSON Exception", Toast.LENGTH_SHORT);
-                            t.show();
-                            e.printStackTrace();
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d(AppController.TAG, "Response:" + response.toString());
+                            try {
+                                verify = response.getString("verify");
+                            } catch (JSONException e) {
+                                Toast t = Toast.makeText(getApplicationContext(), "JSON Exception", Toast.LENGTH_SHORT);
+                                t.show();
+                                e.printStackTrace();
+                            }
+
+                            if (verify.equals("true")) {
+                                Const.username = user.getText().toString();
+                                Const.password = pass.getText().toString();
+                                startActivity(new Intent(LoginActivity.this, UserHomeActivity.class));
+                            } else {
+                                Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
+                                t.show();
+                            }
                         }
 
-                        if (verify.equals("true")) {
-                            Const.username = user.getText().toString();
-                            Const.password=pass.getText().toString();
-                            startActivity(new Intent(LoginActivity.this, Notification.class));
-                        } else {
-                            Toast t = Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT);
-                            t.show();
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
+                            Log.e(AppController.TAG, "Error: " + error.getMessage());
+                            Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
+
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
-                        Log.e(AppController.TAG, "Error: " + error.getMessage());
-                        Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
-                        t.show();
-                    }
-                });
+
+                    });
 
                     rq.add(jor2);
+
+                }
+
                 Draft[] drafts = {new Draft_6455()};
 
 
@@ -163,6 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 cc.connect();
+
 
             }
 

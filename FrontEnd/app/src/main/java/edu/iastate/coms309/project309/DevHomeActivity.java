@@ -14,7 +14,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 
 public class DevHomeActivity extends AppCompatActivity {
 
-    Button b1, b2;
+    Button b1, b2, b3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,14 @@ public class DevHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DevHomeActivity.this, UserProfileActivity.class));
+            }
+        });
+
+        b3 = findViewById(R.id.buttonGotoEventList);
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DevHomeActivity.this, EventListActivity.class));
             }
         });
     }

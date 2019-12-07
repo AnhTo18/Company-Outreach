@@ -16,13 +16,13 @@
         android:id="@+id/textInputFirstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="First name" />
+        android:hint="First Name" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/textInputLastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Last name" />
+        android:hint="Last Name" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/textInputAddress"
