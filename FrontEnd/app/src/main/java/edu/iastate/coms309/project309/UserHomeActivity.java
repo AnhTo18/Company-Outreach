@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class UserHomeActivity extends AppCompatActivity {
 
 
-    Button events, comps;
+    private Button events, comps, prof;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class UserHomeActivity extends AppCompatActivity {
 
         events = findViewById(R.id.buttonEventList);
         comps = findViewById(R.id.buttonCompanyList);
+        prof = findViewById(R.id.buttonProfile);
 
         events.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -31,6 +32,13 @@ public class UserHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(UserHomeActivity.this, CompanyListActivity.class));
+            }
+        });
+
+        prof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserHomeActivity.this, UserProfileActivity.class));
             }
         });
 

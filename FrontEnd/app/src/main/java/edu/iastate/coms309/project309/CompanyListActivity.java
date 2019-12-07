@@ -81,8 +81,7 @@ public class CompanyListActivity extends AppCompatActivity {
                     ArrayList<String> companies = new ArrayList<>();
                     try {
                         JSONObject j = response.getJSONObject(i);
-                        companies.add(j.getString("user_name"));
-                        Log.d("VOLLEY", "added " + j.getString("companyName"));
+                        companies.add(j.getString("companyName"));
                     } catch (JSONException e) {
                         Log.e("JSON", "JSON Error: " + e.toString());
                         e.printStackTrace();

@@ -55,7 +55,7 @@ public class CompanyRegisterActivity extends AppCompatActivity {
                 JSONObject js = new JSONObject();
                 try {
                     js.put("companyName", company.getText().toString());
-                    js.put("user_name", username.getText().toString());
+                    js.put("username", username.getText().toString());
                     js.put("password", password.getText().toString());
                 } catch (JSONException e) {
                     Log.e("JSON", "JSON Error: " + e.toString());
