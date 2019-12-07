@@ -52,7 +52,7 @@ public class PaypalActivity extends AppCompatActivity {
     private RequestQueue mQueue;
 
 
-    public static final int PAYPAL_REQUEST_CODE=7171;
+    private static final int PAYPAL_REQUEST_CODE=7171;
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(Const.PaypalClientCode);
@@ -77,7 +77,7 @@ public class PaypalActivity extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
         array= new ArrayList<String>();
-        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/"+Const.username+"/findSubscriptions"; e
+        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/"+Const.username+"/findSubscriptions";
         String url3=Const.URL_SHOW_USERS+"/user/password/targetNorth2/paid";
       //  String url1="https://api.myjson.com/bins/kp9wz";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -86,13 +86,18 @@ public class PaypalActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
 
                         try {
-                          //  JSONArray jsonArray=response.getJSONArray("name");
+                            Log.e("response",response.toString());
+                          JSONArray jsonArray=response.getJSONArray("UserSubscriptions");
 
-                            /*for(int i=0;i<jsonArray.length();i++){
+                            for(int i=0;i<jsonArray.length();i++){
                                 JSONObject company=jsonArray.getJSONObject(i);
-                                array.add(company.getString("company"));
+                                array.add("You have");
+                                array.add(company.getString("CompanyUserPoints"));
+                                array.add("points for");
+                                array.add(company.getString("Company"));
+                               // array.add(company.getString("UserSubscriptions"));
                             }
-                            */
+                            /*
                             int b=response.length();
                             System.out.println((b));
                             Log.d("size", Integer.toString(b));
@@ -105,7 +110,7 @@ public class PaypalActivity extends AppCompatActivity {
 
 
 
-                            }
+                            }*/
                             //String a = response.getString("2");
                            // System.out.println(a);
 

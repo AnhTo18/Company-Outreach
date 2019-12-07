@@ -33,7 +33,7 @@
         android:id="@+id/discount"
         android:layout_width="200dp"
         android:layout_height="100dp"
-        android:text="discount" />
+        android:text="Points/Discount" />
 
     <Button
         android:id="@+id/buttonProfile"

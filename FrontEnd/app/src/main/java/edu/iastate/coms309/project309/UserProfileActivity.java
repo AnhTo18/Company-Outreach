@@ -36,12 +36,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
 
-        jsonParse();
-    }
+        this.jsonParse();
 
+    }
     private void jsonParse() {
 
-        String url = Const.URL_SHOW_USERS + "/" + Const.username;
+        String url = Const.URL_SHOW_USERS +  Const.username;
 
 
 
@@ -49,15 +49,17 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.e("response",response.toString());
+                    String id = response.getString("id");
                     String firstName = response.getString("firstName");
                     String lastName = response.getString("lastName");
                     String address = response.getString("address");
                     String telephone = response.getString("telephone");
                     String username = response.getString("username");
-                    String points = response.getString("points");
+                  //double points = response.getDouble("points");
                     String paid = response.getString("paidStatus");
 
-                    mTextViewResult.append(username + ": " + (points == null ? 0 : points) + " points \n" +
+                    mTextViewResult.append(username + ": "  +
                             "Paid Membership:" + (paid.equals("true") ? " yes" : " no") + "\n" +
                             firstName + " " + lastName + "\n" +
                             address + "\n" +

@@ -89,6 +89,7 @@ public class CompanyListActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     initializeList(companies, usernames);
+                    Log.e("list response",list.toString());
                 }
             }
         };
