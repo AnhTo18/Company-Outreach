@@ -3,8 +3,8 @@ package org.springframework.samples.outreach.qr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.samples.outreach.qr.Product;
-import org.springframework.samples.outreach.qr.ProductRepository;
+import org.springframework.samples.outreach.qr.QRcode;
+import org.springframework.samples.outreach.qr.QRRepository;
 
 /**
  * implements the findall function for productservice
@@ -12,13 +12,13 @@ import org.springframework.samples.outreach.qr.ProductRepository;
  * @author kschrock
  */
 @Service("productService")
-public class ProductServiceImpl implements ProductService {
+public class QRServiceImpl implements QRService {
 
 	@Autowired
-	private ProductRepository productRepository;
+	private QRRepository productRepository;
 
 	@Override
-	public Iterable<Product> findAll() {
+	public Iterable<QRcode> findAll() {
 		return productRepository.findAll();
 	}
 

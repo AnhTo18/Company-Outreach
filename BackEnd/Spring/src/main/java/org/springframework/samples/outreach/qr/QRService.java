@@ -1,6 +1,6 @@
 package org.springframework.samples.outreach.qr;
 
-import org.springframework.samples.outreach.qr.Product;
+import org.springframework.samples.outreach.qr.QRcode;
 
 
 /**
@@ -8,8 +8,8 @@ import org.springframework.samples.outreach.qr.Product;
  * @author creimers
  * @author kschrock
  */
-public interface ProductService {
+public interface QRService {
 
-	public Iterable<Product> findAll();
+	public Iterable<QRcode> findAll();
 
 }

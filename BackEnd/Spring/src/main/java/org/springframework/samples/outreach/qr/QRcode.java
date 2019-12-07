@@ -21,18 +21,20 @@ import org.springframework.core.style.ToStringCreator;
  */
 @Entity
 @Table(name = "product")
-public class Product {
+public class QRcode {
 
-	@Id
-	@Column(name = "id")
-    @NotFound(action = NotFoundAction.IGNORE)
-	private Integer id;
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    @Column(name = "id")
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    private Integer id;
+	 
 	@Column(name = "company")
     @NotFound(action = NotFoundAction.IGNORE)
 	private String company;
 	@Column(name = "points")
     @NotFound(action = NotFoundAction.IGNORE)
-	private double points;
+	private int points;
 	@Column(name = "quantity")
     @NotFound(action = NotFoundAction.IGNORE)
 	private int quantity;
@@ -54,11 +56,11 @@ public class Product {
 		this.company = company;
 	}
 
-	public double getpoints() {
+	public int getpoints() {
 		return points;
 	}
 
-	public void setpoints(double points) {
+	public void setpoints(int points) {
 		this.points = points;
 	}
 
@@ -70,13 +72,4 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	 @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
-
-	                .append("id", this.getId())
-	                .append("company", this.getcompany())
-	                .append("points", this.getpoints())
-	                .append("quantity", this.getQuantity()).toString();
-	 }
 }

@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class FrontQRController {
 
 	@Autowired
-	private ProductService productService;
+	private QRService productService;
 	
 	@Autowired
-	ProductRepository productRepo;
+	QRRepository productRepo;
 	
 	@Autowired
 	OwnerRepository ownersRepository;
@@ -48,9 +48,9 @@ public class FrontQRController {
 	   * @return Iterable<Product> This returns the list of QR code Objects.
 	   */
 	    @RequestMapping(method = RequestMethod.GET, path = "/Work")
-	    public Iterable<Product> getAllCodes() {
+	    public Iterable<QRcode> getAllCodes() {
 	        logger.info("Entered into Controller Layer");
-	        Iterable<Product> results = productService.findAll();
+	        Iterable<QRcode> results = productService.findAll();
 	        //logger.info("Number of Records Fetched:" + results.size());
 	        
 	        return results;
@@ -96,9 +96,9 @@ public class FrontQRController {
 				//Wrong Format 
 			 }
 			
-	        Iterable<Product> totalObjects = productService.findAll(); //gets all the product types of qrcodes
+	        Iterable<QRcode> totalObjects = productService.findAll(); //gets all the product types of qrcodes
 	       
-			 for (Product current : totalObjects)
+			 for (QRcode current : totalObjects)
 			 {
 				 String currentCompany = current.getcompany().toString().trim();
 				 //create Current Company by getting the current Product Object 
@@ -160,9 +160,9 @@ public class FrontQRController {
 				 }
 				 
 				//System.out.println(currentId1);
-		        Iterable<Product> yeet = productService.findAll(); //gets all the product types of qrcodes
+		        Iterable<QRcode> yeet = productService.findAll(); //gets all the product types of qrcodes
 		       
-				 for (Product current : yeet)
+				 for (QRcode current : yeet)
 				 {
 //					 String currentCompany = current.getcompany().toString().trim();
 //					 
