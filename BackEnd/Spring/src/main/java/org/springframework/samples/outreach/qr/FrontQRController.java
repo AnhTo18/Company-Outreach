@@ -43,16 +43,32 @@ public class FrontQRController {
 	  private final Logger logger = LoggerFactory.getLogger(QRController.class);
 	
 	 
+	  
+		/**
+		 * This method deletes a code by its ID within the Product Repository. THIS IS
+		 * A POST METHOD, Path = /qrcode/delete/{id}
+		 * 
+		 * @param int ID
+		 * @return void
+		 */
+		@RequestMapping(method = RequestMethod.POST, value = "/qrcode/delete/{id}")
+		public void deleteEmployeeById(@PathVariable int id) throws Exception {
+			System.out.println(this.getClass().getSimpleName() + " - Delete code by id is invoked.");
+
+			Product delCode = (Product) productRepo.findById(id).get();
+			productRepo.deleteById(id);
+		}
+		
+		
 	  /**
 	   * This method gets all the Codes in the Product Repository.
 	   * THIS IS A GET METHOD, Path = /Work 
 	   * @return Iterable<Product> This returns the list of QR code Objects.
 	   */
-	    @RequestMapping(method = RequestMethod.GET, path = "/Work")
+	    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll")
 	    public Iterable<Product> getAllCodes() {
 	        logger.info("Entered into Controller Layer");
 	        Iterable<Product> results = productService.findAll();
-	        
 	        logger.info("Number of Records Fetched:" + results);
 	        
 	        return results;
@@ -140,7 +156,7 @@ public class FrontQRController {
 		   * @return HashMap<String, String>  This returns "points", "No More Scans Left" || "points", "Not Found" || ex. "points", "123".
 		   */
 		 @RequestMapping(value= "Qr/{company}/{id}/{username}", method= RequestMethod.POST)
-			public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company, @PathVariable("username") String username ) {
+			public HashMap<String, String> consumeCode(@PathVariable("id") String id, @PathVariable("company") String company, @PathVariable("username") String username ) {
 			//This can be used once the user scans the code and gets the id and company. This will return json data of points to add to user
 			 //once the user gets back the info they can confirm then sends another post to the owner repo to update their points.
 			 username = username.toString().trim();
@@ -166,22 +182,31 @@ public class FrontQRController {
 		       
 				 for (Product current : yeet)
 				 {
-					 if(current.getUser().contains(username)) {
+					 
+				
+						LocalDateTime currentTime = LocalDateTime.now();
+						//if code has expired
+						 if(LocalDateTime.now().isAfter(current.getExpireDateTime()) && (current.getId() == Integer.valueOf(id))) {
+							 //and you have already scanned it
+							 	productRepo.deleteById(current.getId());
+								productRepo.flush();
+								map.put("qr code has expired", "try a different code");
+						        return map;}
+						 //otherwise if it hasnt expired but youve already scanned it
+						 else if(current.getUser().contains(username) && (current.getId() == Integer.valueOf(id))) {
 						 map.put("you have already scanned this code", "please scan a different one");
 						 return map;
 					 }
-				 
+				 //otherwise if it is availble to scan
 						if(current.getId() == currentId1) {
+						
 							
-							LocalDateTime currentTime = LocalDateTime.now();
 							if(current.getQuantity() < 1) {
 								
 									map.put("points", "No More Scans Left");
 							        return map;
 							}
-							else if(LocalDateTime.now().isAfter(current.getExpireDateTime())) {
-								map.put("qr code has expired", "try a different code");
-						        return map;}
+							
 							int newquantity = current.getQuantity() -1 ;
 							current.setUser(username);
 							
