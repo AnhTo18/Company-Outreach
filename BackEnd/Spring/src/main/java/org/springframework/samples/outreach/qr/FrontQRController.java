@@ -52,7 +52,8 @@ public class FrontQRController {
 	    public Iterable<Product> getAllCodes() {
 	        logger.info("Entered into Controller Layer");
 	        Iterable<Product> results = productService.findAll();
-	        //logger.info("Number of Records Fetched:" + results.size());
+	        
+	        logger.info("Number of Records Fetched:" + results);
 	        
 	        return results;
 	    }

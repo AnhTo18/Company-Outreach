@@ -52,10 +52,61 @@ public class QRController {
 	  private final Logger logger = LoggerFactory.getLogger(QRController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(ModelMap modelMap) {
-		modelMap.put("products", productService.findAll());
+	public String index(/*ModelMap modelMap*/) {
+//		modelMap.put("products", productService.findAll());
 		return "product/index";
 	}
+	
+	//get individual qr code
+	@RequestMapping(value = "/qrcode/{id}", method = RequestMethod.GET)
+	public void qrcodeView(@PathVariable("id") Integer id,
+			HttpServletResponse response) throws Exception{
+//		logger.info("Entered into Controller Layer");
+		response.setContentType("image/png");
+		
+		List<Product> results = productRepo.findAll();
+		
+		for (Product current : results) {
+
+			if (current.getId() == id) {
+				OutputStream outputStream = response.getOutputStream();
+				outputStream.write(ZXingHelper.getQRCodeImage(current.getBaseURL(), 200, 200));
+				outputStream.flush();
+			}
+
+		}
+		
+	
+//		List<Product> results = productRepo.findAll();
+//		
+//		for(Product current: results) {
+//			if(current.getId() == id) {
+//				return current;
+//			}
+//		}
+////		logger.info("Number of Records Fetched:" + results.size());
+//		return null;
+	}
+	
+	//get individual qr code
+	@RequestMapping(value = "/qrcode/all", method = RequestMethod.GET)
+	public void qrcodeViewAll(HttpServletResponse response) throws Exception{
+//		logger.info("Entered into Controller Layer");
+		response.setContentType("image/png");
+		
+		List<Product> results = productRepo.findAll();
+		
+		for (Product current : results) {
+
+				OutputStream outputStream = response.getOutputStream();
+				outputStream.write(ZXingHelper.getQRCodeImage(current.getBaseURL(), 200, 200));
+				outputStream.flush();
+
+		}
+
+	}
+	
+	
 	 /**
 	   * THIS METHOD CREATES THE QR CODES AND WRTIES THEM INTO THE DATABASE. 
 	   * This is only used for generation qr codes from the WorkBench.
@@ -82,8 +133,9 @@ public class QRController {
 		 		//add to the base URL
 				baseURL = baseURL +"/" + codegen.getCompany();
 				baseURL = baseURL +"/" + codegen.getId();
+				codegen.setBaseURL(baseURL);
 				//add to the base URL
-				
+				productRepo.save(codegen);
 				//add points
 				outputStream.write(ZXingHelper.getQRCodeImage(baseURL, 200, 200));
 				//Write the content to the QR code

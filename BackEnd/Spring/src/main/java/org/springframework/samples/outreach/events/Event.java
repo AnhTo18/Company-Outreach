@@ -29,6 +29,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.*;
 import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.qr.Product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -88,13 +90,24 @@ public class Event {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String time;
 	    
-//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-//	    private Company company;
+		  @OneToMany(fetch = FetchType.EAGER, cascade = {
+		   		CascadeType.PERSIST,
+		   		CascadeType.MERGE
+		  })
+		 @NotFound(action = NotFoundAction.IGNORE)
+		 @JsonIgnoreProperties("events") // prevent circular dependency with JSON deserializing
+		 private Set<Product> products;
+		  
+		 
+		  
+		  //if something breaks, try commenting this out
+	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+	    		CascadeType.PERSIST,
+	    		CascadeType.MERGE
+	    })
+	    @NotFound(action = NotFoundAction.IGNORE)
+	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	    private Company company;
 
 		public Integer getId() {
 			return id;
@@ -158,6 +171,14 @@ public class Event {
 
 		public void setUsername(String username) {
 			this.username = username;
+		}
+
+		public Set<Product> getProducts() {
+			return products;
+		}
+
+		public void setProducts(Set<Product> products) {
+			this.products = products;
 		}
 
 

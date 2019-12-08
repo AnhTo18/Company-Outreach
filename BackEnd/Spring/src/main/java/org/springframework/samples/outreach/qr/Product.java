@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -23,6 +24,9 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.core.style.ToStringCreator;
+import org.springframework.samples.outreach.events.Event;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Simple JavaBean domain object representing an Product.
  * This contains the fields to create an QR code.
@@ -39,9 +43,18 @@ public class Product {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
-
 	 @CreationTimestamp
 	 private LocalDateTime createDateTime;
+	 
+	 
+//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+//		CascadeType.PERSIST,
+//		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("product") // prevent circular dependency with JSON deserializing
+//	    private Event event;
+//	 
 	 
 	@Column(name = "expireDateTime")
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -58,9 +71,16 @@ public class Product {
     @CollectionTable(name="listOfUsers")
     private  Set <String> user;
 	
+	@Column(name = "event")
+    @NotFound(action = NotFoundAction.IGNORE)
+	private String event ="none";
+	
 	@Column(name = "company")
     @NotFound(action = NotFoundAction.IGNORE)
 	private String company;
+	@Column(name = "baseURL")
+    @NotFound(action = NotFoundAction.IGNORE)
+	private String baseURL;
 	@Column(name = "points")
     @NotFound(action = NotFoundAction.IGNORE)
 	private int points;
@@ -139,5 +159,22 @@ public class Product {
 	public void setUser(String username) {
 		this.user.add(username);
 	}
+
+	public String getBaseURL() {
+		return baseURL;
+	}
+
+	public void setBaseURL(String baseURL) {
+		this.baseURL = baseURL;
+	}
+
+	public String getEvent() {
+		return event;
+	}
+
+	public void setEvent(String event) {
+		this.event = event;
+	}
+	
 	
 }
