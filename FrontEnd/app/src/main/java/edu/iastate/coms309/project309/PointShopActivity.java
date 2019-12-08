@@ -54,7 +54,7 @@ public class PointShopActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         RequestController rc = new RequestController(getApplicationContext());
-        rc.requestJsonArray(Request.Method.GET, Const.URL_SHOP, null);
+
         /*
         for (int i = 0 ; i < ja.length() ; i++) {
             try {
@@ -69,8 +69,42 @@ public class PointShopActivity extends AppCompatActivity {
 
          */
 
-        rc.requestJsonObject(Request.Method.GET, Const.URL_SHOW_USERS + Const.username, null);
-        TextView p = findViewById(R.id.textPoints);
+/*
+
+        Response.Listener<JSONObject> r0 = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                TextView p = findViewById(R.id.textPoints);
+                try {
+                    p.setText(response.getString("prizename"));
+                } catch (JSONException e) {
+                    Log.e("JSON", "JSON Error: " + e.toString());
+                    e.printStackTrace();
+                }
+            }
+        };
+        rc.requestJsonObject(Request.Method.GET, Const.URL_SHOW_USERS + Const.username, r0);
+*/
+        Response.Listener<JSONArray> r = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                try {
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject j = response.getJSONObject(i);
+                        String[] s = {j.getString("prizename"), j.getString("cost"),j.getString("qty"),j.getString("pointsOff"),j.getString("companyName")};
+                        Log.e("response",j.getString("cost"));
+                        data.add(s);
+                    }
+                } catch (JSONException e) {
+                    Log.e("JSON", "JSON Error: " + e.toString());
+                    e.printStackTrace();
+                }
+
+                adapter = new ShopAdapter(getApplicationContext(), data);
+                grid.setAdapter(adapter);
+            }
+        };
+        rc.requestJsonArray(Request.Method.GET, Const.URL_SHOP, r);
 
         /*
         try {
@@ -137,8 +171,7 @@ public class PointShopActivity extends AppCompatActivity {
 
          */
 
-        adapter = new ShopAdapter(getApplicationContext(), data);
-        grid.setAdapter(adapter);
+
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

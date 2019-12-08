@@ -109,25 +109,6 @@ public class PaypalActivity extends AppCompatActivity {
 
 
 
-
-                            }*/
-                            //String a = response.getString("2");
-                           // System.out.println(a);
-
-
-/*
-
-                            JSONArray jsonArray=response.getJSONArray("employees");
-                            for(int i=0; i<jsonArray.length();i++){
-                                JSONObject company=jsonArray.getJSONObject(i);
-                                String user = company.getString("firstname");
-                                array.add(user);
-
-
-                                Log.d("username",user);
-
-
-
                             }*/
    // mTextViewResult.append(a);
 

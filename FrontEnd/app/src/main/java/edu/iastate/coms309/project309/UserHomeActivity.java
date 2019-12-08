@@ -12,7 +12,7 @@ public class UserHomeActivity extends AppCompatActivity {
 
 
 
-    private Button events, comps, prof, discount;
+    private Button events, comps, prof, discount,shop;
 
 
     @Override
@@ -27,7 +27,7 @@ public class UserHomeActivity extends AppCompatActivity {
         discount=findViewById(R.id.discount);
 
         prof = findViewById(R.id.buttonProfile);
-
+     shop=findViewById(R.id.buttonShop);
 
         events.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -56,6 +56,13 @@ public class UserHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(UserHomeActivity.this, UserProfileActivity.class));
             }
         });
+        shop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserHomeActivity.this, PointShopActivity.class));
+            }
+        });
+
 
     }
 }

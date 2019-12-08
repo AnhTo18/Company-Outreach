@@ -32,7 +32,11 @@
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:text="Make Prize" />
-
+    <Button
+        android:id="@+id/buttonMakeQRCode"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="Make QR" />
 
 
 
