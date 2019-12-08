@@ -14,7 +14,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 
 public class DevHomeActivity extends AppCompatActivity {
 
-    Button b1, b2, b3;
+    Button b1, b2, b3,b4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,13 @@ public class DevHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DevHomeActivity.this, EventListActivity.class));
+            }
+        });
+        b4 = findViewById(R.id.buttonGotoPaypal);
+        b4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DevHomeActivity.this, PaypalActivity.class));
             }
         });
     }

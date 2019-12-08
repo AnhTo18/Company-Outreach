@@ -52,7 +52,7 @@ public class PaypalActivity extends AppCompatActivity {
     private RequestQueue mQueue;
 
 
-    public static final int PAYPAL_REQUEST_CODE=7171;
+    private static final int PAYPAL_REQUEST_CODE=7171;
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(Const.PaypalClientCode);
@@ -77,39 +77,42 @@ public class PaypalActivity extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
         array= new ArrayList<String>();
-        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/user/findSubscriptions"; //have to change later so other user can actually use
+        String url ="http://coms-309-ss-8.misc.iastate.edu:8080/owners/"+Const.username+"/findSubscriptions";
         String url3=Const.URL_SHOW_USERS+"/user/password/targetNorth2/paid";
       //  String url1="https://api.myjson.com/bins/kp9wz";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+                  new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         try {
-int b=response.length();
-Log.d("size", Integer.toString(b));
-                            for(int i=1; i<=response.length();i++){
-                                String a  =response.getString(Integer.toString(i));
-                                array.add(a);
-                            }
-                            String a = response.getString("2");
-                            System.out.println(a);
-/*
+                            Log.e("response",response.toString());
+                          JSONArray jsonArray=response.getJSONArray("UserSubscriptions");
 
-                            JSONArray jsonArray=response.getJSONArray("employees");
-                            for(int i=0; i<jsonArray.length();i++){
+                            for(int i=0;i<jsonArray.length();i++){
                                 JSONObject company=jsonArray.getJSONObject(i);
-                                String user = company.getString("firstname");
-                                array.add(user);
+                                array.add("You have");
+                                array.add(company.getString("CompanyUserPoints"));
+                                array.add("points for");
+                                array.add(company.getString("Company"));
+                               // array.add(company.getString("UserSubscriptions"));
+                            }
+                            /*
+                            int b=response.length();
+                            System.out.println((b));
+                            Log.d("size", Integer.toString(b));
+                            for(int i=1; i<=response.length();i++){
 
-
-                                Log.d("username",user);
+                                    String a = response.getString(Integer.toString(i));
+                                    Log.d("test",a);
+                                    array.add(a);
 
 
 
                             }*/
    // mTextViewResult.append(a);
 
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         Log.d("array",array.toString());

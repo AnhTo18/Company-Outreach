@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class UserHomeActivity extends AppCompatActivity {
 
 
-    private Button events, comps, prof;
+
+
+    private Button events, comps, prof, discount,shop;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +22,12 @@ public class UserHomeActivity extends AppCompatActivity {
 
         events = findViewById(R.id.buttonEventList);
         comps = findViewById(R.id.buttonCompanyList);
+
+
+        discount=findViewById(R.id.discount);
+
         prof = findViewById(R.id.buttonProfile);
+     shop=findViewById(R.id.buttonShop);
 
         events.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -34,10 +42,11 @@ public class UserHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(UserHomeActivity.this, CompanyListActivity.class));
             }
         });
-        prof.setOnClickListener(new View.OnClickListener() {
+
+        discount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserHomeActivity.this, UserProfileActivity.class));
+                startActivity(new Intent(UserHomeActivity.this, PaypalActivity.class));
             }
         });
 
@@ -47,6 +56,13 @@ public class UserHomeActivity extends AppCompatActivity {
                 startActivity(new Intent(UserHomeActivity.this, UserProfileActivity.class));
             }
         });
+        shop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserHomeActivity.this, PointShopActivity.class));
+            }
+        });
+
 
     }
 }

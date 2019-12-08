@@ -71,19 +71,15 @@ public class PointShopActivity extends AppCompatActivity {
 
 
 
-        Response.Listener<JSONObject> r0 = new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                TextView p = findViewById(R.id.textPoints);
-                try {
-                    p.setText(response.getString("points"));
-                } catch (JSONException e) {
-                    Log.e("JSON", "JSON Error: " + e.toString());
-                    e.printStackTrace();
+
+/*
+
                 }
             }
         };
         rc.requestJsonObject(Request.Method.GET, Const.URL_SHOW_USERS + Const.username, r0);
+
+*/
 
         Response.Listener<JSONArray> r = new Response.Listener<JSONArray>() {
             @Override
@@ -91,7 +87,9 @@ public class PointShopActivity extends AppCompatActivity {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject j = response.getJSONObject(i);
+
                         String[] s = {j.getString("prizename"), j.getString("cost")};
+
                         data.add(s);
                     }
                 } catch (JSONException e) {

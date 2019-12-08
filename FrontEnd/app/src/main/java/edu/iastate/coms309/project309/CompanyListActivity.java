@@ -1,6 +1,6 @@
 package edu.iastate.coms309.project309;
 
-import androidx.appcompat.app.AppCompatActivity;
+import  androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -88,6 +88,11 @@ public class CompanyListActivity extends AppCompatActivity {
                         Log.e("JSON", "JSON Error: " + e.toString());
                         e.printStackTrace();
                     }
+
+
+
+                    initializeList(companies, usernames);
+                    Log.e("list response",list.toString());
 
                 }
                 initializeList(companies, usernames);

@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             VolleyLog.e(AppController.TAG, "Error: " + error.getMessage());
-                            Log.e(AppController.TAG, "Error: " + error.getMessage());
+                            Log.e(AppController.TAG, "Error: "n n + error.getMessage());
                             Toast t = Toast.makeText(getApplicationContext(), "Volley Error", Toast.LENGTH_SHORT);
                         }
                     });

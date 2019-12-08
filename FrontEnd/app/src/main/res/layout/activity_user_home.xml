@@ -24,12 +24,25 @@
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:text="Subscribe to Companies" />
+<<<<<<< HEAD
+=======
+
+    <Button
+        android:id="@+id/discount"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="Points/Discount" />
+>>>>>>> anh
 
     <Button
         android:id="@+id/buttonProfile"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:text="My Profile" />
-
+    <Button
+        android:id="@+id/buttonShop"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="Shop" />
 
 </LinearLayout>
