@@ -1,5 +1,6 @@
 package org.springframework.samples.outreach.qr;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +101,7 @@ public class FrontQRController {
 	       
 			 for (Product current : totalObjects)
 			 {
-				 String currentCompany = current.getcompany().toString().trim();
+				 String currentCompany = current.getCompany().toString().trim();
 				 //create Current Company by getting the current Product Object 
 				 
 				 if(company.toString().trim().equals(currentCompany)) {
@@ -143,10 +144,10 @@ public class FrontQRController {
 			 //once the user gets back the info they can confirm then sends another post to the owner repo to update their points.
 			 username = username.toString().trim();
  	    	
- 	       	List<Owner> results = ownersRepository.findAll();
+			 List<Owner> results = ownersRepository.findAll();
  	        
  	       	HashMap<String, String> map2 = new HashMap<>();
-		    	
+		
  	       	int currentPoints = 0;
 			 company = company.toString().trim();
 		        HashMap<String, String> map = new HashMap<>();
@@ -164,26 +165,31 @@ public class FrontQRController {
 		       
 				 for (Product current : yeet)
 				 {
-//					 String currentCompany = current.getcompany().toString().trim();
-//					 
-//					 if(company.toString().trim().equals(currentCompany)) {
-						 
+					 if(current.getUser().contains(username)) {
+						 map.put("you have already scanned this code", "please scan a different one");
+						 return map;
+					 }
+				 
 						if(current.getId() == currentId1) {
-							 	 
+							
+							LocalDateTime currentTime = LocalDateTime.now();
 							if(current.getQuantity() < 1) {
 								
 									map.put("points", "No More Scans Left");
 							        return map;
 							}
+							else if(LocalDateTime.now().isAfter(current.getExpireDateTime())) {
+								map.put("qr code has expired", "try a different code");
+						        return map;}
 							int newquantity = current.getQuantity() -1 ;
-							
+							current.setUser(username);
 							
 							
 			        		 current.setQuantity(newquantity); //set current points to current user
 			        		 
 			        	
-			        		 String points = current.getpoints() +"";
-			        		 int points2 = (int)(current.getpoints());
+			        		 String points = current.getPoints() +"";
+			        		 int points2 = (int)(current.getPoints());
 			        		
 			        		 map.put("points", points);
 			        		
@@ -198,11 +204,7 @@ public class FrontQRController {
 			        	        	if(username.toString().trim().equals(currentUsername))
 			        	        	{
 			        	        		
-			        	        		// map.put("verify", "Added");
-			        	        		
-			        	        		// System.out.println("This is the current points.");
-			        	        	//	 System.out.println(currentPoints);
-			        	        		
+			        	        
 			        	        		 for(Subscription subscription: currentUser.getSubscriptions()) {
 			        	        				if(subscription.getCompany().getCompanyName().trim().equals(company.trim())) {
 			        	        					 int temp = 0;
@@ -228,12 +230,9 @@ public class FrontQRController {
 			        	        				//its getting the owner by id and adding it to the list of owners in the company
 			        	        			}
 			        	        	
-			        	        		// current.setPoints(String.valueOf(temp)); //set current points to current user
+			        	        		
 			        	        		 ownersRepository.flush(); // updates changes
 			        	        		 
-//			        	        		 System.out.println("After current points.");
-//			        	        		 System.out.println(currentPoints);
-			        	        	
 			        	        	}
 			        	        
 						}

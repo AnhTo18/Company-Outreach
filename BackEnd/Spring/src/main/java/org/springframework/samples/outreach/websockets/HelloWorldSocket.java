@@ -99,9 +99,11 @@ public class HelloWorldSocket {
     		event.setDate(jsonObject.getString("date"));
     		event.setLocation(jsonObject.getString("location"));
     		event.setTime(jsonObject.getString("time"));
-    		
+    		event.setCompanyname(jsonObject.getString("companyName"));
+    		event.setUsername(jsonObject.getString("username"));
     		
     		Company company = companyRepository.findCompanyByUsername(username);
+//    		event.setCompany(company);
     		logger.info("company name is" + company.getCompanyName());
     		company.getEvents().add(event);
     		company = companyRepository.save(company);

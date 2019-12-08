@@ -1,6 +1,14 @@
 package org.springframework.samples.outreach.qr;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,8 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.core.style.ToStringCreator;
 /**
  * Simple JavaBean domain object representing an Product.
@@ -30,6 +40,24 @@ public class Product {
 	    private Integer id;
 
 
+	 @CreationTimestamp
+	 private LocalDateTime createDateTime;
+	 
+	@Column(name = "expireDateTime")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private LocalDateTime expireDateTime;	   
+	@Column(name = "expireDate")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private LocalDate expireDate;
+	@Column(name = "expireTime")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private LocalTime expireTime;
+	
+
+	@ElementCollection
+    @CollectionTable(name="listOfUsers")
+    private  Set <String> user;
+	
 	@Column(name = "company")
     @NotFound(action = NotFoundAction.IGNORE)
 	private String company;
@@ -39,29 +67,32 @@ public class Product {
 	@Column(name = "quantity")
     @NotFound(action = NotFoundAction.IGNORE)
 	private int quantity;
-
+	
 	public Integer getId() {
 		return id;
 	}
 
-	@Column
-	public void setId(Integer id) {
-		this.id = id;
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
 	}
 
-	public String getcompany() {
+	public void setCreateDateTime(LocalDateTime createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public String getCompany() {
 		return company;
 	}
 
-	public void setcompany(String company) {
+	public void setCompany(String company) {
 		this.company = company;
 	}
 
-	public int getpoints() {
+	public int getPoints() {
 		return points;
 	}
 
-	public void setpoints(int points) {
+	public void setPoints(int points) {
 		this.points = points;
 	}
 
@@ -73,13 +104,40 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	 @Override
-	    public String toString() {
-	        return new ToStringCreator(this)
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-	                .append("id", this.getId())
-	                .append("company", this.getcompany())
-	                .append("points", this.getpoints())
-	                .append("quantity", this.getQuantity()).toString();
-	 }
+	public LocalDateTime getExpireDateTime() {
+		return expireDateTime;
+	}
+
+	public void setExpireDateTime(LocalDateTime expireDateTime) {
+		this.expireDateTime = expireDateTime;
+	}
+
+	public LocalDate getExpireDate() {
+		return expireDate;
+	}
+
+	public void setExpireDate(LocalDate expireDate) {
+		this.expireDate = expireDate;
+	}
+
+	public LocalTime getExpireTime() {
+		return expireTime;
+	}
+
+	public void setExpireTime(LocalTime expireTime) {
+		this.expireTime = expireTime;
+	}
+
+	public Set<String> getUser() {
+		return user;
+	}
+
+	public void setUser(String username) {
+		this.user.add(username);
+	}
+	
 }

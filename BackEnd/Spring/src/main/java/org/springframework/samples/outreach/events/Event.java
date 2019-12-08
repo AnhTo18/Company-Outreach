@@ -63,6 +63,15 @@ public class Event {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
+	
+		@Column(name = "companyName")
+    	@NotFound(action = NotFoundAction.IGNORE) 
+		String companyname;
+		
+		@Column(name = "username")
+    	@NotFound(action = NotFoundAction.IGNORE) 
+		String username;
+	
 	 	@Column(name = "event_name")
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String eventname;
@@ -79,13 +88,13 @@ public class Event {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String time;
 	    
-	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-	    private Company company;
+//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+//	    		CascadeType.PERSIST,
+//	    		CascadeType.MERGE
+//	    })
+//	    @NotFound(action = NotFoundAction.IGNORE)
+//	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+//	    private Company company;
 
 		public Integer getId() {
 			return id;
@@ -127,13 +136,29 @@ public class Event {
 			this.time = time;
 		}
 
-		public Company getCompany() {
-			return company;
+//		public Company getCompany() {
+//			return company;
+//		}
+//
+//		public void setCompany(Company company) {
+//			this.company = company;
+//		}
+
+		public String getCompanyname() {
+			return companyname;
 		}
 
-		public void setCompany(Company company) {
-			this.company = company;
+		public void setCompanyname(String companyname) {
+			this.companyname = companyname;
 		}
-	    
-	
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+
 }
