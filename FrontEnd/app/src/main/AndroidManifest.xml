@@ -24,7 +24,7 @@
         <activity android:name=".CompanyHomeActivity" />
         <activity android:name=".CompanyRegisterActivity" />
         <activity android:name=".CompanyListActivity" />
-        <activity android:name=".CompanyLoginActivity" />
+
         <activity android:name=".Notification" />
         <activity android:name=".UserHomeActivity" />
 
@@ -66,11 +66,11 @@
         <activity
             android:name=".PointShopActivity"
             android:screenOrientation="portrait" />
-<<<<<<< HEAD
 
 
 
-=======
+
+
         <activity
             android:name=".PaypalActivity"
             android:screenOrientation="portrait" />
@@ -80,7 +80,9 @@
         <activity
             android:name=".QRMakerActivity"
             android:screenOrientation="portrait" />
->>>>>>> anh
+        <activity
+            android:name=".QrView"
+            android:screenOrientation="portrait" />
 
     </application>
 
