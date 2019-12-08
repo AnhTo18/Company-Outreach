@@ -72,14 +72,14 @@ public class CompanyListActivity extends AppCompatActivity {
 
          */
 
-        ;
-
         Response.Listener<JSONArray> r = new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+
+                ArrayList<String> companies = new ArrayList<>();
+                ArrayList<String> usernames = new ArrayList<>();
                 for (int i = 0 ; i < response.length() ; i++) {
-                    ArrayList<String> companies = new ArrayList<>();
-                    ArrayList<String> usernames = new ArrayList<>();
+
                     try {
                         JSONObject j = response.getJSONObject(i);
                         companies.add(j.getString("companyName"));
@@ -88,8 +88,9 @@ public class CompanyListActivity extends AppCompatActivity {
                         Log.e("JSON", "JSON Error: " + e.toString());
                         e.printStackTrace();
                     }
-                    initializeList(companies, usernames);
+
                 }
+                initializeList(companies, usernames);
             }
         };
         RequestController rc = new RequestController(getApplicationContext());
