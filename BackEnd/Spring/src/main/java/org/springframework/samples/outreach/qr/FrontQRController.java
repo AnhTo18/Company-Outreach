@@ -66,9 +66,10 @@ public class FrontQRController {
 	   * THIS IS A GET METHOD, Path = /Work 
 	   * @return Iterable<Product> This returns the list of QR code Objects.
 	   */
-	    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll/{company}")
-	    public List<Product> getAllCompCodes(@PathVariable("company") String company) {
+	    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll/{username}")
+	    public List<Product> getAllCompCodes(@PathVariable("username") String username) {
 	       
+	    	String company = companyRepository.findCompanyByUsername(username).getCompanyName();
 	    	Iterable<Product> results = productService.findAll();
 	    	List<Product> compCodes = new ArrayList<>();
 	    	

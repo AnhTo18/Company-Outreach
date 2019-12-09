@@ -14,5 +14,5 @@ import org.springframework.samples.outreach.qr.Product;
  */
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-	   List<QrInfo> findAllProjectedBy();
+	
 }
