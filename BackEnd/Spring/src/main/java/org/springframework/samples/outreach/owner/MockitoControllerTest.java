@@ -11,10 +11,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.awt.List;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,6 +35,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.company.CompanyRepository;
+import org.springframework.samples.outreach.prize.Prize;
+import org.springframework.samples.outreach.qr.Product;
+import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.test.context.jdbc.Sql;
 //import org.junit.Before;
 
@@ -50,6 +57,9 @@ public class MockitoControllerTest {
 	
 	@Mock
 	private OwnerRepository OwnerRepository;
+	
+	@Mock
+	private CompanyRepository companyRepository;
 	 
 	Owner current = new Owner();
 	
@@ -59,7 +69,7 @@ public class MockitoControllerTest {
 		
 		// set EmployeeDAO mock object
 		OwnerController = mock(OwnerController.class);
- 
+	
         // create an user object
 		
 		current.setId(12);
@@ -77,16 +87,100 @@ public class MockitoControllerTest {
  
 	}
 	/**
-	   * This method Tests addPoints function
+	   * This method Tests createPrize function
 	   * @return void
 	   */
 	@Test
+	public void createPrize() {
+		Prize prize = new Prize ();
+		prize.setCompanyName("Google");
+		prize.setCost(100);//points
+		prize.setDiscount(25);//points off for members
+		prize.setId(1);
+		prize.setQty(17);
+		
+		System.out.println("Created Prize Object: "+prize.toString());
+		System.out.println("CompanyName: "+prize.getCompanyName());
+		System.out.println("Cost: "+prize.getCost());
+		System.out.println("QTY: "+prize.getQty());
+		System.out.println("ID: "+prize.getId());
+		
+	 System.out.println("Create Prize Test");
+	System.out.println("------------------------------------------\n\n\n");
+	}
+	
+	/**
+	   * This method Tests createSubscripition function
+	   * @return void
+	   */
+	@Test
+	public void createSubscription() {
+		Owner user = new Owner();
+		user.setFirstName("Kordell");
+		user.setUsername("Kordell Username");
+		Company company = new Company();
+		company.setCompanyName("Google");
+		company.setUsername("Google Username");
+		Subscription subscription = new Subscription();
+		subscription.setCompany(company);
+		subscription.setOwner(user);
+		subscription.setPoints(10);
+		subscription.setID(1);
+	
+		 System.out.println(OwnerRepository.findAll());
+		System.out.println("Created Subscription Object: " + subscription);
+		System.out.println("Subscription CompanyName: " + subscription.getCompany().getCompanyName());
+		System.out.println("Subscription UserFirstName: " + subscription.getOwner().getFirstName());
+	
+		
+	 System.out.println("Create Subscription Test");
+	System.out.println("------------------------------------------\n\n\n");
+
+	}
+	
+	
+	/**
+	   * This method Tests addPoints to Owners Subscription function
+	   * @return void
+	   */
+	@SuppressWarnings("deprecation")
+	@Test
 	public void addPoints() {
 		Owner user = new Owner();
+		user.setFirstName("Kordell");
+		user.setUsername("Kordell Username");
 		Company company = new Company();
+		company.setCompanyName("Google");
+		company.setUsername("Google Username");
+		Subscription subscription = new Subscription();
+		subscription.setCompany(company);
+		subscription.setOwner(user);
+		subscription.setPoints(10);
+		subscription.setID(1);
+//		System.out.println("Subscription Object: " + subscription);
+//		System.out.println("Subscription CompanyName: " + subscription.getCompany().getCompanyName());
+//		System.out.println("Subscription UserFirstName: " + subscription.getOwner().getFirstName());
+		Product qrCode = new Product();
+		qrCode.setcompany("Google");
+		qrCode.setId(1);
+		qrCode.setpoints(777);
+		qrCode.setQuantity(1);
 		
-		//user.setSubscriptions(company);
+		System.out.println("Before Added Points: " + subscription.getpoints());
+		subscription.setPoints(qrCode.getpoints() +subscription.getpoints());
+		System.out.println(subscription.getOwner().getFirstName());
+		System.out.println(subscription.getCompany().getCompanyName());
+		System.out.println("After Added Points: " +subscription.getpoints());
+		
+		assertEquals(787 ,(int)subscription.getpoints()); //This checks that is added the right amount to the current subscription
+		
+	 System.out.println("Add Points Test");
+	 
+	 
+	System.out.println("------------------------------------------\n\n\n");
 	}
+	
+	
 	
 	/**
 	   * This method Tests by deleting a user in the Mock Repo.
