@@ -59,11 +59,11 @@ public class UserProfileActivity extends AppCompatActivity {
                   //double points = response.getDouble("points");
                     String paid = response.getString("paidStatus");
 
-                    mTextViewResult.append(username + ": "  +
+                    mTextViewResult.append("Username"+username + ": "  +
                             "Paid Membership:" + (paid.equals("true") ? " yes" : " no") + "\n" +
-                            firstName + " " + lastName + "\n" +
-                            address + "\n" +
-                            telephone);
+                            "Firstname"+firstName + "/n "+"Lastname" + lastName + "\n" +
+                            "Address"+address + "\n" +
+                            "Telephone:" +telephone+"\n");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
