@@ -29,6 +29,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.*;
 import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.qr.Product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -63,6 +65,15 @@ public class Event {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private Integer id;
 
+	
+		@Column(name = "companyName")
+    	@NotFound(action = NotFoundAction.IGNORE) 
+		String companyname;
+		
+		@Column(name = "username")
+    	@NotFound(action = NotFoundAction.IGNORE) 
+		String username;
+	
 	 	@Column(name = "event_name")
 	    @NotFound(action = NotFoundAction.IGNORE) 
 	    String eventname;
@@ -79,6 +90,17 @@ public class Event {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private String time;
 	    
+		  @OneToMany(fetch = FetchType.EAGER, cascade = {
+		   		CascadeType.PERSIST,
+		   		CascadeType.MERGE
+		  })
+		 @NotFound(action = NotFoundAction.IGNORE)
+		 @JsonIgnoreProperties("events") // prevent circular dependency with JSON deserializing
+		 private Set<Product> products;
+		  
+		 
+		  
+		  //if something breaks, try commenting this out
 	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
 	    		CascadeType.MERGE
@@ -127,13 +149,37 @@ public class Event {
 			this.time = time;
 		}
 
-		public Company getCompany() {
-			return company;
+//		public Company getCompany() {
+//			return company;
+//		}
+//
+//		public void setCompany(Company company) {
+//			this.company = company;
+//		}
+
+		public String getCompanyname() {
+			return companyname;
 		}
 
-		public void setCompany(Company company) {
-			this.company = company;
+		public void setCompanyname(String companyname) {
+			this.companyname = companyname;
 		}
-	    
-	
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public Set<Product> getProducts() {
+			return products;
+		}
+
+		public void setProducts(Set<Product> products) {
+			this.products = products;
+		}
+
+
 }

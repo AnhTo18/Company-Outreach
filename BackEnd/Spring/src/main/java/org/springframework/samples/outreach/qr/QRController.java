@@ -1,6 +1,7 @@
 package org.springframework.samples.outreach.qr;
 
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,10 +52,30 @@ public class QRController {
 	  private final Logger logger = LoggerFactory.getLogger(QRController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(ModelMap modelMap) {
-		modelMap.put("products", productService.findAll());
+	public String index(/*ModelMap modelMap*/) {
+//		modelMap.put("products", productService.findAll());
 		return "product/index";
 	}
+	
+	//get individual qr code
+	@RequestMapping(value = "/qrcode/{id}", method = RequestMethod.GET)
+	public void qrcodeView(@PathVariable("id") Integer id,
+			HttpServletResponse response) throws Exception{
+		response.setContentType("image/png");
+		
+		List<Product> results = productRepo.findAll();
+		
+		for (Product current : results) {
+
+			if (current.getId() == id) {
+				OutputStream outputStream = response.getOutputStream();
+				outputStream.write(ZXingHelper.getQRCodeImage(current.getBaseURL(), 200, 200));
+				outputStream.flush();
+			}
+
+		}
+	}
+
 	 /**
 	   * THIS METHOD CREATES THE QR CODES AND WRTIES THEM INTO THE DATABASE. 
 	   * This is only used for generation qr codes from the WorkBench.
@@ -66,35 +87,30 @@ public class QRController {
 	public HashMap<String, String> qrcode(@RequestBody Product codegen, 
 			HttpServletResponse response) throws Exception {
 		//THIS METHOD CREATES THE QR CODES AND WRTIES THEM INTO THE DATABASE
+		LocalDateTime test = LocalDateTime.now();
 		HashMap<String, String> map = new HashMap<>();
 		response.setContentType("image/png");
-		OutputStream outputStream = response.getOutputStream();
-		 Iterable<Product> all = productService.findAll();
+		codegen.setCreateDateTime(LocalDateTime.now());
+		codegen.setExpireDateTime(LocalDateTime.of(codegen.getExpireDate(),codegen.getExpireTime()));
 		 //This gets all the current Data in the Repository
 		 productRepo.save(codegen);
-		 
+		 OutputStream outputStream = response.getOutputStream();		
 		 String baseURL = "http://localhost:8080/product";
 		// String baseURL = "http://coms-309-ss-8.misc.iastate.edu:8080";
 		 //This is our Base URL for the QR Codes
-//		QRrepo.findAll().get(all.toString().length());
-	
-//			if(currentId.equals(id)) {
-		//String s = codegen.getpoints();
+		 
 		 		//add to the base URL
-				baseURL = baseURL +"/" + codegen.getcompany();
+				baseURL = baseURL +"/" + codegen.getCompany();
 				baseURL = baseURL +"/" + codegen.getId();
+				codegen.setBaseURL(baseURL);
 				//add to the base URL
-//				baseURL = baseURL +"/" + codegen.getpoints();
-//				baseURL = baseURL +"/" + codegen.getQuantity();
-				
+				productRepo.save(codegen);
 				//add points
 				outputStream.write(ZXingHelper.getQRCodeImage(baseURL, 200, 200));
 				//Write the content to the QR code
 				outputStream.flush();
 				//Update the Repository
 
-		//outputStream.write(ZXingHelper.getQRCodeImage(baseURL, 200, 200));
-//		outputStream.flush();
 		//Update the Repository
 		outputStream.close();
 		//Close the Steam
@@ -115,6 +131,7 @@ public class QRController {
 	 @RequestMapping(value = "/{company}/{ id}/{ quant}", method = RequestMethod.GET)
 	    public Map<String, String> setQuantity( @PathVariable("company") String company, @PathVariable(" id") Integer id, @PathVariable(" quant") int quant) {
 	    //THIS METHOD SETS THE QUANTIY OF THE QR CODE AND UPDATES THE REPOISTORY 
+		 
 		 company = company.toString().trim();
         HashMap<String, String> map = new HashMap<>();
         int currentId1 = 0;
@@ -139,7 +156,7 @@ public class QRController {
        
 		 for (Product current : yeet)
 		 {
-			 String currentCompany = current.getcompany().toString().trim();
+			 String currentCompany = current.getCompany().toString().trim();
 			 if(company.toString().trim().equals(currentCompany)) {
 				 
 				if(current.getId() == currentId1) {
@@ -197,8 +214,8 @@ public class QRController {
 			 for (Product current : yeet)
 			 {	 
 					if(current.getId() == currentId1) {
-						 	 
-						if(current.getQuantity() < 1) {
+						 	// current.get
+						if(current.getQuantity() < 1 /* || time is expired */) {
 							
 								map.put("points", "No More Scans Left");
 						        return map;
@@ -227,7 +244,7 @@ public class QRController {
 					        	        		 {
 					        	        			 currentPoints = 0; //not found
 					        	        		 }
-					        	        		 temp = currentPoints + (current.getpoints()); //add total points
+					        	        		 temp = currentPoints + (current.getPoints()); //add total points
 					        					System.out.println(currentPoints + "Before Amount");
 					        					System.out.println(temp + "After Amount");
 					        					subscription.setPoints(temp);
@@ -249,8 +266,7 @@ public class QRController {
 						  
 						  current.setQuantity(newquantity); //set current points to current user
 		        		 
-		        	
-		        		 String points = current.getpoints() +"";
+						  String points = current.getPoints() +"";
 		        		 
 		        		
 		        		 map.put("qr consumed:", "verified");

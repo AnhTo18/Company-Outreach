@@ -1,5 +1,7 @@
 package org.springframework.samples.outreach.qr;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,20 +44,59 @@ public class FrontQRController {
 	  private final Logger logger = LoggerFactory.getLogger(QRController.class);
 	
 	 
+	  
+		/**
+		 * This method deletes a code by its ID within the Product Repository. THIS IS
+		 * A POST METHOD, Path = /qrcode/delete/{id}
+		 * 
+		 * @param int ID
+		 * @return void
+		 */
+		@RequestMapping(method = RequestMethod.POST, value = "/qrcode/delete/{id}")
+		public void deleteEmployeeById(@PathVariable int id) throws Exception {
+			System.out.println(this.getClass().getSimpleName() + " - Delete code by id is invoked.");
+
+			Product delCode = (Product) productRepo.findById(id).get();
+			productRepo.deleteById(id);
+		}
+		
+		
 	  /**
-	   * This method gets all the Codes in the Product Repository.
+	   * This method gets all the Codes for a specific company in the Product Repository.
 	   * THIS IS A GET METHOD, Path = /Work 
 	   * @return Iterable<Product> This returns the list of QR code Objects.
 	   */
-	    @RequestMapping(method = RequestMethod.GET, path = "/Work")
-	    public Iterable<Product> getAllCodes() {
-	        logger.info("Entered into Controller Layer");
-	        Iterable<Product> results = productService.findAll();
-	        //logger.info("Number of Records Fetched:" + results.size());
-	        
-	        return results;
+	    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll/{company}")
+	    public List<Product> getAllCompCodes(@PathVariable("company") String company) {
+	       
+	    	Iterable<Product> results = productService.findAll();
+	    	List<Product> compCodes = new ArrayList<>();
+	    	
+	    	for(Product current : results) {
+	    		
+	    		if(current.getCompany().equals(company)) {
+	    			compCodes.add(current);
+	    		}
+	    	}
+	        return compCodes;
 	    }
 
+	    /**
+		   * This method gets all the Codes in the Product Repository.
+		   * THIS IS A GET METHOD, Path = /Work 
+		   * @return Iterable<Product> This returns the list of QR code Objects.
+		   */
+		    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll")
+		    public Iterable<Product> getAllCodes() {
+		       
+		    	
+		    	logger.info("Entered into Controller Layer");
+		        Iterable<Product> results = productService.findAll();
+		        logger.info("Number of Records Fetched:" + results);
+		        
+		        return results;
+		    }
+		    
 	    /**
 		   * This method sets the given quantity to the Correct QR Code and Update it
 		   * within the Product Repository.
@@ -100,7 +141,7 @@ public class FrontQRController {
 	       
 			 for (Product current : totalObjects)
 			 {
-				 String currentCompany = current.getcompany().toString().trim();
+				 String currentCompany = current.getCompany().toString().trim();
 				 //create Current Company by getting the current Product Object 
 				 
 				 if(company.toString().trim().equals(currentCompany)) {
@@ -138,15 +179,15 @@ public class FrontQRController {
 		   * @return HashMap<String, String>  This returns "points", "No More Scans Left" || "points", "Not Found" || ex. "points", "123".
 		   */
 		 @RequestMapping(value= "Qr/{company}/{id}/{username}", method= RequestMethod.POST)
-			public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company, @PathVariable("username") String username ) {
+			public HashMap<String, String> consumeCode(@PathVariable("id") String id, @PathVariable("company") String company, @PathVariable("username") String username ) {
 			//This can be used once the user scans the code and gets the id and company. This will return json data of points to add to user
 			 //once the user gets back the info they can confirm then sends another post to the owner repo to update their points.
 			 username = username.toString().trim();
  	    	
- 	       	List<Owner> results = ownersRepository.findAll();
+			 List<Owner> results = ownersRepository.findAll();
  	        
  	       	HashMap<String, String> map2 = new HashMap<>();
-		    	
+		
  	       	int currentPoints = 0;
 			 company = company.toString().trim();
 		        HashMap<String, String> map = new HashMap<>();
@@ -164,26 +205,40 @@ public class FrontQRController {
 		       
 				 for (Product current : yeet)
 				 {
-//					 String currentCompany = current.getcompany().toString().trim();
-//					 
-//					 if(company.toString().trim().equals(currentCompany)) {
-						 
+					 
+				
+						LocalDateTime currentTime = LocalDateTime.now();
+						//if code has expired
+						 if(LocalDateTime.now().isAfter(current.getExpireDateTime()) && (current.getId() == Integer.valueOf(id))) {
+							 //and you have already scanned it
+							 	productRepo.deleteById(current.getId());
+								productRepo.flush();
+								map.put("qr code has expired", "try a different code");
+						        return map;}
+						 //otherwise if it hasnt expired but youve already scanned it
+						 else if(current.getUser().contains(username) && (current.getId() == Integer.valueOf(id))) {
+						 map.put("you have already scanned this code", "please scan a different one");
+						 return map;
+					 }
+				 //otherwise if it is availble to scan
 						if(current.getId() == currentId1) {
-							 	 
+						
+							
 							if(current.getQuantity() < 1) {
 								
 									map.put("points", "No More Scans Left");
 							        return map;
 							}
-							int newquantity = current.getQuantity() -1 ;
 							
+							int newquantity = current.getQuantity() -1 ;
+							current.setUser(username);
 							
 							
 			        		 current.setQuantity(newquantity); //set current points to current user
 			        		 
 			        	
-			        		 String points = current.getpoints() +"";
-			        		 int points2 = (int)(current.getpoints());
+			        		 String points = current.getPoints() +"";
+			        		 int points2 = (int)(current.getPoints());
 			        		
 			        		 map.put("points", points);
 			        		
@@ -198,11 +253,7 @@ public class FrontQRController {
 			        	        	if(username.toString().trim().equals(currentUsername))
 			        	        	{
 			        	        		
-			        	        		// map.put("verify", "Added");
-			        	        		
-			        	        		// System.out.println("This is the current points.");
-			        	        	//	 System.out.println(currentPoints);
-			        	        		
+			        	        
 			        	        		 for(Subscription subscription: currentUser.getSubscriptions()) {
 			        	        				if(subscription.getCompany().getCompanyName().trim().equals(company.trim())) {
 			        	        					 int temp = 0;
@@ -228,12 +279,9 @@ public class FrontQRController {
 			        	        				//its getting the owner by id and adding it to the list of owners in the company
 			        	        			}
 			        	        	
-			        	        		// current.setPoints(String.valueOf(temp)); //set current points to current user
+			        	        		
 			        	        		 ownersRepository.flush(); // updates changes
 			        	        		 
-//			        	        		 System.out.println("After current points.");
-//			        	        		 System.out.println(currentPoints);
-			        	        	
 			        	        	}
 			        	        
 						}

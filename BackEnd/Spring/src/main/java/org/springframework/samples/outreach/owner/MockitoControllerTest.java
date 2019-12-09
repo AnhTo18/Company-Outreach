@@ -1,7 +1,5 @@
 package org.springframework.samples.outreach.owner;
 
-
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertEquals;
@@ -42,108 +40,111 @@ import org.springframework.samples.outreach.subscription.Subscription;
 import org.springframework.test.context.jdbc.Sql;
 //import org.junit.Before;
 
-
-
 /**
  * Mockito Test for Owner Controller
+ * 
  * @author creimers
  * @author kschrock
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MockitoControllerTest {
-	
+
 	@InjectMocks
 	private OwnerController OwnerController;
-	
+
 	@Mock
 	private OwnerRepository OwnerRepository;
-	
+
 	@Mock
 	private CompanyRepository companyRepository;
-	 
+
 	Owner current = new Owner();
-	
-	@Before(value= "")
+
+	@Before(value = "")
 	public void init() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		
+
 		// set EmployeeDAO mock object
 		OwnerController = mock(OwnerController.class);
-	
-        // create an user object
-		
+
+		// create an user object
+
 		current.setId(12);
 		current.setAddress("Mountain View, CA");
 		current.setFirstName("Google");
 		current.setLastName("Lastname");
 		current.setUsername("googler");
 		current.setPassord("data");
-		//current.setPoints("111");
-		
+		// current.setPoints("111");
+
 		OwnerController.deleteEmployeeById(12);
-		
+
 		System.out.println("HELLO");
 		System.out.println(current);
- 
+
 	}
+
 	/**
-	   * This method Tests createPrize function
-	   * @return void
-	   */
+	 * This method Tests createPrize function
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void createPrize() {
-		Prize prize = new Prize ();
+		Prize prize = new Prize();
 		prize.setCompanyName("Google");
-		prize.setCost(100);//points
-		prize.setDiscount(25);//points off for members
+		prize.setCost(100);// points
+		prize.setDiscount(25);// points off for members
 		prize.setId(1);
 		prize.setQty(17);
-		
-		System.out.println("Created Prize Object: "+prize.toString());
-		System.out.println("CompanyName: "+prize.getCompanyName());
-		System.out.println("Cost: "+prize.getCost());
-		System.out.println("QTY: "+prize.getQty());
-		System.out.println("ID: "+prize.getId());
-		
-		assertEquals("Google" , prize.getCompanyName()); //This checks the prize's Company Name
-		assertEquals(25 , prize.getDiscount());//This checks the prize's Discount
-		assertEquals(100 ,  prize.getCost()); //This checks the prize's Costs
-		assertEquals(17 ,  prize.getQty()); //This checks the prize's Quantity 
-		
-	 System.out.println("Create Prize Test");
-	System.out.println("------------------------------------------\n\n\n");
+
+		System.out.println("Created Prize Object: " + prize.toString());
+		System.out.println("CompanyName: " + prize.getCompanyName());
+		System.out.println("Cost: " + prize.getCost());
+		System.out.println("QTY: " + prize.getQty());
+		System.out.println("ID: " + prize.getId());
+
+		assertEquals("Google", prize.getCompanyName()); // This checks the prize's Company Name
+		assertEquals(25, prize.getDiscount());// This checks the prize's Discount
+		assertEquals(100, prize.getCost()); // This checks the prize's Costs
+		assertEquals(17, prize.getQty()); // This checks the prize's Quantity
+
+		System.out.println("Create Prize Test");
+		System.out.println("------------------------------------------\n\n\n");
 	}
-	
+
 	/**
-	   * This method Tests createSubscripition function
-	   * @return void
-	   */
+	 * This method Tests createSubscripition function
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void createQRCode() {
-		
+
 		Product qrCode = new Product();
 		qrCode.setcompany("YouTube");
 		qrCode.setId(2);
 		qrCode.setpoints(111);
 		qrCode.setQuantity(7);
-		
+
 		System.out.println("Created QrCode Object:" + qrCode);
 		System.out.println("QrCode Company:" + qrCode.getcompany());
-		System.out.println("QrCode Points:" +  qrCode.getpoints());
-		System.out.println("QrCode Quanity:" +  qrCode.getQuantity());
-		
-		assertEquals(111 ,(int)qrCode.getpoints()); //This checks the Qr Points 
-		assertEquals("YouTube" ,qrCode.getcompany().trim()); //This checks the Company of the Qr
-		assertEquals(7 ,qrCode.getQuantity()); //This checks the Qr quantity.
-		
-		 System.out.println("Create Qr-Code Test");
-			System.out.println("------------------------------------------\n\n\n");
+		System.out.println("QrCode Points:" + qrCode.getpoints());
+		System.out.println("QrCode Quanity:" + qrCode.getQuantity());
+
+		assertEquals(111, (int) qrCode.getpoints()); // This checks the Qr Points
+		assertEquals("YouTube", qrCode.getcompany().trim()); // This checks the Company of the Qr
+		assertEquals(7, qrCode.getQuantity()); // This checks the Qr quantity.
+
+		System.out.println("Create Qr-Code Test");
+		System.out.println("------------------------------------------\n\n\n");
 	}
-	
+
 	/**
-	   * This method Tests createSubscripition function
-	   * @return void
-	   */
+	 * This method Tests createSubscripition function
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void createSubscription() {
 		Owner user = new Owner();
@@ -157,25 +158,27 @@ public class MockitoControllerTest {
 		subscription.setOwner(user);
 		subscription.setPoints(10);
 		subscription.setID(1);
-	
+
 		System.out.println("Created Subscription Object: " + subscription);
 		System.out.println("Subscription CompanyName: " + subscription.getCompany().getCompanyName());
 		System.out.println("Subscription UserFirstName: " + subscription.getOwner().getFirstName());
-		
-		assertEquals("Google" ,subscription.getCompany().getCompanyName()); //This checks the subscription company name that is linked to owner
-		assertEquals("Kordell" ,subscription.getOwner().getFirstName());//This checks the subscription's owner's Name
-		assertEquals(10 , (int)subscription.getpoints()); //This checks the owner's points for this current subscription 
-		
-	 System.out.println("Create Subscription Test");
-	System.out.println("------------------------------------------\n\n\n");
+
+		assertEquals("Google", subscription.getCompany().getCompanyName()); // This checks the subscription company name
+																			// that is linked to owner
+		assertEquals("Kordell", subscription.getOwner().getFirstName());// This checks the subscription's owner's Name
+		assertEquals(10, (int) subscription.getpoints()); // This checks the owner's points for this current
+															// subscription
+
+		System.out.println("Create Subscription Test");
+		System.out.println("------------------------------------------\n\n\n");
 
 	}
-	
-	
+
 	/**
-	   * This method Tests addPoints to Owners Subscription function
-	   * @return void
-	   */
+	 * This method Tests addPoints to Owners Subscription function
+	 * 
+	 * @return void
+	 */
 	@SuppressWarnings("deprecation")
 	@Test
 	public void addPoints() {
@@ -190,56 +193,52 @@ public class MockitoControllerTest {
 		subscription.setOwner(user);
 		subscription.setPoints(10);
 		subscription.setID(1);
-//		System.out.println("Subscription Object: " + subscription);
-//		System.out.println("Subscription CompanyName: " + subscription.getCompany().getCompanyName());
-//		System.out.println("Subscription UserFirstName: " + subscription.getOwner().getFirstName());
+
 		Product qrCode = new Product();
 		qrCode.setcompany("Google");
 		qrCode.setId(1);
 		qrCode.setpoints(777);
 		qrCode.setQuantity(1);
-		
+
 		System.out.println("Before Added Points: " + subscription.getpoints());
-		subscription.setPoints(qrCode.getpoints() +subscription.getpoints());
+		subscription.setPoints(qrCode.getpoints() + subscription.getpoints());
 		System.out.println(subscription.getOwner().getFirstName());
 		System.out.println(subscription.getCompany().getCompanyName());
-		System.out.println("After Added Points: " +subscription.getpoints());
-		
-		assertEquals(787 ,(int)subscription.getpoints()); //This checks that is added the right amount to the current subscription
-		
-	 System.out.println("Add Points Test");
-	 
-	 
-	System.out.println("------------------------------------------\n\n\n");
+		System.out.println("After Added Points: " + subscription.getpoints());
+
+		assertEquals(787, (int) subscription.getpoints()); // This checks that is added the right amount to the current
+															// subscription
+		System.out.println("Add Points Test");
+
+		System.out.println("------------------------------------------\n\n\n");
 	}
-	
-	
-	
+
 	/**
-	   * This method Tests by deleting a user in the Mock Repo.
-	   * @return void
-	   */
+	 * This method Tests by deleting a user in the Mock Repo.
+	 * 
+	 * @return void
+	 */
 	@Test
-    public void deleteEmployeeTest() {
-		
+	public void deleteEmployeeTest() {
+
 		Owner user = new Owner();
 		user.setId(12);
-		
+
 		Owner user2 = new Owner();
 		user2.setId(11);
 		user2.setFirstName("KORDELL");
-		
+
 		when(OwnerRepository.findAll()).thenReturn(Stream.of(user, user2).collect(Collectors.toList()));
-		
+
 		java.util.List<Owner> results = OwnerController.getAllOwners();
-				
+
 		System.out.println(results);
 		OwnerRepository.deleteById(11);
 		try {
 			OwnerController.deleteEmployeeById(11);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			//e1.printStackTrace();
+			// e1.printStackTrace();
 		}
 		OwnerRepository.deleteAll();
 		OwnerController.deleteAll();
@@ -249,107 +248,112 @@ public class MockitoControllerTest {
 			OwnerRepository.deleteAll();
 			OwnerController.deleteAll();
 			OwnerRepository.flush();
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			
+
 		}
-		 System.out.println("HELLO");
-		
-        System.out.println(results);
-       
-        System.out.println("HELLO");
-        
-        System.out.println("HELLO Test");
+		System.out.println("HELLO");
+
+		System.out.println(results);
+
+		System.out.println("HELLO");
+
+		System.out.println("HELLO Test");
 		System.out.println("------------------------------------------\n\n\n");
-		
-     //   assertEquals("REMOVED", status);
-    }
-	
-	
+
+		// assertEquals("REMOVED", status);
+	}
+
 	/**
-	   * This method Tests by creating a user and fills in the parameters in the Mock Repo.
-	   * Then this checks the creating a user into the DB by returning a string.
-	   * @return void
-	   */
+	 * This method Tests by creating a user and fills in the parameters in the Mock
+	 * Repo. Then this checks the creating a user into the DB by returning a string.
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void testingUser() {
 		Owner user = new Owner();
 		user.setId(117);
 		user.setFirstName("Kordell");
 		user.setLastName("Schrock");
-	//	user.setPoints("10");
+		// user.setPoints("10");
 		user.setPassord("Password");
 		user.setUsername("Username");
 		user.setAddress("Address");
 		user.setTelephone("555-555-5555");
 		System.out.println(user);
-		//System.out.println(OwnerController.createEmployee(user));
-		
-		//assertEquals("New Owner Kordell Saved".trim(),OwnerController.createEmployee(user)));
+
+		assertEquals("Kordell", user.getFirstName()); // This checks the Users First name
+		assertEquals("Schrock", user.getLastName()); // This checks the Users Last name
+		assertEquals("Password", user.getpassword()); // This checks the Users Password
+		assertEquals(117, (int) user.getId()); // This checks the Users ID
+		assertEquals("Address", user.getAddress()); // This checks the Users Address
 		System.out.println("Creating User Test");
 		System.out.println("------------------------------------------\n\n\n");
 	}
-	
+
 	/**
-	   * This method Tests by Creating 2 null users, with no parameters created in the Mock Repo.
-	   * There should be 2 users total in the DB. 
-	   * @return void
-	   */
+	 * This method Tests by Creating 2 null users, with no parameters created in the
+	 * Mock Repo. There should be 2 users total in the DB.
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void getUsers() {
 		Owner user = new Owner();
-		
+
 		Owner user2 = new Owner();
-		
+
 		when(OwnerRepository.findAll()).thenReturn(Stream.of(user, user2).collect(Collectors.toList()));
-		
-		assertEquals(2,OwnerController.getAllOwners().size());
-		
+
+		assertEquals(2, OwnerController.getAllOwners().size()); // Created 2 Users in 'mock' repository
+
 		System.out.println("Get Users Test");
 		System.out.println("------------------------------------------\n\n\n");
 	}
-	
-	
+
 	/**
-	   * This method Tests by Creating a user, with username = Username and password = Password in the Mock Repo.
-	   * This shows to logins, first one matches and passes
-	   * the second one does not match and fails. 
-	   * @return void
-	   */
+	 * This method Tests by Creating a user, with username = Username and password =
+	 * Password in the Mock Repo. This shows to logins, first one matches and passes
+	 * the second one does not match and fails.
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void loginTest() {
 		Owner user = new Owner();
 		user.setFirstName("Kordell");
 		user.setLastName("Schrock");
-	//	user.setPoints("10");
+		// user.setPoints("10");
 		user.setPassord("Password");
 		user.setUsername("Username");
 		user.setAddress("Address");
 		user.setTelephone("555-555-5555");
 		user.setId(117);
 		when(OwnerRepository.findAll()).thenReturn(Stream.of(user).collect(Collectors.toList()));
-		System.out.println("Login 1"); //SHOULD BE TURE
+		System.out.println("Login 1"); // SHOULD BE TURE
 		System.out.println(OwnerController.loginOwner("Username", "Password"));
-		
-		assertEquals("{verify=true}".trim(),OwnerController.loginOwner("Username", "Password").toString().trim());
-		
-		System.out.println("Login 2");//SHOULD BE FALSE
-		assertEquals("{verify=false}".trim(),OwnerController.loginOwner("Wrong", "Wrong").toString().trim());
+
+		assertEquals("{verify=true}".trim(), OwnerController.loginOwner("Username", "Password").toString().trim());
+
+		System.out.println("Login 2");// SHOULD BE FALSE
+		assertEquals("{verify=false}".trim(), OwnerController.loginOwner("Wrong", "Wrong").toString().trim());
 		System.out.println(OwnerController.loginOwner("Wrong", "Wrong"));
-	
+
 		System.out.println("Login Test");
 		System.out.println("------------------------------------------\n\n\n");
-		
+
 	}
-	
+
 	/**
-	   * This method Tests getAll function
-	   * @return void
-	   */
+	 * This method Tests getAll function
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void getAllAccountTest() {
-		java.util.List<Owner>list = new ArrayList<Owner>();
+		java.util.List<Owner> list = new ArrayList<Owner>();
 		Owner acctOne = new Owner();
 		Owner acctTwo = new Owner();
 		Owner acctThree = new Owner();
@@ -367,7 +371,7 @@ public class MockitoControllerTest {
 		System.out.println("GET ALL Test");
 		System.out.println("------------------------------------------\n\n\n");
 	}
-	
+
 //	@Test
 //	public void getAccountByIdTest() {
 //		Mockito.when(OwnerRepository.findById((1)).thenReturn((new Owners())));
@@ -380,41 +384,42 @@ public class MockitoControllerTest {
 //	}
 
 	/**
-	   * This method Tests deleteAll function
-	   * @return void
-	   */
+	 * This method Tests deleteAll function
+	 * 
+	 * @return void
+	 */
 	@Test
 	public void deleteAllUsers() {
 		Owner user = new Owner();
-		
-		
+
 		Owner user2 = new Owner();
-		
+
 		Owner newBook = new Owner();
-		
+
 		String current = "New Owner " + user.getFirstName() + " Saved";
-		
-        //when(OwnerController.createEmployee(user)).thenReturn(current);
-        
-     //   Mockito.when(OwnerController.createEmployee(user)).thenReturn(current);
-		
-		//when(OwnerRepository.findAll()).thenReturn(Stream.of(user, user2).collect(Collectors.toList()));
-		//when(OwnerRepository.save(user)).thenReturn((Owners) OwnerController.getAllOwners());
-		
-		//OwnerRepository.deleteAll();
-		
-		//System.out.println(OwnerController.findOwnerById(1));
-	
+
+		// when(OwnerController.createEmployee(user)).thenReturn(current);
+
+		// Mockito.when(OwnerController.createEmployee(user)).thenReturn(current);
+
+		// when(OwnerRepository.findAll()).thenReturn(Stream.of(user,
+		// user2).collect(Collectors.toList()));
+		// when(OwnerRepository.save(user)).thenReturn((Owners)
+		// OwnerController.getAllOwners());
+
+		// OwnerRepository.deleteAll();
+
+		// System.out.println(OwnerController.findOwnerById(1));
+
 		System.out.println(OwnerController.getAllOwners().size());
-		
-		//assertEquals(0 ,OwnerController.getAllOwners().size());
-		
+		int size = OwnerController.getAllOwners().size();
+		 assertEquals(0 ,size); //Since all users are deleted return 0 
+
 		System.out.println("Delete All Test");
 		System.out.println("------------------------------------------\n\n\n");
-	
+
 	}
-	
-	
+
 //	 @Test
 //	  @Sql("data.sql")
 //	  void whenInitializedByDbUnit_thenFindsByName() {

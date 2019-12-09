@@ -78,17 +78,9 @@ public class Prize {
 	    @NotFound(action = NotFoundAction.IGNORE)
 	    private int pointsOff;
 
-
-//	    @Column(name = "color") //perhaps N/A
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    private String color ="N/A";
-	    
-//	    @Column(name = "companyUsername") //perhaps N/A
-//
-//	    @Column(name = "companyName") //perhaps N/A
-
+	    @Column(name = "companyName") //perhaps N/A
 	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String companyUsername ="";
+	    private String companyName ="";
 	    
 	    @OneToMany(fetch = FetchType.EAGER, cascade = {	//updated
 	    		CascadeType.PERSIST,
@@ -121,11 +113,11 @@ public class Prize {
 			this.pointsOff = discount;
 		}
 		public String getCompanyName() {
-			return companyUsername;
+			return companyName;
 		}
 
 		public void setCompanyName(String company) {
-			this.companyUsername = company;
+			this.companyName = company;
 		}
 
 		public int getCost() {
