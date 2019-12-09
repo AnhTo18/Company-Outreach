@@ -1,6 +1,7 @@
 package org.springframework.samples.outreach.qr;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,19 +62,41 @@ public class FrontQRController {
 		
 		
 	  /**
-	   * This method gets all the Codes in the Product Repository.
+	   * This method gets all the Codes for a specific company in the Product Repository.
 	   * THIS IS A GET METHOD, Path = /Work 
 	   * @return Iterable<Product> This returns the list of QR code Objects.
 	   */
-	    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll")
-	    public Iterable<Product> getAllCodes() {
-	        logger.info("Entered into Controller Layer");
-	        Iterable<Product> results = productService.findAll();
-	        logger.info("Number of Records Fetched:" + results);
-	        
-	        return results;
+	    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll/{company}")
+	    public List<Product> getAllCompCodes(@PathVariable("company") String company) {
+	       
+	    	Iterable<Product> results = productService.findAll();
+	    	List<Product> compCodes = new ArrayList<>();
+	    	
+	    	for(Product current : results) {
+	    		
+	    		if(current.getCompany().equals(company)) {
+	    			compCodes.add(current);
+	    		}
+	    	}
+	        return compCodes;
 	    }
 
+	    /**
+		   * This method gets all the Codes in the Product Repository.
+		   * THIS IS A GET METHOD, Path = /Work 
+		   * @return Iterable<Product> This returns the list of QR code Objects.
+		   */
+		    @RequestMapping(method = RequestMethod.GET, path = "/qrcode/getAll")
+		    public Iterable<Product> getAllCodes() {
+		       
+		    	
+		    	logger.info("Entered into Controller Layer");
+		        Iterable<Product> results = productService.findAll();
+		        logger.info("Number of Records Fetched:" + results);
+		        
+		        return results;
+		    }
+		    
 	    /**
 		   * This method sets the given quantity to the Correct QR Code and Update it
 		   * within the Product Repository.
