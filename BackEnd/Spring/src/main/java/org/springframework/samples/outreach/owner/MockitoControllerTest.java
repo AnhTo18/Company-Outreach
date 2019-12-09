@@ -122,18 +122,18 @@ public class MockitoControllerTest {
 	public void createQRCode() {
 
 		Product qrCode = new Product();
-		qrCode.setcompany("YouTube");
+		qrCode.setCompany("YouTube");
 		qrCode.setId(2);
-		qrCode.setpoints(111);
+		qrCode.setPoints(111);
 		qrCode.setQuantity(7);
 
 		System.out.println("Created QrCode Object:" + qrCode);
-		System.out.println("QrCode Company:" + qrCode.getcompany());
-		System.out.println("QrCode Points:" + qrCode.getpoints());
+		System.out.println("QrCode Company:" + qrCode.getCompany());
+		System.out.println("QrCode Points:" + qrCode.getPoints());
 		System.out.println("QrCode Quanity:" + qrCode.getQuantity());
 
-		assertEquals(111, (int) qrCode.getpoints()); // This checks the Qr Points
-		assertEquals("YouTube", qrCode.getcompany().trim()); // This checks the Company of the Qr
+		assertEquals(111, (int) qrCode.getPoints()); // This checks the Qr Points
+		assertEquals("YouTube", qrCode.getCompany().trim()); // This checks the Company of the Qr
 		assertEquals(7, qrCode.getQuantity()); // This checks the Qr quantity.
 
 		System.out.println("Create Qr-Code Test");
@@ -195,13 +195,13 @@ public class MockitoControllerTest {
 		subscription.setID(1);
 
 		Product qrCode = new Product();
-		qrCode.setcompany("Google");
+		qrCode.setCompany("Google");
 		qrCode.setId(1);
-		qrCode.setpoints(777);
+		qrCode.setPoints(777);
 		qrCode.setQuantity(1);
 
 		System.out.println("Before Added Points: " + subscription.getpoints());
-		subscription.setPoints(qrCode.getpoints() + subscription.getpoints());
+		subscription.setPoints(qrCode.getPoints() + subscription.getpoints());
 		System.out.println(subscription.getOwner().getFirstName());
 		System.out.println(subscription.getCompany().getCompanyName());
 		System.out.println("After Added Points: " + subscription.getpoints());
