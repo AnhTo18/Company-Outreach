@@ -86,6 +86,7 @@ public class QRMakerActivity extends AppCompatActivity {
 
                 };
                 rc.requestJsonObject(Request.Method.POST, "http://"+DOMAIN+"product/create", object, r);
+                finish();
             }
         });
     }
