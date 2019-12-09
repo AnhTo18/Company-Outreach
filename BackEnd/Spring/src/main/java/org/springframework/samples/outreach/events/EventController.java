@@ -48,6 +48,7 @@ import javax.websocket.Session;
 
 /**
  * Controller to map events
+ * 
  * @author creimers
  * @author kschrock
  */
@@ -55,24 +56,24 @@ import javax.websocket.Session;
 @RequestMapping("events")
 class EventController {
 
-    @Autowired
-    EventRepository eventRepository;
-    
-    @Autowired
-    CompanyRepository companyRepository;
-  
+	@Autowired
+	EventRepository eventRepository;
+
+	@Autowired
+	CompanyRepository companyRepository;
+
 //    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
 //    private static Map<String, Session> usernameSessionMap = new HashMap<>();
 
-    private final Logger logger = LoggerFactory.getLogger(EventController.class);
-    
-  
-    /**
-	   * This method creates and add an event to the Events Repository.
-	   * THIS IS A POST METHOD, Path = /add
-	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
-	   */
-    
+	private final Logger logger = LoggerFactory.getLogger(EventController.class);
+
+	/**
+	 * This method creates and add an event to the Events Repository. THIS IS A POST
+	 * METHOD, Path = /add
+	 * 
+	 * @return HashMap<String, String> This returns JSON data of "verify", "Added".
+	 */
+
 ////    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
 ////	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
 //    @RequestMapping(value= "/add/{cmpUsername}", method= RequestMethod.POST)
@@ -102,76 +103,78 @@ class EventController {
 //
 //	}
 
-    /**
-	   * This method finds all the events within the event Repository.
-	   * THIS IS A GET METHOD, Path = /events
-	   * @return List<Events> This returns the list of events within the Repository.
-	   */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Event> getAllEvents() {
-        logger.info("Entered into Controller Layer");
-        List<Event> results = eventRepository.findAll();
-        logger.info("Number of Records Fetched:" + results.size());
-        return results;
-    }
+	/**
+	 * This method finds all the events within the event Repository. THIS IS A GET
+	 * METHOD, Path = /events
+	 * 
+	 * @return List<Events> This returns the list of events within the Repository.
+	 */
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Event> getAllEvents() {
+		logger.info("Entered into Controller Layer");
+		List<Event> results = eventRepository.findAll();
+		logger.info("Number of Records Fetched:" + results.size());
+		return results;
+	}
 
-    
-    /**
-	   * This method finds the given Id event object within the event Repository.
-	   * THIS IS A GET METHOD, Path = /{event}
-	   * @param String event
-	   * @return Events This returns the single event by id within the Repository.
-	   */
-  @RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
-  public Event findEventById(@PathVariable("eventname") String eventname) {
-      logger.info("Entered into Controller Layer");
-    //  Optional<Events> results = EventsRepository.findById(id);j
-      List<Event> results = eventRepository.findAll();
-      eventname = eventname.toString().trim();
-      for(Event current : results) {
-      	
-      	if(current.getEventname().trim().equals(eventname)) {
-      		return current;
-      	}
-      	
-      }
-      return null; //NOT FOUND
-  }
-  
-    /**
-	   * This method deletes all the event objects made by a specific company.
-	   * requires confirmation of deletion
-	   * THIS IS A POST METHOD, Path = /deleteall
-	   * @return void
-	   */
-    @RequestMapping( method= RequestMethod.POST, path= "/deleteall")
+	/**
+	 * This method finds the given Id event object within the event Repository. THIS
+	 * IS A GET METHOD, Path = /{event}
+	 * 
+	 * @param String event
+	 * @return Events This returns the single event by id within the Repository.
+	 */
+	@RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
+	public Event findEventById(@PathVariable("eventname") String eventname) {
+		logger.info("Entered into Controller Layer");
+		// Optional<Events> results = EventsRepository.findById(id);j
+		List<Event> results = eventRepository.findAll();
+		eventname = eventname.toString().trim();
+		for (Event current : results) {
+
+			if (current.getEventname().trim().equals(eventname)) {
+				return current;
+			}
+
+		}
+		return null; // NOT FOUND
+	}
+
+	/**
+	 * This method deletes all the event objects made by a specific company.
+	 * requires confirmation of deletion THIS IS A POST METHOD, Path = /deleteall
+	 * 
+	 * @return void
+	 */
+	@RequestMapping(method = RequestMethod.POST, path = "/deleteall")
 	public void deleteAll() {
 		System.out.println(this.getClass().getSimpleName() + " - Delete all events is invoked.");
 		boolean confirmed = false;
 		Scanner sc = new Scanner(System.in);
 		String input = sc.nextLine();
-		if(input == "yes" || input == "y") {
-			confirmed =true;
+		if (input == "yes" || input == "y") {
+			confirmed = true;
 		}
-		if(confirmed)
-		eventRepository.deleteAll();
-		else if(!confirmed)
+		if (confirmed)
+			eventRepository.deleteAll();
+		else if (!confirmed)
 			System.out.print("okay");
 		sc.close();
 	}
-    
-    /**
-	   * This method deletes the event object by ID within the Event Repository.
-	   * THIS IS A POST METHOD, Path = /delete/{id}
-	   * @param int ID
-	   * @return void
-	   */
-    @RequestMapping( method= RequestMethod.POST, value= "/delete/{id}")
+
+	/**
+	 * This method deletes the event object by ID within the Event Repository. THIS
+	 * IS A POST METHOD, Path = /delete/{id}
+	 * 
+	 * @param int ID
+	 * @return void
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}")
 	public void deleteEventById(@PathVariable int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete event by id is invoked.");
 
-		Optional<Event> event =  eventRepository.findById(id);
-		if(!event.isPresent())
+		Optional<Event> event = eventRepository.findById(id);
+		if (!event.isPresent())
 			throw new Exception("Could not find event with id- " + id);
 
 		eventRepository.deleteById(id);

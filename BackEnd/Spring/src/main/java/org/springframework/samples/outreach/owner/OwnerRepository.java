@@ -24,14 +24,14 @@ import org.springframework.samples.outreach.company.Company;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository class for <code>Owners</code> domain objects 
+ * Repository class for <code>Owners</code> domain objects
+ * 
  * @author creimers
  * @author kschrock
  */
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Integer> {
-	
-	public Owner findOwnerByUsername(String username);
 
+	public Owner findOwnerByUsername(String username);
 
 }

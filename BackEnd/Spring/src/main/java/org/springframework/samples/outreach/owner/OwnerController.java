@@ -52,7 +52,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 import javax.ws.rs.Produces;
 
-
 /**
  * Owner Controller for Consumers and Companies Logic Actions
  * 
@@ -158,7 +157,6 @@ public class OwnerController {
 		return map;
 
 	}
-	
 
 	@RequestMapping(value = "/redeem/{companyName}/{prizeName}/{username}/{Quantity}", method = RequestMethod.POST)
 	public HashMap<String, String> redeemPrizes(@PathVariable("companyName") String companyName,
@@ -279,7 +277,7 @@ public class OwnerController {
 	@RequestMapping(value = "/owners/add", method = RequestMethod.POST)
 	public HashMap<String, String> createEmployee(@RequestBody Owner newemp) {
 		HashMap<String, String> map = new HashMap<>();
-		
+
 		if (ownersRepository.findOwnerByUsername(newemp.getUsername()) != null) {
 			map.put("verify", "Already Exists");
 			return map;
@@ -434,11 +432,13 @@ public class OwnerController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE}, path = "/owners/{username}/findSubscriptions")
-	public ResponseEntity<String> findUserSubscriptions(@PathVariable("username") String username) throws JSONException {
+	@RequestMapping(method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE }, path = "/owners/{username}/findSubscriptions")
+	public ResponseEntity<String> findUserSubscriptions(@PathVariable("username") String username)
+			throws JSONException {
 		List<Owner> results = ownersRepository.findAll();
 		username = username.toString().trim();
-		
+
 		HashMap<String, String> map = new HashMap<>();
 		JSONArray ja = new JSONArray();
 		for (Owner current : results) {
@@ -458,14 +458,14 @@ public class OwnerController {
 
 			}
 
-		} 
-		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-	    
+		}
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
 		System.out.println(ja);
 		JSONObject ko = new JSONObject();
-		ko.put("UserSubscriptions",ja);
-		//return ko;
+		ko.put("UserSubscriptions", ja);
+		// return ko;
 		return new ResponseEntity<String>(ko.toString(), httpHeaders, HttpStatus.OK);
 
 	}

@@ -25,70 +25,64 @@ import javax.persistence.Entity;
 
 @Entity
 public class Subscription {
-	
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "id")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private Integer id;
-	 
-	 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {
-    		CascadeType.PERSIST,
-    		CascadeType.MERGE
-    })
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JsonIgnoreProperties("subscriptions") // prevent circular dependency with JSON deserializing
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Integer id;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnoreProperties("subscriptions") // prevent circular dependency with JSON deserializing
 	private Owner owner;
-	
-	  @ManyToOne(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("subscriptions") // prevent circular dependency with JSON deserializing
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnoreProperties("subscriptions") // prevent circular dependency with JSON deserializing
 	private Company company;
-	
+
 	private double points = 0.0;
-	
-	
-	   public Company getCompany() {
-		   //java util for set
-	        return this.company;
-	        //Getter for password
-	    }
-   
-	   public Owner getOwner() {
-	        return this.owner;
+
+	public Company getCompany() {
+		// java util for set
+		return this.company;
+		// Getter for password
+	}
+
+	public Owner getOwner() {
+		return this.owner;
 //	        //gets status of company payment
-	    }
-	   
-	   public Company setCompany(Company company) {
-		   //java util for set
-	        return this.company = company;
-	    }
-   
-	   public Owner setOwner(Owner user) {
-	        return this.owner = user;
+	}
+
+	public Company setCompany(Company company) {
+		// java util for set
+		return this.company = company;
+	}
+
+	public Owner setOwner(Owner user) {
+		return this.owner = user;
 //	       
-	    }
-	   public double getpoints() {
-	        return this.points;
+	}
+
+	public double getpoints() {
+		return this.points;
 //	        //gets status of points
-	    }
-	   public double setPoints(double d) {
-		   return this.points = d;
-	   }
-	   
-	   public int getID() {
-	        return this.id;
-	    }
-	   public int setID(int id) {
-		   return this.id = id;
-	   }
-	
+	}
+
+	public double setPoints(double d) {
+		return this.points = d;
+	}
+
+	public int getID() {
+		return this.id;
+	}
+
+	public int setID(int id) {
+		return this.id = id;
+	}
+
 	public Subscription() {
-		
-		
+
 	}
 }
