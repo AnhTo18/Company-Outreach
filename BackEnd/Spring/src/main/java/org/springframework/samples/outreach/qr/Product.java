@@ -46,16 +46,6 @@ public class Product {
 	 @CreationTimestamp
 	 private LocalDateTime createDateTime;
 	 
-	 
-//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-//		CascadeType.PERSIST,
-//		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("product") // prevent circular dependency with JSON deserializing
-//	    private Event event;
-//	 
-	 
 	@Column(name = "expireDateTime")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private LocalDateTime expireDateTime;	   

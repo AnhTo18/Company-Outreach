@@ -149,14 +149,6 @@ public class Event {
 			this.time = time;
 		}
 
-//		public Company getCompany() {
-//			return company;
-//		}
-//
-//		public void setCompany(Company company) {
-//			this.company = company;
-//		}
-
 		public String getCompanyname() {
 			return companyname;
 		}

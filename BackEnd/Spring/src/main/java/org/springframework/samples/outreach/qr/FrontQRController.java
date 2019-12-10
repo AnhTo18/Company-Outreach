@@ -235,11 +235,7 @@ public class FrontQRController {
 							
 							int newquantity = current.getQuantity() -1 ;
 							current.setUser(username);
-							
-							
 			        		 current.setQuantity(newquantity); //set current points to current user
-			        		 
-			        	
 			        		 String points = current.getPoints() +"";
 			        		 int points2 = (int)(current.getPoints());
 			        		
@@ -291,8 +287,7 @@ public class FrontQRController {
 			        	        
 					 }
 			          
-			
-			
+					
 				 }map.put("Error", "Did Not Find User or Qr Code");
 				map.put("points", "Not Added");
 				return map;

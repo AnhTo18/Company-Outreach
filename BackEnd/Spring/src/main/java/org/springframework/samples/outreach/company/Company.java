@@ -80,10 +80,7 @@ public class Company {
 	@NotFound(action = NotFoundAction.IGNORE)
 	private String password;
 
-//	    @Column(name = "points")
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    private String points ="0";
-
+	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { // added during meeting
 			CascadeType.PERSIST, CascadeType.MERGE })
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -152,24 +149,6 @@ public class Company {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-//		public String getPoints() {
-//			return points;
-//		}
-//
-//
-//		public void setPoints(String points) {
-//			this.points = points;
-//		}
-
-//		public Company getCompany() {
-//			return company;
-//		}
-//
-//
-//		public void setCompany(Company company) {
-//			this.company = company;
-//		}
 
 	public Set<Subscription> getSubscriptions() {
 		return subscriptions;

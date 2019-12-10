@@ -96,15 +96,6 @@ public class Owner {
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
 	private Set<Subscription> subscriptions;
-	// private List<Subscription> companies;
-
-//	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
-//	    private Set<Company> companies;
 
 	public Integer getId() {
 		return id;
@@ -190,19 +181,6 @@ public class Owner {
 		// Setter for password
 	}
 
-	// need to fix subscriptions later
-//	    public Set<Company> getCompanies() {
-//	        return this.getCompanies();
-//	        //Getter for password
-//	    }
-//
-//	    
-//	    public void setCompanies(Set<Company> companies) {
-//	        this.companies = companies;
-//	        //Setter for subscriptions
-//	    }
-
-	// need to fix subscriptions later
 	public Set<Subscription> getSubscriptions() {
 		return this.subscriptions;
 		// Getter for password

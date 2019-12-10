@@ -61,9 +61,6 @@ class EventController {
     
     @Autowired
     CompanyRepository companyRepository;
-  
-//    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
-//    private static Map<String, Session> usernameSessionMap = new HashMap<>();
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
     
@@ -78,9 +75,6 @@ class EventController {
 	       
 	    	Iterable<Event> results = eventRepository.findAll();
 	    	List<Event> events = new ArrayList();
-//	    	
-//	    	Iterable<Product> results = productService.findAll();
-//	    	List<Product> compCodes = new ArrayList<>();
 	    	
 	    	for(Event current : results) {
 	    		
@@ -114,7 +108,6 @@ class EventController {
   @RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
   public Event findEventById(@PathVariable("eventname") String eventname) {
       logger.info("Entered into Controller Layer");
-    //  Optional<Events> results = EventsRepository.findById(id);j
       List<Event> results = eventRepository.findAll();
       eventname = eventname.toString().trim();
       for(Event current : results) {

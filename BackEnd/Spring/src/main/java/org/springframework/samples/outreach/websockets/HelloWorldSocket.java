@@ -103,16 +103,11 @@ public class HelloWorldSocket {
     		event.setUsername(jsonObject.getString("username"));
     		
     		Company company = companyRepository.findCompanyByUsername(username);
-//    		event.setCompany(company);
     		logger.info("company name is" + company.getCompanyName());
     		company.getEvents().add(event);
     		company = companyRepository.save(company);
     		companyRepository.flush();
-//    		logger.info(company.toString());
-//    		event.setCompany(company);
-//    		event = eventRepository.save(event);
     		eventRepository.flush();
-//    		logger.info(event.toString());
     		broadcastEvent(company.getSubscriptions(), event); //change to getSubscribers() later
     		logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
@@ -121,11 +116,6 @@ public class HelloWorldSocket {
     		logger.info("didn't work");
     		e.printStackTrace();
     	}
-    	
-    // Handle new messages
-  
-//    String username = sessionUsernameMap.get(usersSubbed);
-//    sendMessageToPArticularUser(usersSubbed, "[DM] " + username + ": " + eventInfo);
     }
 
 	@OnClose

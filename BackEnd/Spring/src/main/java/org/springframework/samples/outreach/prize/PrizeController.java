@@ -71,11 +71,9 @@ class PrizeController {
 	public HashMap<String, String> createPrize(@RequestBody Prize newprize) {
 		HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
-//		if(prizeRepository.findPrizeByPrizename(newprize.getPrizename() ) == null) {
 		prizeRepository.save(newprize);
 		prizeRepository.flush();
 		map.put("verify", "Added");
-//  }
 		return map;
 
 	}
@@ -119,8 +117,6 @@ class PrizeController {
 						int totalCost = 0;
 
 						totalCost = pointsCost * quantity; // add total points
-//					System.out.println(currentPoints + "Before Amount");
-//					System.out.println(temp + "After Amount");
 						if (subscription.getpoints() - totalCost < 0) {
 							map.put("verify", "Not Enough Points");
 							return map;

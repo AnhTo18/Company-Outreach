@@ -72,13 +72,6 @@ public class OwnerController {
 
 	private final Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
-	/* to save an users */
-//    @PostMapping( path = "/owners/new")
-//    public String saveOwner(Owners owner) {
-//        ownersRepository.save(owner);
-//        return "New Owner "+ owner.getFirstName() + " Saved";
-//    }
-
 	/**
 	 * This method creates and adds a prize to the Prize Repository. THIS IS A POST
 	 * METHOD, Path = /prize/add
@@ -125,13 +118,7 @@ public class OwnerController {
 			@PathVariable("username") String username) {
 		HashMap<String, String> map = new HashMap<>();
 		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
-		/* add subscription logic here */
-//		Owner currentOwner = null;
-//		for (Owner current : ownersRepository.findAll()) {
-//			if (current.getUsername().equals(username)) {
-//				currentOwner = current;
-//			}
-//		}
+
 		Owner currentOwner = ownersRepository.findOwnerByUsername(username);
 		Company company = companyRepository.findCompanyByUsername(cmpUserName);
 		for (Subscription subscription : company.getSubscriptions()) {
@@ -256,12 +243,8 @@ public class OwnerController {
 		System.out.println(this.getClass().getSimpleName() + " - Check subscriptions method is invoked.");
 		username = username.toString().trim();
 
-//  List<Owner> results = ownersRepository.findAll();
-		// Owner owners = new Owner();
-		// owners = (Owner) results;
 		HashMap<String, String> map = new HashMap<>();
 
-// map.put(owners.getSubscriptions().toString(),"retrieved");
 		return map;
 
 	}
@@ -288,8 +271,6 @@ public class OwnerController {
 			map.put("verify", "Added");
 		}
 		System.out.println(this.getClass().getSimpleName() + " - Create new User method is invoked.");
-//		 ownersRepository.save(newemp);
-//		 map.put("verify", "Added");
 		ownersRepository.flush();
 		return map;
 
@@ -322,11 +303,6 @@ public class OwnerController {
 
 			if (username.toString().trim().equals(currentUsername)) {
 
-				// map.put("verify", "Added");
-
-				// System.out.println("This is the current points.");
-				// System.out.println(currentPoints);
-
 				for (Subscription subscription : current.getSubscriptions()) {
 					if (subscription.getCompany().getCompanyName().trim().equals(company.trim())) {
 						double temp = 0;
@@ -342,7 +318,6 @@ public class OwnerController {
 						System.out.println(currentPoints + "Before Amount");
 						System.out.println(temp + "After Amount");
 						subscription.setPoints(temp);
-						// subscription.setID(1);
 						map.put("verify", "addedPoints!!");
 						ownersRepository.flush(); // updates changes
 						companyRepository.flush();

@@ -279,15 +279,10 @@ public class QRController {
 					}
 
 				 }
-		           
-		   // } 
 
 	        map.put("points", "Not Found");
 	        return map;
 		
 		}
 	
-
-	
-
 }
