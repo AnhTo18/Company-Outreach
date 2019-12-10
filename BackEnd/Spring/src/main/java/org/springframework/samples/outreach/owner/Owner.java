@@ -18,10 +18,13 @@ package org.springframework.samples.outreach.owner;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,19 +34,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.subscription.Subscription;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * Simple JavaBean domain object representing an owner.
- * This contains the fields to create an owner.
+ * Simple JavaBean domain object representing an owner. This contains the fields
+ * to create an owner.
+ * 
  * @author creimers
  * @author kschrock
  */
@@ -51,118 +58,137 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "owner")
 public class Owner {
 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "id")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Integer id;
 
-	    @Column(name = "first_name")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String firstName;
+	@Column(name = "first_name")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String firstName;
 
-	    @Column(name = "last_name")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String lastName;
+	@Column(name = "last_name")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String lastName;
 
-	    @Column(name = "address")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String address;
+	@Column(name = "address")
+	@NotFound(action = NotFoundAction.IGNORE)
+	String address;
 
-	    @Column(name = "telephone")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String telephone;
+	@Column(name = "telephone")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String telephone;
 
-	    @Column(name = "user_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String username;
+	@Column(name = "user_name")
+	@NotFound(action = NotFoundAction.IGNORE)
+	String username;
 
-	    @Column(name = "pass_word")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String password;
-	    
-	    @Column(name = "points")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String points;
-	    
-	    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("owners") // prevent circular dependency with JSON deserializing
-	    private List<Company> companies;
+	@Column(name = "pass_word")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String password;
 
-		public Integer getId() {
-			return id;
-		}
+	@Column(name = "paid")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String paid = "false";
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+	@OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnoreProperties("owner") // prevent circular dependency with JSON deserializing
+	private Set<Subscription> subscriptions;
 
-		public String getFirstName() {
-			return firstName;
-		}
+	public Integer getId() {
+		return id;
+		// Getter for ID of User
+	}
 
-		public void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
+	public void setId(Integer id) {
+		this.id = id;
+		// Setter for ID of User
+	}
 
-		public String getLastName() {
-			return lastName;
-		}
+	public boolean isNew() {
+		return this.id == null;
+	}
 
-		public void setLastName(String lastName) {
-			this.lastName = lastName;
-		}
+	public String getFirstName() {
+		return this.firstName;
+		// Getter for FirstName of User
+	}
 
-		public String getAddress() {
-			return address;
-		}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+		// Setter for FirstName of User
+	}
 
-		public void setAddress(String address) {
-			this.address = address;
-		}
+	public String getPaidStatus() {
+		return this.paid;
+		// Getter for pay status of User
+	}
 
-		public String getTelephone() {
-			return telephone;
-		}
+	public void setPaid(String paid) {
+		this.paid = paid;
+		// Setter for pay status of User
+	}
 
-		public void setTelephone(String telephone) {
-			this.telephone = telephone;
-		}
+	public String getLastName() {
+		return this.lastName;
+		// Getter for LastName of User
+	}
 
-		public String getUsername() {
-			return username;
-		}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+		// Setter for LastName of User
+	}
 
-		public void setUsername(String username) {
-			this.username = username;
-		}
+	public String getAddress() {
+		return this.address;
+		// Getter for Address of User
+	}
 
-		public String getPassword() {
-			return password;
-		}
+	public void setAddress(String address) {
+		this.address = address;
+		// Setter for Address
+	}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
+	public String getTelephone() {
+		return this.telephone;
+		// Getter for Telephone Number
+	}
 
-		public String getPoints() {
-			return points;
-		}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+		// Setter for Telephone Number
+	}
 
-		public void setPoints(String points) {
-			this.points = points;
-		}
+	public String getUsername() {
+		return this.username;
+		// Getter for username
+	}
 
-		public List<Company> getCompanies() {
-			return companies;
-		}
+	public void setUsername(String username) {
+		this.username = username;
+		// Setter for username
+	}
 
-		public void setCompanies(List<Company> companies) {
-			this.companies = companies;
-		}
-	
+	public String getpassword() {
+		return this.password;
+		// Getter for password
+	}
+
+	public void setPassord(String password) {
+		this.password = password;
+		// Setter for password
+	}
+
+	public Set<Subscription> getSubscriptions() {
+		return this.subscriptions;
+		// Getter for password
+	}
+
+	public void setSubscriptions(Set<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
+		// Setter for subscriptions
+	}
+
 }

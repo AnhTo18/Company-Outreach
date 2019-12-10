@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.OwnerRepository;
+import org.springframework.samples.outreach.qr.Product;
 import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.websockets.*;
 
@@ -60,48 +61,30 @@ class EventController {
     
     @Autowired
     CompanyRepository companyRepository;
-  
-//    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
-//    private static Map<String, Session> usernameSessionMap = new HashMap<>();
 
     private final Logger logger = LoggerFactory.getLogger(EventController.class);
     
   
     /**
-	   * This method creates and add an event to the Events Repository.
-	   * THIS IS A POST METHOD, Path = /add
-	   * @return HashMap<String, String> This returns JSON data of "verify", "Added".
+	   * This method gets all the Events for a specific company in the Event Repository.
+	   * THIS IS A GET METHOD, Path = /events/getAll/{company} 
+	   * @return Iterable<Product> This returns the list of Event Objects.
 	   */
-    
-////    @RequestMapping(value= "/{company}/{id}", method= RequestMethod.POST)
-////	public HashMap<String, String> findCode(@PathVariable("id") String id, @PathVariable("company") String company ) {
-//    @RequestMapping(value= "/add/{cmpUsername}", method= RequestMethod.POST)
-//	public String  createEvent(@PathVariable("cmpUsername") String cmpUsername, 
-//			@RequestBody JSONObject payload) {
-//    	Event newevent = new Event();
-//    	//System.out.printf("go into comments for some reason");
-//    	HashMap<String, String> map = new HashMap<>();
-//    	 ArrayList<String> usersSubbed = new ArrayList<String>();
-//    	 HelloWorldSocket eventmanager = new HelloWorldSocket();
-//    	 String eventInfo = "";
-//    	 
-//    	 eventInfo = payload.toString();
-//    	//  Company current = new Company();
-//    	 Event oof = new Event();
-//    	 oof.setinfo(payload);
-////		System.out.println(this.getClass().getSimpleName() + " - Create new event method is invoked.");
-////		eventRepository.save(newevent);
-////		 map.put("verify", "Added");
-////		 try {
-////			eventmanager.onMessage(usersSubbed, eventInfo);
-////		} catch (IOException e) {
-////			// TODO Auto-generated catch block
-////			e.printStackTrace();
-////		}
-//		 return "new event added, notification has been pushed";
-//
-//	}
-
+	    @RequestMapping(method = RequestMethod.GET, path = "/getAll/{company}")
+	    public List<Event> getAllCompCodes(@PathVariable("company") String company) {
+	       
+	    	Iterable<Event> results = eventRepository.findAll();
+	    	List<Event> events = new ArrayList();
+	    	
+	    	for(Event current : results) {
+	    		
+	    		if(current.getCompanyname().equals(company)) {
+	    			events.add(current);
+	    		}
+	    	}
+	        return events;
+	    }
+	    
     /**
 	   * This method finds all the events within the event Repository.
 	   * THIS IS A GET METHOD, Path = /events
@@ -122,17 +105,16 @@ class EventController {
 	   * @param String event
 	   * @return Events This returns the single event by id within the Repository.
 	   */
-  @RequestMapping(method = RequestMethod.GET, path = "/{username}")
-  public Event findEventById(@PathVariable("username") String username) {
+  @RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
+  public Event findEventById(@PathVariable("eventname") String eventname) {
       logger.info("Entered into Controller Layer");
-    //  Optional<Events> results = EventsRepository.findById(id);j
       List<Event> results = eventRepository.findAll();
-      username = username.toString().trim();
+      eventname = eventname.toString().trim();
       for(Event current : results) {
       	
-//      	if(current.getEventName().trim().equals(username)) {
-//      		return current;
-//      	}
+      	if(current.getEventname().trim().equals(eventname)) {
+      		return current;
+      	}
       	
       }
       return null; //NOT FOUND

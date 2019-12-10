@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.samples.outreach.events.*;
 import org.springframework.samples.outreach.owner.Owner;
+import org.springframework.samples.outreach.subscription.Subscription;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,17 +99,16 @@ public class HelloWorldSocket {
     		event.setDate(jsonObject.getString("date"));
     		event.setLocation(jsonObject.getString("location"));
     		event.setTime(jsonObject.getString("time"));
-    		
+    		event.setCompanyname(jsonObject.getString("companyName"));
+    		event.setUsername(jsonObject.getString("username"));
     		
     		Company company = companyRepository.findCompanyByUsername(username);
     		logger.info("company name is" + company.getCompanyName());
     		company.getEvents().add(event);
     		company = companyRepository.save(company);
     		companyRepository.flush();
-//    		event.setCompany(company);
-//    		event = eventRepository.save(event);
-//    		eventRepository.flush();
-    		broadcastEvent(company.getOwners(), event); //change to getSubscribers() later
+    		eventRepository.flush();
+    		broadcastEvent(company.getSubscriptions(), event); //change to getSubscribers() later
     		logger.info("Entered into Message: Got Message:"+eventInfo);
     	}
     	
@@ -115,11 +116,6 @@ public class HelloWorldSocket {
     		logger.info("didn't work");
     		e.printStackTrace();
     	}
-    	
-    // Handle new messages
-  
-//    String username = sessionUsernameMap.get(usersSubbed);
-//    sendMessageToPArticularUser(usersSubbed, "[DM] " + username + ": " + eventInfo);
     }
 
 	@OnClose
@@ -145,11 +141,12 @@ public class HelloWorldSocket {
     
     
 
-	private void broadcastEvent(List<Owner> owners, Event event) {
+	private void broadcastEvent(Set<Subscription> set, Event event) {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		for(Owner owner : owners) {
-			Session session = usernameSessionMap.get(owner.getUsername());
+		for(Subscription owner : set) {
+			Session session = usernameSessionMap.get(owner.getOwner().getUsername());
+			//
 			if(session != null) {
 				try {
 					session.getBasicRemote().sendText(mapper.writeValueAsString(event));

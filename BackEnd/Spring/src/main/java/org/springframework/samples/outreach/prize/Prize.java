@@ -36,8 +36,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.company.Company;
-import org.springframework.samples.outreach.events.Event;
+import org.springframework.samples.outreach.company.*;
+import org.springframework.samples.outreach.events.*;
 import org.springframework.samples.outreach.owner.Owner;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,8 +47,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.samples.outreach.company.Company;
 
 /**
- * Simple JavaBean domain object representing an owner.
- * This contains the fields to create an owner.
+ * Simple JavaBean domain object representing an owner. This contains the fields
+ * to create an owner.
+ * 
  * @author creimers
  * @author kschrock
  */
@@ -56,83 +57,100 @@ import org.springframework.samples.outreach.company.Company;
 @Table(name = "prize")
 public class Prize {
 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "id")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Integer id;
 
-	    @Column(name = "prizename")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String prizename;
+	@Column(name = "prizename")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String prizename;
 
-	    @Column(name = "cost")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private int cost;
+	@Column(name = "cost")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private int cost;
 
-	    @Column(name = "qty")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private int qty;
+	@Column(name = "qty")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private int qty;
 
-	    @Column(name = "color") //perhaps N/A
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String color ="N/A";
-	    
-//	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-//	    		CascadeType.PERSIST,
-//	    		CascadeType.MERGE
-//	    })
-//	    @NotFound(action = NotFoundAction.IGNORE)
-//	    @JsonIgnoreProperties("prize") // prevent circular dependency with JSON deserializing
-//	   	private Set<Company> company;
+	@Column(name = "discount")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private int pointsOff;
 
-		public Integer getId() {
-			return id;
-		}
+	@Column(name = "companyName") // perhaps N/A
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String companyName = "";
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+	@OneToMany(fetch = FetchType.EAGER, cascade = { // updated
+			CascadeType.PERSIST, CascadeType.MERGE })
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	private Set<Prize> prizes;
 
-		public String getPrizename() {
-			return prizename;
-		}
+	public Integer getId() {
+		return id;
+	}
 
-		public void setPrizename(String prizename) {
-			this.prizename = prizename;
-		}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-		public int getCost() {
-			return cost;
-		}
+	public String getPrizename() {
+		return prizename;
+	}
 
-		public void setCost(int cost) {
-			this.cost = cost;
-		}
+	public void setPrizename(String prizename) {
+		this.prizename = prizename;
+	}
 
-		public int getQty() {
-			return qty;
-		}
+	public int getDiscount() {
+		return pointsOff;
+	}
 
-		public void setQty(int qty) {
-			this.qty = qty;
-		}
+	public void setDiscount(int discount) {
+		this.pointsOff = discount;
+	}
 
-		public String getColor() {
-			return color;
-		}
+	public String getCompanyName() {
+		return companyName;
+	}
 
-		public void setColor(String color) {
-			this.color = color;
-		}
+	public void setCompanyName(String company) {
+		this.companyName = company;
+	}
 
-//		public Set<Company> getCompany() {
-//			return company;
-//		}
-//
-//		public void setCompany(Set<Company> company) {
-//			this.company = company;
-//		}
+	public int getCost() {
+		return cost;
+	}
 
-	    
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+
+	public int getQty() {
+		return qty;
+	}
+
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+
+	public int getPointsOff() {
+		return pointsOff;
+	}
+
+	public void setPointsOff(int pointsOff) {
+		this.pointsOff = pointsOff;
+	}
+
+	public Set<Prize> getPrizes() {
+		return prizes;
+	}
+
+	public void setPrizes(Set<Prize> prizes) {
+		this.prizes = prizes;
+	}
+
 }
