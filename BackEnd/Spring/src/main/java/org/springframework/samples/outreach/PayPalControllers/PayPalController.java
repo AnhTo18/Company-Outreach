@@ -38,10 +38,6 @@ public class PayPalController {
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
 
-//			System.out.println(order.getPrice());// 10.0
-//			System.out.println(order.getDescription()); //testing payment 2
-//			System.out.println(order.getMethod()); //paypal
-//			System.out.println(order.getIntent()); //sale
 
 			username = order.getPrice();
 			password = order.getCurrency();
