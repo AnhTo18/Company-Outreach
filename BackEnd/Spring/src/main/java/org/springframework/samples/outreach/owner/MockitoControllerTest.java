@@ -372,17 +372,6 @@ public class MockitoControllerTest {
 		System.out.println("------------------------------------------\n\n\n");
 	}
 
-//	@Test
-//	public void getAccountByIdTest() {
-//		Mockito.when(OwnerRepository.findById((1)).thenReturn((new Owners())));
-//
-//		Optional<Owners> acct = OwnerController.findOwnerById(1);
-//
-////		assertEquals("jDoe", acct.getUserID());
-////		assertEquals("123456", acct.getPassword());
-////		assertEquals("jDoe@gmail.com", acct.getEmail());
-//	}
-
 	/**
 	 * This method Tests deleteAll function
 	 * 
@@ -420,11 +409,5 @@ public class MockitoControllerTest {
 
 	}
 
-//	 @Test
-//	  @Sql("data.sql")
-//	  void whenInitializedByDbUnit_thenFindsByName() {
-//	    Optional<Owners> user = OwnerController.findOwnerById(2);
-//	    assertThat(user).isNotNull();
-//	  }
 
 }
