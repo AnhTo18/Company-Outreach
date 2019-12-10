@@ -95,8 +95,8 @@ public class QRController {
 		 //This gets all the current Data in the Repository
 		 productRepo.save(codegen);
 		 OutputStream outputStream = response.getOutputStream();		
-		 String baseURL = "http://coms-309-ss-8.misc.iastate.edu:8080/product";
-		// String baseURL = "http://coms-309-ss-8.misc.iastate.edu:8080";
+//		 String baseURL = "http://localhost:8080/Qr";
+		 String baseURL = "http://coms-309-ss-8.misc.iastate.edu:8080/Qr";
 		 //This is our Base URL for the QR Codes
 		 
 		 		//add to the base URL

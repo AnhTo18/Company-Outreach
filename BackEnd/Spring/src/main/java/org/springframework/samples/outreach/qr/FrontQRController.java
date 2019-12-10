@@ -219,6 +219,8 @@ public class FrontQRController {
 						 //otherwise if it hasnt expired but youve already scanned it
 						 else if(current.getUser().contains(username) && (current.getId() == Integer.valueOf(id))) {
 						 map.put("you have already scanned this code", "please scan a different one");
+						 productRepo.deleteById(current.getId());
+							productRepo.flush();
 						 return map;
 					 }
 				 //otherwise if it is availble to scan
@@ -297,4 +299,3 @@ public class FrontQRController {
 		 }
 		
 }
-
