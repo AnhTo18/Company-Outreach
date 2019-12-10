@@ -20,7 +20,7 @@ public class PayPalConfig {
 	private String clientSecret;
 	@Value("${paypal.mode}")
 	private String mode;
-		
+
 	@Bean
 	public Map<String, String> paypalSdkConfig() {
 		Map<String, String> configMap = new HashMap<>();
