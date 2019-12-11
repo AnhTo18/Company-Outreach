@@ -129,11 +129,22 @@ public class OwnerController {
 		// find the company in the Repo
 		for (Subscription subscription : company.getSubscriptions()) {
 			// iterate through all the subscriptions
-			if (subscription.getOwner().getId() == currentOwner.getId()) {
+			if (subscription.getOwner().getId() == currentOwner.getId() && subscription.getSubscribedStatus() == true ) {
 				// this checks the User if they are already subscripted
 				map.put("verify", "Already Subscribed");
 				return map;
 			}
+			if (subscription.getOwner().getId() == currentOwner.getId() && subscription.getSubscribedStatus() == false ) {
+				// this checks the User if they are already subscripted
+				subscription.setSubscribedStatus(true);
+				map.put("verify", "Subscribed Again");
+				ownersRepository.flush();
+				// update repo
+				companyRepository.flush();
+				// update repo
+				return map;
+			}
+			
 		}
 		Owner owner = ownersRepository.findById(currentOwner.getId()).get();
 
@@ -145,6 +156,8 @@ public class OwnerController {
 		// this sets the subscription Owner
 		owner.getSubscriptions().add(subscription);
 		// this adds the subscription to Owner
+		subscription.setSubscribedStatus(true);
+		//set subscribed status to true
 
 		company.getSubscriptions().add(subscription);
 		// this adds the subscription to Company
@@ -157,6 +170,43 @@ public class OwnerController {
 		// update return value
 		return map;
 
+	}
+	
+	/**
+	 * This method subscribes a user to a company. THIS IS A POST METHOD, Path =
+	 * /owners/subscribe
+	 * 
+	 * @return HashMap<String, String> This returns JSON data of "verify",
+	 *         "Subscribed".
+	 */
+	@RequestMapping(value = "/owners/unsubscribe/{username}/{companyUsername}", method = RequestMethod.POST)
+	public HashMap<String, String> ubsubscribeToCompany(@PathVariable("companyUsername") String cmpUserName,
+			@PathVariable("username") String username) {
+		HashMap<String, String> map = new HashMap<>();
+		// create hash map for return value
+		System.out.println(this.getClass().getSimpleName() + " - Subscribe method is invoked.");
+		// print to the console
+
+		Owner currentOwner = ownersRepository.findOwnerByUsername(username);
+		// find the current Owner in the repo
+		Company company = companyRepository.findCompanyByUsername(cmpUserName);
+		// find the company in the Repo
+		for (Subscription subscription : company.getSubscriptions()) {
+			// iterate through all the subscriptions
+			if (subscription.getOwner().getId() == currentOwner.getId() && subscription.getSubscribedStatus() == true) {
+				// this checks the User if they are already subscripted
+				subscription.setSubscribedStatus(false);
+				map.put("verify", "unSubscribed");
+				System.out.println(subscription.getSubscribedStatus());
+				ownersRepository.flush();
+				// update repo
+				companyRepository.flush();
+				// update repo
+				return map;
+			}
+		}
+		return map;
+		
 	}
 	
 	/**
@@ -449,6 +499,8 @@ public class OwnerController {
 			// compare the given username to the current Owner object
 			for (Subscription subscription : currentUser.getSubscriptions()) {
 				// this iterates through all the subscriptions for the current Owner
+				if(subscription.getSubscribedStatus() == true) {
+					//this checks if they are currently subscribed***
 				JSONObject companyObject = new JSONObject();
 				// create companyObject for each iteration
 				companyObject.put("CompanyId", subscription.getCompany().getId());
@@ -459,6 +511,7 @@ public class OwnerController {
 				// add the Current Company Points for this Current Owner Object each iteration
 				currentSubscriptionArray.put(companyObject);
 				// add the Current Company Object to the Current Json Subscripton Array
+				}
 				
 			}
 
