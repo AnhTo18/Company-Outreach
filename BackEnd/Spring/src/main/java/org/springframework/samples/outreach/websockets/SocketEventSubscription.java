@@ -1,28 +1,20 @@
 package org.springframework.samples.outreach.websockets;
 
-import java.util.HashMap;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.events.Event;
-import org.springframework.samples.outreach.owner.Owner;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.Entity;
 
 @Entity
 public class SocketEventSubscription {

@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.outreach.events;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +23,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.owner.OwnerRepository;
-import org.springframework.samples.outreach.qr.Product;
 import org.springframework.samples.outreach.owner.Owner;
-import org.springframework.samples.outreach.websockets.*;
-
 import org.springframework.samples.outreach.events.Event;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Scanner;
-
-import javax.websocket.Session;
 
 /**
  * Controller to map events
@@ -62,33 +49,65 @@ class EventController {
 
 	@Autowired
 	CompanyRepository companyRepository;
+	
+	@Autowired
+	OwnerRepository ownerRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(EventController.class);
 
 	/**
-	 * This method gets all the Events for a specific company in the Event
-	 * Repository. THIS IS A GET METHOD, Path = /events/getAll/{company}
-	 * 
-	 * @return Iterable<Product> This returns the list of Event Objects.
-	 */
-	@RequestMapping(method = RequestMethod.GET, path = "/getAll/{company}")
-	public List<Event> getAllCompCodes(@PathVariable("company") String company) {
+     * This method gets all the Events for a specific company in the Event Repository if a company requests it.
+     * otherwise if it is a standard user then it will retrieve a list of all companies they are subscribed to
+     * so that they can view their events
+     * THIS IS A GET METHOD, Path = /events/getAll
+     * @return Iterable<Product> This returns the list of Event Objects.
+     */
+      @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+      public List<?> getAllCompCodes(@RequestBody Event[] event) {
 
-		Iterable<Event> results = eventRepository.findAll();
-		// find all the events
-		List<Event> events = new ArrayList();
-		// create a array for events
+          Iterable<Event> compResults = eventRepository.findAll();
+          List<Event> events = new ArrayList<Event>();
+          //if the events are created by a company then proceed with retrieving all of their created events
+          if(event[1].getUsername().equals("company")) {
+          for(Event current : compResults) {
+              //if event is the companies, add it to the list
+              if(current.getCompanyname().equals(event[0].getUsername())) {
+                  events.add(current);
+              }
+          }
+          //return the list of events the company has made (may be empty)
+          return events;
+          }
+          //otherwise, since its an owner, then retrieve a list of companies they are subscribed to
+          else{
+              Iterable<Owner> ownerResults = ownerRepository.findAll();
+              //search through all owners
+              for(Owner current: ownerResults) {
+//if the user matches the one passed to us
+                  if(current.getUsername().equals(event[0].getUsername())) {
+                      //create a list of all the companies
+                      List<Company> allcomps = companyRepository.findAll();
+                      //build a list of companies the user is subscribed to
+                      List<Company> ownersubs = new ArrayList<Company>();
 
-		for (Event current : results) {
-			// iterate through all events
-			if (current.getCompanyname().equals(company)) {
-				// compare the company to the current event company name
-				events.add(current);
-				// if matches add it to the array of events
-			}
-		}
-		return events;
-	}
+                      for(Company currentcomp: allcomps) {
+                          // if the comp has a subscriber with the the username passed to us
+                          if(currentcomp.getSubscriptions().iterator().hasNext()) {
+                          if(currentcomp.getSubscriptions().iterator().next().getOwner().getUsername().equals(event[0].getUsername())) {
+                              //add them to the list of subscriptions the owner has
+                              ownersubs.add(currentcomp);
+                              }
+                          }
+                      }
+                      //return a list of all companies that the user has subscribed to
+                      return ownersubs;
+                  }
+              }
+          }
+          //otherwise return nothing
+          return null;
+      }
+
 
 	/**
 	 * This method finds all the events within the event Repository. THIS IS A GET

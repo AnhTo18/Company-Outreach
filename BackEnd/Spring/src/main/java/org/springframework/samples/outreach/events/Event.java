@@ -15,34 +15,25 @@
  */
 package org.springframework.samples.outreach.events;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.json.JSONObject;
-import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.*;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.qr.Product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import io.micrometer.core.lang.NonNull;
 
 /**
  * Simple JavaBean domain object representing an event.
@@ -54,10 +45,6 @@ import io.micrometer.core.lang.NonNull;
 @JsonIgnoreProperties(ignoreUnknown=true)
 @Table(name = "events")
 public class Event {
-
-	 public Event() {
-
-	}
 
 	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,30 +3,20 @@ package org.springframework.samples.outreach.qr;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.events.Event;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Simple JavaBean domain object representing an Product.
  * This contains the fields to create an QR code.

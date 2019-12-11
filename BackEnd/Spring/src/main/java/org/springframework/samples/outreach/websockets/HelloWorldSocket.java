@@ -2,9 +2,7 @@ package org.springframework.samples.outreach.websockets;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,11 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.samples.outreach.events.*;
-import org.springframework.samples.outreach.owner.Owner;
+import org.springframework.samples.outreach.events.Event;
+import org.springframework.samples.outreach.events.EventRepository;
 import org.springframework.samples.outreach.subscription.Subscription;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
