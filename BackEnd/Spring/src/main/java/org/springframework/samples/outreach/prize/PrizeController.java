@@ -70,87 +70,17 @@ class PrizeController {
 	@RequestMapping(value = "/addPrize", method = RequestMethod.POST)
 	public HashMap<String, String> createPrize(@RequestBody Prize newprize) {
 		HashMap<String, String> map = new HashMap<>();
+		// create hash map for return value
 		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
+		// print to the console
 		prizeRepository.save(newprize);
+		// save the prize to the repository
 		prizeRepository.flush();
+		// update repository
 		map.put("verify", "Added");
+		// add return value
 		return map;
-
-	}
-
-	// consume method (redeem prize)
-	/**
-	 * Redeems a prize from the store Searches the store for the prize the user
-	 * wants, figures out how many points it costs, deducts the points total from
-	 * the user and decrements qty of productleft THIS IS A POST METHOD, Path =
-	 * /prize/redeem/{prizeName}/{username}
-	 * 
-	 * @param String prizeName
-	 * @param String Username
-	 * @return HashMap<String, String> This returns JSON data of "verify", "Added"
-	 *         || "verify", "NotFound".
-	 */
-	@RequestMapping(value = "/redeem/{companyUsername}/{prizeName}/{username}/{Quantity}", method = RequestMethod.POST)
-	public HashMap<String, String> redeemPrizes(@PathVariable("companyUsername") String companyUsername,
-			@PathVariable("prizeName") String prizeName, @PathVariable("username") String username,
-			@PathVariable("Quantity") String Quantity) {
-		// This can be used once the user gets back the info from the other repo and
-		// confirms the points and sends it back to server.
-		username = username.toString().trim();
-
-		List<Owner> results = ownersRepository.findAll();
-
-		HashMap<String, String> map = new HashMap<>();
-
-		int quantity = Integer.parseInt(Quantity);
-
-		// first get point cost
-		int pointsCost = prizeRepository.findPrizeByPrizename(prizeName).getCost(); // gets proper info
-
-		// pass points cost in to deduct from users points
-		for (Owner current : results) {
-			String currentUsername = current.getUsername().toString().trim();
-
-			if (username.toString().trim().equals(currentUsername)) {
-				for (Subscription subscription : current.getSubscriptions()) {
-					if (subscription.getCompany().getUsername().trim().equals(companyUsername.trim())) {
-						int totalCost = 0;
-
-						totalCost = pointsCost * quantity; // add total points
-						if (subscription.getpoints() - totalCost < 0) {
-							map.put("verify", "Not Enough Points");
-							return map;
-						}
-						if (prizeRepository.findPrizeByPrizename(prizeName).getQty() - quantity < 0) {
-							map.put("verify", "Not Enough Prizes Left");
-							return map;
-						}
-						subscription.setPoints(subscription.getpoints() - totalCost);
-						// subscription.setID(1);
-						String userAddress = "You have " + quantity + " " + prizeName + ". Being sent to "
-								+ current.getAddress();
-						map.put("verify", userAddress);
-						ownersRepository.flush(); // updates changes
-						companyRepository.flush();
-						// get current quantity
-
-						int origQty = prizeRepository.findPrizeByPrizename(prizeName).getQty();
-						// update with current qty -1
-						prizeRepository.findPrizeByPrizename(prizeName).setQty(origQty - quantity);
-
-						prizeRepository.flush(); // update change to qty
-
-						return map;
-					}
-					// its getting the owner by id and adding it to the list of owners in the
-					// company
-				}
-
-			}
-		}
-
-		map.put("verify", "NotFound");
-		return map;
+		// return map
 
 	}
 
@@ -189,9 +119,13 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.GET, path = "/getAll/Prizes")
 	public List<Prize> getAllCompanies() {
 		logger.info("Entered into Controller Layer");
+		// print to the console
 		List<Prize> results = prizeRepository.findAll();
+		// get all the prizes in the repository
 		logger.info("Number of Records Fetched:" + results.size());
+		// print to the console
 		return results;
+		// return the list of prizes
 	}
 
 	/**
@@ -204,17 +138,22 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.GET, path = "/{prizeName}")
 	public Prize findOwnerById(@PathVariable("prizeName") String prizeName) {
 		logger.info("Entered into Controller Layer");
-		// Optional<Owners> results = companyRepository.findById(id);j
+		// print to the console
 		List<Prize> results = prizeRepository.findAll();
+		// this gets the results all the prizes from the repostory
 		prizeName = prizeName.toString().trim();
+		// given prize name to match
 		for (Prize current : results) {
-
+			// this iterates through all the prizes in the repository
 			if (current.getPrizename().trim().equals(prizeName)) {
+				// this checks if the current prize name matches the given prize name
 				return current;
+				// this returns the current prize
 			}
 
 		}
-		return null; // NOT FOUND
+		return null;
+		// NOT FOUND
 	}
 
 	/**
@@ -226,11 +165,12 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.POST, path = "/prize/deleteall")
 	public void deleteAll() {
 		System.out.println(this.getClass().getSimpleName() + " - Delete all prizes is invoked.");
+		//print to the console
 		prizeRepository.deleteAll();
+		//deletes all the prizes in the repository
 	}
 
-	// TODO
-	// may need to delete by name instead of id
+	
 	/**
 	 * This method deletes the ID Prize object within the Prize Repository. THIS IS
 	 * A POST METHOD, Path = /company/delete/{id}
@@ -241,12 +181,15 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.POST, value = "/prize/delete/{id}")
 	public void deletePrizeById(@PathVariable int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete Prize by id is invoked.");
+		//print to the console
 
 		Optional<Prize> prize = prizeRepository.findById(id);
 		if (!prize.isPresent())
+			// this checks if the current prize is not in repository
 			throw new Exception("Could not find prize with id- " + id);
 
 		prizeRepository.deleteById(id);
+		// this deletes the prize from repostory by ID
 	}
 
 }

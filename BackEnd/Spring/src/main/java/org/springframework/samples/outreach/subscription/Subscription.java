@@ -43,6 +43,8 @@ public class Subscription {
 	private Company company;
 
 	private double points = 0.0;
+	
+	private boolean isSubscribed = false;
 
 	public Company getCompany() {
 		// java util for set
@@ -84,5 +86,13 @@ public class Subscription {
 
 	public Subscription() {
 
+	}
+
+	public boolean getSubscribedStatus() {
+		return isSubscribed;
+	}
+
+	public void setSubscribedStatus(boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;
 	}
 }
