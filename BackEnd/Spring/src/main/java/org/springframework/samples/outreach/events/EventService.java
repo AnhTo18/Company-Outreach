@@ -19,36 +19,36 @@ public class EventService {
 
 	@Autowired
 	CompanyRepository companyRepository;
-	
+
 	@Autowired
 	OwnerRepository ownerRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(EventController.class);
 
 	/**
-     * This method gets all the Events for a specific company in the Event Repository if a company requests it.
-     * otherwise if it is a standard user then it will retrieve a list of all companies they are subscribed to
-     * so that they can view their events
-     * THIS IS A GET METHOD, Path = /events/getAll
-     * @return Iterable<Product> This returns the list of Event Objects.
-     */
-    
-	
-      public List<Event> getRelevantEvents(Company[] event ) {
+	 * This method gets all the Events for a specific company in the Event
+	 * Repository if a company requests it. otherwise if it is a standard user then
+	 * it will retrieve a list of all companies they are subscribed to so that they
+	 * can view their events THIS IS A GET METHOD, Path = /events/getAll
+	 * 
+	 * @return Iterable<Product> This returns the list of Event Objects.
+	 */
 
-          Iterable<Event> compResults = eventRepository.findAll();
-          List<Event> events = new ArrayList<Event>();
-          //if the events are created by a company then proceed with retrieving all of their created events
-          for(Event current : compResults) {
-              //if event is the companies, add it to the list
-              if(current.getUsername().equals(event[0].getUsername())) {
-                  events.add(current);
-              }       
-          }
-        //return the list of events the company has made (may be empty)
-       return events;
-      }
+	public List<Event> getRelevantEvents(Company[] event) {
 
+		Iterable<Event> compResults = eventRepository.findAll();
+		List<Event> events = new ArrayList<Event>();
+		// if the events are created by a company then proceed with retrieving all of
+		// their created events
+		for (Event current : compResults) {
+			// if event is the companies, add it to the list
+			if (current.getUsername().equals(event[0].getUsername())) {
+				events.add(current);
+			}
+		}
+		// return the list of events the company has made (may be empty)
+		return events;
+	}
 
 	/**
 	 * This method finds all the events within the event Repository. THIS IS A GET
@@ -113,7 +113,7 @@ public class EventService {
 	 * @param int ID
 	 * @return void
 	 */
-		public void deleteEventById(int id) throws Exception {
+	public void deleteEventById(int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete event by id is invoked.");
 		// print to the console
 

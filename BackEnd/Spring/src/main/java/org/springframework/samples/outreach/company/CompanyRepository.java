@@ -19,13 +19,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository class for <code>Companies</code> domain objects 
+ * Repository class for <code>Companies</code> domain objects
+ * 
  * @author creimers
  * @author kschrock
  */
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
-	
-public Company findCompanyByUsername(String username);
-}
 
+	public Company findCompanyByUsername(String username);
+}

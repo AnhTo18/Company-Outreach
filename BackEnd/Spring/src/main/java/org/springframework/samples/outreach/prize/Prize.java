@@ -65,12 +65,11 @@ public class Prize {
 	@NotFound(action = NotFoundAction.IGNORE)
 	private int pointsOff;
 
-	@Column(name = "companyName") // perhaps N/A
+	@Column(name = "companyName")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private String companyName = "";
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = { // updated
-			CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@NotFound(action = NotFoundAction.IGNORE)
 	@JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
 	private Set<Prize> prizes;

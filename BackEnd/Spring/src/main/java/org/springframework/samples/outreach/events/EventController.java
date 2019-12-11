@@ -37,70 +37,66 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("events")
 class EventController {
-	
+
 	@Autowired
 	EventService service;
 
-	private final Logger logger = LoggerFactory.getLogger(EventController.class);
+	/**
+	 * This method gets all the Events for a specific company in the Event
+	 * Repository. THIS IS A GET METHOD, Path = /events/getAll/{company}
+	 * 
+	 * @return Iterable<Product> This returns the list of Event Objects.
+	 */
+	@RequestMapping(method = RequestMethod.GET, path = "/getAll")
+	public List<Event> getAllCompCodes(@RequestBody Company[] event) {
 
+		return service.getRelevantEvents(event);
+	}
 
-    /**
-	   * This method gets all the Events for a specific company in the Event Repository.
-	   * THIS IS A GET METHOD, Path = /events/getAll/{company} 
-	   * @return Iterable<Product> This returns the list of Event Objects.
-	   */
-	    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
-	    public List<Event> getAllCompCodes(@RequestBody Company[] event) {
-	       
-	       return service.getRelevantEvents(event);
-	    }
+	/**
+	 * This method finds all the events within the event Repository. THIS IS A GET
+	 * METHOD, Path = /events
+	 * 
+	 * @return List<Events> This returns the list of events within the Repository.
+	 */
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Event> getAllEvents() {
 
+		return service.getAllEvents();
+	}
 
-	  
-	    /**
-		   * This method finds all the events within the event Repository.
-		   * THIS IS A GET METHOD, Path = /events
-		   * @return List<Events> This returns the list of events within the Repository.
-		   */
-	    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	    public List<Event> getAllEvents() {
-	        
-	        return service.getAllEvents();
-	    }
+	/**
+	 * This method finds the given Id event object within the event Repository. THIS
+	 * IS A GET METHOD, Path = /{event}
+	 * 
+	 * @param String event
+	 * @return Events This returns the single event by id within the Repository.
+	 */
+	@RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
+	public Event findEventById(@PathVariable("eventname") String eventname) {
+		return service.findEventById(eventname);
+	}
 
-	    
-	    /**
-		   * This method finds the given Id event object within the event Repository.
-		   * THIS IS A GET METHOD, Path = /{event}
-		   * @param String event
-		   * @return Events This returns the single event by id within the Repository.
-		   */
-	  @RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
-	  public Event findEventById(@PathVariable("eventname") String eventname) {
-	    return service.findEventById(eventname);
-	  }
+	/**
+	 * This method deletes all the event objects made by a specific company.
+	 * requires confirmation of deletion THIS IS A POST METHOD, Path = /deleteall
+	 * 
+	 * @return void
+	 */
+	@RequestMapping(method = RequestMethod.POST, path = "/deleteall")
+	public void deleteAll() {
+		service.deleteAll();
+	}
 
-	  
-		/**
-		 * This method deletes all the event objects made by a specific company.
-		 * requires confirmation of deletion THIS IS A POST METHOD, Path = /deleteall
-		 * 
-		 * @return void
-		 */
-	  @RequestMapping(method = RequestMethod.POST, path = "/deleteall")
-		public void deleteAll2() {
-		  service.deleteAll();
-	  }
-	  
-	  /**
-		 * This method deletes the event object by ID within the Event Repository. THIS
-		 * IS A POST METHOD, Path = /delete/{id}
-		 * 
-		 * @param int ID
-		 * @return void
-		 */
-		@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}")
-		public void deleteEventById2(@PathVariable int id) throws Exception {
-			service.deleteEventById(id);
-		}
+	/**
+	 * This method deletes the event object by ID within the Event Repository. THIS
+	 * IS A POST METHOD, Path = /delete/{id}
+	 * 
+	 * @param int ID
+	 * @return void
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}")
+	public void deleteEventById(@PathVariable int id) throws Exception {
+		service.deleteEventById(id);
+	}
 }

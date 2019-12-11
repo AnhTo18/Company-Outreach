@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.outreach.company;
 
-
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -73,7 +72,6 @@ public class Company {
 	@NotFound(action = NotFoundAction.IGNORE)
 	private String password;
 
-	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { // added during meeting
 			CascadeType.PERSIST, CascadeType.MERGE })
 	@NotFound(action = NotFoundAction.IGNORE)

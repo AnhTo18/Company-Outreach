@@ -41,15 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 class PrizeController {
 
 	@Autowired
-	PrizeRepository prizeRepository;
-
-	@Autowired
-	OwnerRepository ownersRepository;
-
-	@Autowired
-	CompanyRepository companyRepository;
-
-	private final Logger logger = LoggerFactory.getLogger(PrizeController.class);
+	PrizeService service;
 
 	/**
 	 * This method creates and adds a prize to the Prize Repository. THIS IS A POST
@@ -59,19 +51,8 @@ class PrizeController {
 	 */
 	@RequestMapping(value = "/addPrize", method = RequestMethod.POST)
 	public HashMap<String, String> createPrize(@RequestBody Prize newprize) {
-		HashMap<String, String> map = new HashMap<>();
-		// create hash map for return value
-		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
-		// print to the console
-		prizeRepository.save(newprize);
-		// save the prize to the repository
-		prizeRepository.flush();
-		// update repository
-		map.put("verify", "Added");
-		// add return value
-		return map;
-		// return map
 
+		return service.createPrize(newprize);
 	}
 
 	/**
@@ -84,20 +65,7 @@ class PrizeController {
 	// edit prize info
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public HashMap<String, String> editPrize(@PathVariable int id, @RequestBody Prize modPrize) {
-		System.out.println(this.getClass().getSimpleName() + " - Edit Prize method is invoked.");
-		HashMap<String, String> map = new HashMap<>();
-		// changes cost
-		int costChange = modPrize.getCost(); // gets proper info
-		prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setCost(costChange);
-		// changes qty
-		int qtyChange = modPrize.getQty(); // gets proper info
-		prizeRepository.findPrizeByPrizename(modPrize.getPrizename()).setQty(qtyChange);
-		// changes prizename
-		// just delete prize and re add it with new name instead
-
-		prizeRepository.flush();
-		map.put("verify", "edited");
-		return map;
+		return service.editPrize(id, modPrize);
 	}
 
 	/**
@@ -108,14 +76,7 @@ class PrizeController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, path = "/getAll/Prizes")
 	public List<Prize> getAllCompanies() {
-		logger.info("Entered into Controller Layer");
-		// print to the console
-		List<Prize> results = prizeRepository.findAll();
-		// get all the prizes in the repository
-		logger.info("Number of Records Fetched:" + results.size());
-		// print to the console
-		return results;
-		// return the list of prizes
+		return service.getAllCompanies();
 	}
 
 	/**
@@ -127,23 +88,7 @@ class PrizeController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, path = "/{prizeName}")
 	public Prize findOwnerById(@PathVariable("prizeName") String prizeName) {
-		logger.info("Entered into Controller Layer");
-		// print to the console
-		List<Prize> results = prizeRepository.findAll();
-		// this gets the results all the prizes from the repostory
-		prizeName = prizeName.toString().trim();
-		// given prize name to match
-		for (Prize current : results) {
-			// this iterates through all the prizes in the repository
-			if (current.getPrizename().trim().equals(prizeName)) {
-				// this checks if the current prize name matches the given prize name
-				return current;
-				// this returns the current prize
-			}
-
-		}
-		return null;
-		// NOT FOUND
+		return service.findOwnerById(prizeName);
 	}
 
 	/**
@@ -154,13 +99,9 @@ class PrizeController {
 	 */
 	@RequestMapping(method = RequestMethod.POST, path = "/prize/deleteall")
 	public void deleteAll() {
-		System.out.println(this.getClass().getSimpleName() + " - Delete all prizes is invoked.");
-		//print to the console
-		prizeRepository.deleteAll();
-		//deletes all the prizes in the repository
+		service.deleteAll();
 	}
 
-	
 	/**
 	 * This method deletes the ID Prize object within the Prize Repository. THIS IS
 	 * A POST METHOD, Path = /company/delete/{id}
@@ -170,16 +111,6 @@ class PrizeController {
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/prize/delete/{id}")
 	public void deletePrizeById(@PathVariable int id) throws Exception {
-		System.out.println(this.getClass().getSimpleName() + " - Delete Prize by id is invoked.");
-		//print to the console
-
-		Optional<Prize> prize = prizeRepository.findById(id);
-		if (!prize.isPresent())
-			// this checks if the current prize is not in repository
-			throw new Exception("Could not find prize with id- " + id);
-
-		prizeRepository.deleteById(id);
-		// this deletes the prize from repostory by ID
+		service.deletePrizeById(id);
 	}
-
 }

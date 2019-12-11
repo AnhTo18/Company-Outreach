@@ -385,12 +385,11 @@ public class MockitoControllerTest {
 
 		System.out.println(OwnerController.getAllOwners().size());
 		int size = OwnerController.getAllOwners().size();
-		 assertEquals(0 ,size); //Since all users are deleted return 0 
+		assertEquals(0, size); // Since all users are deleted return 0
 
 		System.out.println("Delete All Test");
 		System.out.println("------------------------------------------\n\n\n");
 
 	}
-
 
 }

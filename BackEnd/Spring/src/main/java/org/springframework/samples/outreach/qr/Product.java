@@ -17,9 +17,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+
 /**
- * Simple JavaBean domain object representing an Product.
- * This contains the fields to create an QR code.
+ * Simple JavaBean domain object representing an Product. This contains the
+ * fields to create an QR code.
+ * 
  * @author creimers
  * @author kschrock
  */
@@ -27,47 +29,46 @@ import org.hibernate.annotations.NotFoundAction;
 @Table(name = "product")
 public class Product {
 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "id")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Integer id;
 
-	 @CreationTimestamp
-	 private LocalDateTime createDateTime;
-	 
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
 	@Column(name = "expireDateTime")
 	@NotFound(action = NotFoundAction.IGNORE)
-	private LocalDateTime expireDateTime;	   
+	private LocalDateTime expireDateTime;
 	@Column(name = "expireDate")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private LocalDate expireDate;
 	@Column(name = "expireTime")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private LocalTime expireTime;
-	
 
 	@ElementCollection
-    @CollectionTable(name="listOfUsers")
-    private  Set <String> user;
-	
+	@CollectionTable(name = "listOfUsers")
+	private Set<String> user;
+
 	@Column(name = "event")
-    @NotFound(action = NotFoundAction.IGNORE)
-	private String event ="none";
-	
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String event = "none";
+
 	@Column(name = "company")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private String company;
 	@Column(name = "baseURL")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private String baseURL;
 	@Column(name = "points")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private int points;
 	@Column(name = "quantity")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private int quantity;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -155,6 +156,5 @@ public class Product {
 	public void setEvent(String event) {
 		this.event = event;
 	}
-	
-	
+
 }

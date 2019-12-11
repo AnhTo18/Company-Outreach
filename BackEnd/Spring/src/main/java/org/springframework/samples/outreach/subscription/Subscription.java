@@ -36,7 +36,7 @@ public class Subscription {
 	private Company company;
 
 	private double points = 0.0;
-	
+
 	private boolean isSubscribed = false;
 
 	public Company getCompany() {

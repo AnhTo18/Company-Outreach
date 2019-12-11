@@ -40,7 +40,7 @@ import java.util.Optional;
 class CompanyController {
 
 	@Autowired
-	CompanyRepository companyRepository;
+	CompanyService service;
 
 	private final Logger logger = LoggerFactory.getLogger(CompanyController.class);
 
@@ -52,19 +52,7 @@ class CompanyController {
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public HashMap<String, String> createCompany(@RequestBody Company newcomp) {
-		HashMap<String, String> map = new HashMap<>();
-		// create hash map for return value
-		System.out.println(this.getClass().getSimpleName() + " - Create new Company method is invoked.");
-		// print to the console
-		if (companyRepository.findCompanyByUsername(newcomp.getUsername()) == null) {
-			// if the company find by username is null then save the company object.
-			companyRepository.save(newcomp);
-			// save the company object to the repository
-			map.put("verify", "Added");
-			// update return value
-		}
-		return map;
-
+		return service.createCompany(newcomp);
 	}
 
 	/**
@@ -75,13 +63,7 @@ class CompanyController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, path = "/getAll")
 	public List<Company> getAllCompanies() {
-		logger.info("Entered into Controller Layer");
-		List<Company> results = companyRepository.findAll();
-		// get all the companies in the repository
-		logger.info("Number of Records Fetched:" + results.size());
-		// output to the console
-		return results;
-		// return the list of the companies in the repository
+		return service.getAllCompanies();
 	}
 
 	/**
@@ -93,24 +75,7 @@ class CompanyController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, path = "/{companyName}")
 	public Company findOwnerById(@PathVariable("companyName") String companyName) {
-		logger.info("Entered into Controller Layer");
-
-		List<Company> results = companyRepository.findAll();
-		// find all the companies
-
-		companyName = companyName.toString().trim();
-		// given companyName to match
-		for (Company current : results) {
-			// iterate through all the companies
-			if (current.getCompanyName().trim().equals(companyName)) {
-				// this matches the Company Name to the given company name
-				return current;
-				// return the current company
-			}
-
-		}
-		return null;
-		// NOT FOUND
+		return service.findOwnerById(companyName);
 	}
 
 	/**
@@ -127,26 +92,7 @@ class CompanyController {
 	public Map<String, String> loginOwner(@PathVariable("username") String username,
 			@PathVariable("password") String password) {
 
-		username = username.toString().trim();
-		// given username to match
-		password = password.toString().trim();
-		// given password to match
-		Company currentCompany = companyRepository.findCompanyByUsername(username);
-		// find the current Company in the repo
-
-		HashMap<String, String> map = new HashMap<>();
-		// create Hash Map for return value
-
-		if (username.equals(currentCompany.getUsername()) && password.equals(currentCompany.getPassword())) {
-			// this matches the given username and password to the current Company
-			map.put("verify", "true");
-			// update return value
-			return map;
-		}
-
-		map.put("verify", "false");
-		// update return value
-		return map;
+		return service.loginOwner(username, password);
 	}
 
 	/**
@@ -157,9 +103,7 @@ class CompanyController {
 	 */
 	@RequestMapping(method = RequestMethod.POST, path = "/owners/deleteall")
 	public void deleteAll() {
-		System.out.println(this.getClass().getSimpleName() + " - Delete all employees is invoked.");
-		companyRepository.deleteAll();
-		// this deletes tall the company objects in the repo
+		service.deleteAll();
 	}
 
 	/**
@@ -171,16 +115,7 @@ class CompanyController {
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/owners/delete/{id}")
 	public void deleteEmployeeById(@PathVariable int id) throws Exception {
-		System.out.println(this.getClass().getSimpleName() + " - Delete employee by id is invoked.");
-
-		Optional<Company> emp = companyRepository.findById(id);
-		// find the company by ID
-		if (!emp.isPresent())
-			// company is not present/found
-			throw new Exception("Could not find employee with id- " + id);
-
-		companyRepository.deleteById(id);
-		// if this is found then delete it by ID
+		service.deleteEmployeeById(id);
 	}
 
 }
