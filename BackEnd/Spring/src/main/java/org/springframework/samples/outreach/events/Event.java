@@ -98,8 +98,6 @@ public class Event {
 		 @JsonIgnoreProperties("events") // prevent circular dependency with JSON deserializing
 		 private Set<Product> products;
 		  
-		 
-		  
 		  //if something breaks, try commenting this out
 	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
 	    		CascadeType.PERSIST,
