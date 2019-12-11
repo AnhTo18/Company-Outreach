@@ -158,6 +158,9 @@ public ResponseEntity<String> findUserSubscriptions(String username)
 			// add the Company Name for each iteration
 			companyObject.put("CompanyUserPoints", subscription.getpoints());
 			// add the Current Company Points for this Current Owner Object each iteration
+			Company comp = subscription.getCompany();
+			companyObject.put("CompanyUsername", comp.getUsername());
+			//add the current company username for this Current Owner Object
 			currentSubscriptionArray.put(companyObject);
 			// add the Current Company Object to the Current Json Subscripton Array
 			}

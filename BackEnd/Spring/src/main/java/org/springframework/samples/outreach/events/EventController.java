@@ -15,8 +15,7 @@
  */
 package org.springframework.samples.outreach.events;
 
-import java.util.List;
-
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.company.CompanyRepository;
+import org.springframework.samples.outreach.owner.OwnerRepository;
+import org.springframework.samples.outreach.qr.Product;
+import org.springframework.samples.outreach.owner.Owner;
+import org.springframework.samples.outreach.websockets.*;
+
+import org.springframework.samples.outreach.events.Event;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Scanner;
+
+import javax.websocket.Session;
 
 /**
  * Controller to map events
@@ -42,44 +62,43 @@ class EventController {
 
 	private final Logger logger = LoggerFactory.getLogger(EventController.class);
 
-	/**
-     * This method gets all the Events for a specific company in the Event Repository if a company requests it.
-     * otherwise if it is a standard user then it will retrieve a list of all companies they are subscribed to
-     * so that they can view their events
-     * THIS IS A GET METHOD, Path = /events/getAll
-     * @return Iterable<Product> This returns the list of Event Objects.
-     */
-      @RequestMapping(method = RequestMethod.GET, path = "/getAll")
-      public List<?> getAllCompCodes(@RequestBody Event[] event) {
-    	  return service.getRelevantEvents(event);
-      }
+
+    /**
+	   * This method gets all the Events for a specific company in the Event Repository.
+	   * THIS IS A GET METHOD, Path = /events/getAll/{company} 
+	   * @return Iterable<Product> This returns the list of Event Objects.
+	   */
+	    @RequestMapping(method = RequestMethod.GET, path = "/getAll")
+	    public List<Event> getAllCompCodes(@RequestBody Company[] event) {
+	       
+	       return service.getRelevantEvents(event);
+	    }
 
 
 	  
-		/**
-		 * This method finds all the events within the event Repository. THIS IS A GET
-		 * METHOD, Path = /events
-		 * 
-		 * @return List<Events> This returns the list of events within the Repository.
-		 */
-	  @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		public List<Event> getAllEvents(){
-		  
-		  return service.getAllEvents();
-	  }
-	  
-	  /**
-		 * This method finds the given Id event object within the event Repository. THIS
-		 * IS A GET METHOD, Path = /{event}
-		 * 
-		 * @param String event
-		 * @return Events This returns the single event by id within the Repository.
-		 */
+	    /**
+		   * This method finds all the events within the event Repository.
+		   * THIS IS A GET METHOD, Path = /events
+		   * @return List<Events> This returns the list of events within the Repository.
+		   */
+	    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	    public List<Event> getAllEvents() {
+	        
+	        return service.getAllEvents();
+	    }
+
+	    
+	    /**
+		   * This method finds the given Id event object within the event Repository.
+		   * THIS IS A GET METHOD, Path = /{event}
+		   * @param String event
+		   * @return Events This returns the single event by id within the Repository.
+		   */
 	  @RequestMapping(method = RequestMethod.GET, path = "/{eventname}")
-		public Event findEventById(@PathVariable("eventname") String eventname) {
-		
-		  return service.findEventById(eventname);
+	  public Event findEventById(@PathVariable("eventname") String eventname) {
+	    return service.findEventById(eventname);
 	  }
+
 	  
 		/**
 		 * This method deletes all the event objects made by a specific company.
@@ -88,7 +107,7 @@ class EventController {
 		 * @return void
 		 */
 	  @RequestMapping(method = RequestMethod.POST, path = "/deleteall")
-		public void deleteAll() {
+		public void deleteAll2() {
 		  service.deleteAll();
 	  }
 	  
@@ -100,7 +119,7 @@ class EventController {
 		 * @return void
 		 */
 		@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}")
-		public void deleteEventById(@PathVariable int id) throws Exception {
+		public void deleteEventById2(@PathVariable int id) throws Exception {
 			service.deleteEventById(id);
 		}
 }

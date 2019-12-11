@@ -50,7 +50,7 @@ public class SubscriptionController {
 		return map;
     }
     
-    @RequestMapping(method = RequestMethod.GET, produces = {
+    @RequestMapping(method = RequestMethod.POST, produces = {
     MediaType.APPLICATION_JSON_VALUE }, path = "/findSubscriptions")
     public ResponseEntity<String> findUserSubscriptions(@RequestBody Owner owner)
     		throws JSONException {

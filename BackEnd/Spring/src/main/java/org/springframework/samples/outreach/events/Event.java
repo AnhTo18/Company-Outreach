@@ -170,6 +170,4 @@ public class Event {
 		public void setProducts(Set<Product> products) {
 			this.products = products;
 		}
-
-
 }

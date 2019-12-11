@@ -35,47 +35,21 @@ public class EventService {
      * @return Iterable<Product> This returns the list of Event Objects.
      */
     
-      public List<?> getRelevantEvents(Event[] event) {
+	
+      public List<Event> getRelevantEvents(Company[] event ) {
 
           Iterable<Event> compResults = eventRepository.findAll();
           List<Event> events = new ArrayList<Event>();
           //if the events are created by a company then proceed with retrieving all of their created events
-          if(event[1].getUsername().equals("company")) {
           for(Event current : compResults) {
               //if event is the companies, add it to the list
               if(current.getCompanyname().equals(event[0].getUsername())) {
                   events.add(current);
               }
-          }
           //return the list of events the company has made (may be empty)
           return events;
           }
-          //otherwise, since its an owner, then retrieve a list of companies they are subscribed to
-          else{
-              Iterable<Owner> ownerResults = ownerRepository.findAll();
-              //search through all owners
-              for(Owner current: ownerResults) {
-            	  //if the user matches the one passed to us
-                  if(current.getUsername().equals(event[0].getUsername())) {
-                      //create a list of all the companies
-                      List<Company> allcomps = companyRepository.findAll();
-                      //build a list of companies the user is subscribed to
-                      List<Company> ownersubs = new ArrayList<Company>();
-
-                      for(Company currentcomp: allcomps) {
-                          // if the comp has a subscriber with the the username passed to us
-                          if(currentcomp.getSubscriptions().iterator().hasNext()) {
-                          if(currentcomp.getSubscriptions().iterator().next().getOwner().getUsername().equals(event[0].getUsername())) {
-                              //add them to the list of subscriptions the owner has
-                              ownersubs.add(currentcomp);
-                              }
-                          }
-                      }
-                      //return a list of all companies that the user has subscribed to
-                      return ownersubs;
-                  }
-              }
-          }
+        
           //otherwise return nothing
           return null;
       }
