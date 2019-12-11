@@ -70,11 +70,17 @@ class PrizeController {
 	@RequestMapping(value = "/addPrize", method = RequestMethod.POST)
 	public HashMap<String, String> createPrize(@RequestBody Prize newprize) {
 		HashMap<String, String> map = new HashMap<>();
+		// create hash map for return value
 		System.out.println(this.getClass().getSimpleName() + " - Create new Prize method is invoked.");
+		// print to the console
 		prizeRepository.save(newprize);
+		// save the prize to the repository
 		prizeRepository.flush();
+		// update repository
 		map.put("verify", "Added");
+		// add return value
 		return map;
+		// return map
 
 	}
 
@@ -189,9 +195,13 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.GET, path = "/getAll/Prizes")
 	public List<Prize> getAllCompanies() {
 		logger.info("Entered into Controller Layer");
+		// print to the console
 		List<Prize> results = prizeRepository.findAll();
+		// get all the prizes in the repository
 		logger.info("Number of Records Fetched:" + results.size());
+		// print to the console
 		return results;
+		// return the list of prizes
 	}
 
 	/**
@@ -204,17 +214,22 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.GET, path = "/{prizeName}")
 	public Prize findOwnerById(@PathVariable("prizeName") String prizeName) {
 		logger.info("Entered into Controller Layer");
-		// Optional<Owners> results = companyRepository.findById(id);j
+		// print to the console
 		List<Prize> results = prizeRepository.findAll();
+		// this gets the results all the prizes from the repostory
 		prizeName = prizeName.toString().trim();
+		// given prize name to match
 		for (Prize current : results) {
-
+			// this iterates through all the prizes in the repository
 			if (current.getPrizename().trim().equals(prizeName)) {
+				// this checks if the current prize name matches the given prize name
 				return current;
+				// this returns the current prize
 			}
 
 		}
-		return null; // NOT FOUND
+		return null;
+		// NOT FOUND
 	}
 
 	/**
@@ -226,11 +241,12 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.POST, path = "/prize/deleteall")
 	public void deleteAll() {
 		System.out.println(this.getClass().getSimpleName() + " - Delete all prizes is invoked.");
+		//print to the console
 		prizeRepository.deleteAll();
+		//deletes all the prizes in the repository
 	}
 
-	// TODO
-	// may need to delete by name instead of id
+	
 	/**
 	 * This method deletes the ID Prize object within the Prize Repository. THIS IS
 	 * A POST METHOD, Path = /company/delete/{id}
@@ -241,12 +257,15 @@ class PrizeController {
 	@RequestMapping(method = RequestMethod.POST, value = "/prize/delete/{id}")
 	public void deletePrizeById(@PathVariable int id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete Prize by id is invoked.");
+		//print to the console
 
 		Optional<Prize> prize = prizeRepository.findById(id);
 		if (!prize.isPresent())
+			// this checks if the current prize is not in repository
 			throw new Exception("Could not find prize with id- " + id);
 
 		prizeRepository.deleteById(id);
+		// this deletes the prize from repostory by ID
 	}
 
 }
