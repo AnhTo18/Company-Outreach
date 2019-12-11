@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
-import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.owner.OwnerRepository;
-import org.springframework.samples.outreach.events.Event;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,15 +41,12 @@ public class EventService {
           //if the events are created by a company then proceed with retrieving all of their created events
           for(Event current : compResults) {
               //if event is the companies, add it to the list
-              if(current.getCompanyname().equals(event[0].getUsername())) {
+              if(current.getUsername().equals(event[0].getUsername())) {
                   events.add(current);
-              }
-          //return the list of events the company has made (may be empty)
-          return events;
+              }       
           }
-        
-          //otherwise return nothing
-          return null;
+        //return the list of events the company has made (may be empty)
+       return events;
       }
 
 

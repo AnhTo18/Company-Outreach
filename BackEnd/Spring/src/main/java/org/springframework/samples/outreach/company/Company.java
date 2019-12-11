@@ -16,32 +16,24 @@
 package org.springframework.samples.outreach.company;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.outreach.events.Event;
-import org.springframework.samples.outreach.owner.Owner;
 import org.springframework.samples.outreach.subscription.Subscription;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -55,10 +47,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "company")
 public class Company {
 
-	 public Company() {
-
-		}
-	 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

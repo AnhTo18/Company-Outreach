@@ -15,37 +15,18 @@
  */
 package org.springframework.samples.outreach.events;
 
-import org.json.JSONObject;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.samples.outreach.company.Company;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.samples.outreach.company.Company;
-import org.springframework.samples.outreach.company.CompanyRepository;
-import org.springframework.samples.outreach.owner.OwnerRepository;
-import org.springframework.samples.outreach.qr.Product;
-import org.springframework.samples.outreach.owner.Owner;
-import org.springframework.samples.outreach.websockets.*;
-
-import org.springframework.samples.outreach.events.Event;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Scanner;
-
-import javax.websocket.Session;
 
 /**
  * Controller to map events
