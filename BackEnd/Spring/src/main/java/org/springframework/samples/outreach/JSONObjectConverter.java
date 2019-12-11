@@ -1,6 +1,5 @@
 package org.springframework.samples.outreach;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

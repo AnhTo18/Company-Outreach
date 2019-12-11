@@ -15,12 +15,7 @@
  */
 package org.springframework.samples.outreach.owner;
 
-import java.util.List;
-
-import org.hamcrest.Matcher;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.samples.outreach.company.Company;
 import org.springframework.stereotype.Repository;
 
 /**

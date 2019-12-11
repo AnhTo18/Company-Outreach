@@ -1,44 +1,27 @@
 package org.springframework.samples.outreach.owner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.anyList;
 
 import org.aspectj.lang.annotation.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.OngoingStubbing;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.outreach.company.Company;
 import org.springframework.samples.outreach.company.CompanyRepository;
 import org.springframework.samples.outreach.prize.Prize;
 import org.springframework.samples.outreach.qr.Product;
 import org.springframework.samples.outreach.subscription.Subscription;
-import org.springframework.test.context.jdbc.Sql;
-//import org.junit.Before;
 
 /**
  * Mockito Test for Owner Controller
@@ -402,12 +385,11 @@ public class MockitoControllerTest {
 
 		System.out.println(OwnerController.getAllOwners().size());
 		int size = OwnerController.getAllOwners().size();
-		 assertEquals(0 ,size); //Since all users are deleted return 0 
+		assertEquals(0, size); // Since all users are deleted return 0
 
 		System.out.println("Delete All Test");
 		System.out.println("------------------------------------------\n\n\n");
 
 	}
-
 
 }

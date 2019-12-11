@@ -3,33 +3,25 @@ package org.springframework.samples.outreach.qr;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.events.Event;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
- * Simple JavaBean domain object representing an Product.
- * This contains the fields to create an QR code.
+ * Simple JavaBean domain object representing an Product. This contains the
+ * fields to create an QR code.
+ * 
  * @author creimers
  * @author kschrock
  */
@@ -37,47 +29,46 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "product")
 public class Product {
 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "id")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Integer id;
 
-	 @CreationTimestamp
-	 private LocalDateTime createDateTime;
-	 
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
 	@Column(name = "expireDateTime")
 	@NotFound(action = NotFoundAction.IGNORE)
-	private LocalDateTime expireDateTime;	   
+	private LocalDateTime expireDateTime;
 	@Column(name = "expireDate")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private LocalDate expireDate;
 	@Column(name = "expireTime")
 	@NotFound(action = NotFoundAction.IGNORE)
 	private LocalTime expireTime;
-	
 
 	@ElementCollection
-    @CollectionTable(name="listOfUsers")
-    private  Set <String> user;
-	
+	@CollectionTable(name = "listOfUsers")
+	private Set<String> user;
+
 	@Column(name = "event")
-    @NotFound(action = NotFoundAction.IGNORE)
-	private String event ="none";
-	
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String event = "none";
+
 	@Column(name = "company")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private String company;
 	@Column(name = "baseURL")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private String baseURL;
 	@Column(name = "points")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private int points;
 	@Column(name = "quantity")
-    @NotFound(action = NotFoundAction.IGNORE)
+	@NotFound(action = NotFoundAction.IGNORE)
 	private int quantity;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -165,6 +156,5 @@ public class Product {
 	public void setEvent(String event) {
 		this.event = event;
 	}
-	
-	
+
 }
