@@ -15,125 +15,144 @@
  */
 package org.springframework.samples.outreach.events;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.json.JSONObject;
-import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.outreach.*;
 import org.springframework.samples.outreach.company.Company;
+import org.springframework.samples.outreach.qr.Product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import io.micrometer.core.lang.NonNull;
-
 /**
- * Simple JavaBean domain object representing an event.
- * This contains the fields to create an event.
+ * Simple JavaBean domain object representing an event. This contains the fields
+ * to create an event.
+ * 
  * @author creimers
  * @author kschrock
  */
 @Entity
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "events")
 public class Event {
 
-	 public Event() {
+	public Event() {
 
 	}
 
 	@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "id")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Integer id;
 
-	 	@Column(name = "event_name")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String eventname;
-	 
-	    @Column(name = "location")
-	    @NotFound(action = NotFoundAction.IGNORE) 
-	    String location;
+	@Column(name = "companyName")
+	@NotFound(action = NotFoundAction.IGNORE)
+	String companyname;
 
-	    @Column(name = "date")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String date;
+	@Column(name = "username")
+	@NotFound(action = NotFoundAction.IGNORE)
+	String username;
 
-		@Column(name = "time")
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    private String time;
-	    
-	    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-	    		CascadeType.PERSIST,
-	    		CascadeType.MERGE
-	    })
-	    @NotFound(action = NotFoundAction.IGNORE)
-	    @JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
-	    private Company company;
+	@Column(name = "event_name")
+	@NotFound(action = NotFoundAction.IGNORE)
+	String eventname;
 
-		public Integer getId() {
-			return id;
-		}
+	@Column(name = "location")
+	@NotFound(action = NotFoundAction.IGNORE)
+	String location;
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+	@Column(name = "date")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String date;
 
-		public String getEventname() {
-			return eventname;
-		}
+	@Column(name = "time")
+	@NotFound(action = NotFoundAction.IGNORE)
+	private String time;
 
-		public void setEventname(String eventname) {
-			this.eventname = eventname;
-		}
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnoreProperties("events") // prevent circular dependency with JSON deserializing
+	private Set<Product> products;
 
-		public String getLocation() {
-			return location;
-		}
+	// if something breaks, try commenting this out
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@NotFound(action = NotFoundAction.IGNORE)
+	@JsonIgnoreProperties("company") // prevent circular dependency with JSON deserializing
+	private Company company;
 
-		public void setLocation(String location) {
-			this.location = location;
-		}
+	public Integer getId() {
+		return id;
+	}
 
-		public String getDate() {
-			return date;
-		}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-		public void setDate(String date) {
-			this.date = date;
-		}
+	public String getEventname() {
+		return eventname;
+	}
 
-		public String getTime() {
-			return time;
-		}
+	public void setEventname(String eventname) {
+		this.eventname = eventname;
+	}
 
-		public void setTime(String time) {
-			this.time = time;
-		}
+	public String getLocation() {
+		return location;
+	}
 
-		public Company getCompany() {
-			return company;
-		}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-		public void setCompany(Company company) {
-			this.company = company;
-		}
-	    
-	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getCompanyname() {
+		return companyname;
+	}
+
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
 }

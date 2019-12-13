@@ -15,22 +15,16 @@
  */
 package org.springframework.samples.outreach.events;
 
-import java.util.List;
-
-import org.hamcrest.Matcher;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository class for <code>Events</code> domain objects 
+ * Repository class for <code>Events</code> domain objects
+ * 
  * @author creimers
  * @author kschrock
  */
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
-
-	
-
 
 }

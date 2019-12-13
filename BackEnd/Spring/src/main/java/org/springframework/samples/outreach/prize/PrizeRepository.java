@@ -15,15 +15,12 @@
  */
 package org.springframework.samples.outreach.prize;
 
-import java.util.List;
-
-import org.hamcrest.Matcher;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repository class for <code>Prize</code> domain objects 
+ * Repository class for <code>Prize</code> domain objects
+ * 
  * @author creimers
  * @author kschrock
  */
@@ -32,6 +29,4 @@ public interface PrizeRepository extends JpaRepository<Prize, Integer> {
 
 	public Prize findPrizeByPrizename(String prizename);
 
-
 }
-
